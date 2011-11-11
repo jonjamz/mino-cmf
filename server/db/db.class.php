@@ -79,7 +79,7 @@ class db {
 	// Create
 	function create($what,$table,$condition,$and = '') {
 	
-		$table				= $this->makeTable;
+		$table				= $this->makeTable($table);
 		$condition		= $this->makeCondition($condition);
 		$and					= $this->makeAnd($and);
 	
@@ -91,7 +91,7 @@ class db {
 	// Read
 	function read($what,$table,$condition = '',$and = '',$order = '') {
 
-		$table				= $this->makeTable;
+		$table				= $this->makeTable($table);
 		$condition		= $this->makeCondition($condition);
 		$and					= $this->makeAnd($and);
 		$order				= $this->makeOrder($order);
@@ -104,7 +104,7 @@ class db {
 	// Update
 	function update($what,$table,$condition,$and = '') {
 
-		$table				= $this->makeTable;
+		$table				= $this->makeTable($table);
 		$condition		= $this->makeCondition($condition);
 		$and					= $this->makeAnd($and);
 	
