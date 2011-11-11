@@ -1,0 +1,209 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<script type="text/javascript" src="js/lib/redirection_mobile.min.js"></script>
+<script type="text/javascript">SA.redirection_mobile ({param:"isDefault", mobile_prefix : "m", cookie_hours : "1" });
+</script>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="description" content="Charity, Simplified.">
+<meta name="author" content="Dove.io">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta property="fb:page_id" content="173299469418115">
+<title>Charitable - Charity, Simplifed.</title>
+<link rel="shortcut icon" type="image/vnd.microsoft.icon" href="images/favicon.png">
+<link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72-precomposed.png">
+<link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114-precomposed.png">
+<link rel="stylesheet" href="/css/screen.css" media="screen">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="js/lib/LAB.min.js"></script>
+
+
+<script id="templates-profile" type="text/x-jquery-tmpl">
+
+<div class="header">
+
+	<a href="profile" class="logo"></a>
+
+	<nav>
+		<a href="dashboard">Dashboard</a>
+		<a href="logout">Log Out</a>
+		<a href="opportunities">Find an Opportunity</a>
+	</nav>
+
+	<div class="clear"></div>
+
+</div>
+
+<h2>Profile</h2>
+
+<div class="footer">
+
+	<p>Copyright 2011 Charitable</p>
+
+	<nav>
+		<a href="about">About</a>
+		<a href="terms">Terms</a>
+		<a href="help">Help</a>
+	</nav>
+
+	<div class="clear"></div>
+
+</div>
+
+</script>
+
+
+<script id="templates-businesses" type="text/x-jquery-tmpl">
+<h2>Businesses</h2>
+</script>
+
+
+<script id="templates-campaigns" type="text/x-jquery-tmpl">
+<h2>Campaigns</h2>
+</script>
+
+
+<script id="templates-dashboard" type="text/x-jquery-tmpl">
+<div class="header">
+<a href="profile" class="logo"></a>
+<nav>
+<a href="dashboard">Dashboard</a>
+<a href="logout">Log Out</a>
+<a href="opportunities">Find an Opportunity</a>
+</nav>
+<div class="clear"></div>
+</div>
+<h2>Dashboard</h2>
+</script>
+
+
+<script id="templates-opportunities" type="text/x-jquery-tmpl">
+<div class="header">
+<a href="profile" class="logo"></a>
+<nav>
+<a href="dashboard">Dashboard</a>
+<a href="logout">Log Out</a>
+<a href="opportunities">Find an Opportunity</a>
+</nav>
+<div class="clear"></div>
+</div>
+<h2>Opportunities</h2>
+</script>
+
+
+<script id="templates-perks" type="text/x-jquery-tmpl">
+<h2>Perks</h2>
+</script>
+
+
+<script id="templates-evens" type="text/x-jquery-tmpl">
+<h2>Events</h2>
+</script>
+
+
+<script id="templates-teams" type="text/x-jquery-tmpl">
+<h2>Teams</h2>
+</script>
+
+
+<script id="templates-messages" type="text/x-jquery-tmpl">
+<h2>Messages</h2>
+</script>
+
+
+<script id="templates-signup" type="text/x-jquery-tmpl">
+<h2>Sign Up</h2>
+</script>
+
+
+<script id="templates-help" type="text/x-jquery-tmpl">
+<h2>Help</h2>
+</script>
+
+
+<script id="templates-terms" type="text/x-jquery-tmpl">
+<h2>Terms</h2>
+</script>
+
+
+<script id="templates-about" type="text/x-jquery-tmpl">
+<h2>About</h2>
+</script>
+
+
+<script id="templates-nonprofits" type="text/x-jquery-tmpl">
+<h2>Nonprofits</h2>
+</script>
+
+
+<script id="templates-index" type="text/x-jquery-tmpl">
+<div class="landing">
+<div class="rays"></div>
+<div class="getstarted"></div>
+<a href="login" class="login">Sign In</a>
+<div class="clear"></div>
+<div class="logo"></div>
+<div class="subtitle">
+<h1>Charitable Opportunity Engine</h1>
+</div>
+<div class="signup">
+<a href="#" class="fb_large">
+<div class="f">f</div>
+<div class="text"><em>Connect</em> with <em>Facebook</em></div>
+<div class="clear"></div>
+</a>
+<div class="or"><p>or</p></div>
+<input type="email" placeholder="Email Address.." id="email">
+<div class="clear"></div>
+<a href="#" class="signup_btn">Sign Up</a>
+</div>
+</div>
+</script>
+
+
+<script id="templates-login" type="text/x-jquery-tmpl">
+
+<div class="loginside">
+
+<div class="logo"></div>
+
+<div class="subtitle"><h1>Charitable Opportunity Engine</h1></div>
+
+</div>
+
+<div class="loginpage">
+
+<p>Easy route</p>
+
+	<a href="#" class="fb_medium">
+		<div class="f">f</div>
+		<div class="text"><em>Connect</em> with <em>Facebook</em></div>
+		<div class="clear"></div>
+	</a>
+	
+<p>Email</p>
+
+	<input type="email" class="email">
+
+<p>Password</p>
+
+	<input type="password" class="password">
+	<a href="" class="login_btn">Log In</a>
+	<a href="#" class="forgot">Forgot your Password?</a>
+
+</div>
+</script>
+
+
+</head>
+<body>
+<div id="fb-root"></div><div class="container"></div><script>$LAB
+.script("js/lib/jquery.min.js").wait()
+.script("js/lib/jquery.tmpl.min.js")
+.script("js/lib/underscore.min.js").wait()
+.script("js/lib/backbone.min.js").wait()
+.script("js/app.js")
+</script></body></html>

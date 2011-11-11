@@ -1,0 +1,6 @@
+<?php $type = basename(__FILE__, ".php"); require_once __DIR__."/../model.wrapper.php"; class $type { 
+// Methods
+
+
+
+} ?>

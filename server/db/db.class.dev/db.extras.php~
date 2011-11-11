@@ -1,0 +1,11 @@
+<?php
+
+	// Abstract database-specific methods
+
+	function timeFix ($hhmm) {
+	
+		if(preg_match('',$hhmm)) {}
+	
+	}
+
+?>

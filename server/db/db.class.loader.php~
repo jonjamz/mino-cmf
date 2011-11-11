@@ -1,0 +1,27 @@
+<?php 
+
+$mysqli = new mysqli('localhost', 'root', 'Azztast1c!', 'jon');
+
+class db {
+
+	public $table;
+
+	function __construct($type) {
+
+		$totable = $type.'Tbl';
+		$this->table = $this->$totable;
+
+	}
+
+	// Abstracting this will hopefully make integrating beyond MySQL easier
+
+	private function query($query) {
+
+		$result = $mysqli->query($query);
+		return $result;
+
+	}
+
+	require_once __DIR__."/db.class/db.structure.php";
+
+} ?>
