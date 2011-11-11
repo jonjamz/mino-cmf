@@ -73,7 +73,7 @@ class db {
 	}
 
 	function makeAnd($and) { if(!empty($and)) { return 'AND '.$and; } else { return; } }
-	function makeWhere($condition) { if(!empty($condition)) { return 'WHERE '.$condition; } else { return; } }
+	function makeCondition($condition) { if(!empty($condition)) { return 'WHERE '.$condition; } else { return; } }
 	function makeOrder($order) { if(!empty($order)) { return 'ORDER BY '.$order; } else { return; } }
 
 	// Create
