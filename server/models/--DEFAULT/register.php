@@ -3,51 +3,49 @@
 
 		// Properties
 		
-		private $security;
-	  private $db;
+		private static $security;
+	  private static $db;
 
 
 	// Methods
 
-	function __construct($type) {
+	function __construct() {
 	
-		$this->security       = new security();
-		$this->db				      = new db('users');
+		self::$security       = new security();
+		self::$db				      = new db('users');
 	
 	}
 	
-	private function checkUser($email) {
+	function checkUser($email) {
 	
 		// Check if an existing user with this email exists
 		
-		$db = $this->db;
-		$check = $db->read("*","users","email = $email");
-
-    if(count($check) > 0) {
-    
-      return false;
-    
-    }
+		$check = self::$db->readNumAll("","email = '$email'");
+    if($check > 0) { return false; } else { return true; }
 	
 	}
 	
 	function addUser($email,$pass) {
 	  
-	  $security = $this->security;
-	  $pass = $security->bCrypt($pass);
-	  		
-	  $db = $this->db;
-		$db->create("users","email = $email, password = $pass");
+	  $pass = self::$security->bCrypt($pass);
+		$go = self::$db->create("email = '$email', password = '$pass'");
+		if($go) { return true; } else { return false; }
 	  
 	}
 	
 	function register($email,$pass) {
 	
-	  if($this->checkUser($email)) { 
+	  if($this->checkUser($email) == true) { 
 	  
-	    if($this->addUser($email,$pass)) { return responses::activation($email); } else { return responses::error; }
+	    if($this->addUser($email,$pass)) { 
 	    
-    } else { return responses::userExists($email); }
+	      echo responses::registered(); 
+	      
+	      if(notifications::activation($email)) { echo responses::activationEmailSent(); } else { echo responses::emailError(); }
+	      
+	    } else { echo responses::error(); }
+	    
+    } else { echo responses::userExists($email); }
 	
 	}
 

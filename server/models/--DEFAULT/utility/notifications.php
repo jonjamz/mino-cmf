@@ -22,7 +22,7 @@ class notifications {
 		Hi!
 		<br /><br />
 		Please click here to confirm your email &gt;&gt;
-		<a style="background: #FFC; padding: 3px 6px;" href="http://cartwithaheart.org/workingmemory/activation.php?id=' . $theid . '">
+		<a style="background: #FFC; padding: 3px 6px;" href="http://cartwithaheart.org/workingmemory/activation.php?id=">
 		Confirm</a>
 		<br /><br />
 		Your account information is as follows: 

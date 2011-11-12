@@ -10,9 +10,20 @@ class responses {
   
   }
   
-  public static function activation() {
+  public static function emailError() {
   
-    return "Thank you for registering! We have sent you a confirmation email with a link to activate your account.";
+    return "There was an error sending an email to your address. Please contact support";
+  }
+  
+  public static function registered() {
+  
+    return "Registration successful! ";
+  
+  }
+  
+  public static function activationEmailSent() {
+  
+    return "We have sent you a confirmation email with a link to activate your account.";
   
   }
  

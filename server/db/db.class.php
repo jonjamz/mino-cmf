@@ -5,6 +5,10 @@ class db {
 	public $table;
 	private $mysqli;
 	
+	
+#	function testing($stuff) { $this->query($stuff); }
+	
+	
 	private function query($query) {
 
 		$go = $this->mysqli;
@@ -35,7 +39,7 @@ class db {
 
 
 	// Users (email, pass, type, and if they're activated)
-	private	$usersTbl					=	'';
+	private	$usersTbl		  			=	'';
 	
 	// Classes of users (specialized user info)
 	private $peopleTbl          = '';
@@ -77,7 +81,7 @@ class db {
 	function makeOrder($order) { if(!empty($order)) { return 'ORDER BY '.$order; } else { return; } }
 
 	// Create
-	function create($what,$table,$condition,$and = '') {
+	function create($what,$table = '',$condition = '',$and = '') {
 	
 		$table				= $this->makeTable($table);
 		$condition		= $this->makeCondition($condition);
@@ -89,7 +93,7 @@ class db {
 	}
 
 	// Read
-	function read($what,$table,$condition = '',$and = '',$order = '') {
+	function read($what,$table = '',$condition = '',$and = '',$order = '') {
 
 		$table				= $this->makeTable($table);
 		$condition		= $this->makeCondition($condition);
@@ -97,12 +101,38 @@ class db {
 		$order				= $this->makeOrder($order);
 	
 		$get = $this->query("SELECT $what FROM $table $condition $and $order");
-		return $get;
+		return $get->fetch_assoc();
 
 	}
+	
+	    // Return entire row
+	    function readAll($table = '',$condition = '',$and = '',$order = '') {
+	      
+	      $what = '*';
+	      return $this->read($what,$table,$condition,$and,$order);
+	    
+	    }
+	    
+	    // Return number of results for a query
+	    function readNum($what,$table = '',$condition = '',$and = '',$order = '') {
+	
+		    $this->read($what,$table,$condition,$and,$order);
+		    $mysqli = $this->mysqli;
+		    return $mysqli->affected_rows;
+
+	    }
+	    
+	    // Return number of results for a query
+	    function readNumAll($table = '',$condition = '',$and = '',$order = '') {
+	
+		    $this->readAll($table,$condition,$and,$order);
+		    $mysqli = $this->mysqli;
+		    return $mysqli->affected_rows;
+
+	    }
 
 	// Update
-	function update($what,$table,$condition,$and = '') {
+	function update($what,$table = '',$condition,$and = '') {
 
 		$table				= $this->makeTable($table);
 		$condition		= $this->makeCondition($condition);
@@ -134,7 +164,7 @@ class db {
 
 	
 	// Delete for real
-	function delete($what,$table,$condition = '',$and = '') {
+	function delete($what,$table = '',$condition = '',$and = '') {
 
 		$table				= $this->makeTable($table);
 		$condition		= $this->makeCondition($condition);

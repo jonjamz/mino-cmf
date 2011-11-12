@@ -3,16 +3,16 @@
 
 		// Properties
 		
-		private $security;
-	  private $db;
+		private static $security;
+	  private static $db;
 
 
 	// Methods
 
 	function __construct($type) {
 	
-		$this->security = new security();
-		$this->db				= new db('users');
+		self::$security = new security();
+		self::$db				= new db('users');
 	
 	}
 	
@@ -20,37 +20,28 @@
 	
 		// Grab hashed password from the db based on email
 		
-		$db = $this->db;
-		$checkPass = $db->read("password","users","email = $email");
+		$checkPass = self::$db->read("password","","email = '$email'");
+		$checkPass = $checkPass['password'];
 		
 		// Check it against the supplied password
 	  
-	  $security = $this->security;
-		$check = $security->bCheck($pass,$checkPass);
+		$check = self::$security->bCheck($pass,$checkPass);
 		if($check) { return true; } else { return false; }
 	
 	}
   
-  function login($pass,$email) {
+  function login($email,$pass) {
   
     $check = $this->checkPass($pass,$email);
     if($check) { 
-    
-      $userVars = $db->read("*","users","email = $email");
       
-      foreach($userVars as $key => $value) {
-      
-        $_SESSION["$key"] = $value;
-      
-      }
+      $userVars = self::$db->readAll("","email = '$email'");
+
+      foreach($userVars as $key => $value) { $_SESSION["$key"] = $value; }
 
       return true;
 
-    } else { 
-
-	    return responses::loginFalse();
-
-	  }
+    } else { echo responses::loginFalse(); }
   
   }
 
