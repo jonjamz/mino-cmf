@@ -1,4 +1,12 @@
-<?php session_start(); ?>
+<?php 
+      session_start(); 
+      
+      // Check if there's a ?dest= in the URL, add to variable 
+      if(isset($_GET['activate'])) { 
+        $pageType      = 'activate';
+        $activateCode  = $_GET['activate'];
+      }
+?>
 
 <!DOCTYPE HTML>
 
@@ -50,8 +58,9 @@
 <div id="view-load">
 
 <?php
-			// Logged in? Dashboard becomes your home
-			if(empty($_SESSION['id'])) { include 'views/--DEFAULT/landing.php'; }
+			// Logged in? Check page type, or Dashboard becomes your home
+			if(isset($pageType) && pageType = 'activate') { include "views/--DEFAULT/activate.php" }
+			elseif(empty($_SESSION['id'])) { include 'views/--DEFAULT/landing.php'; }
 			else { include 'views/--DEFAULT/dashboard.php'; }
 ?>
 

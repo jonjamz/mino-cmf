@@ -20,7 +20,7 @@
 	
 		// Grab hashed password from the db based on email
 		
-		$checkPass = self::$db->read("password","","email = '$email'");
+		$checkPass = self::$db->read("password","email = '$email'");
 		$checkPass = $checkPass['password'];
 		
 		// Check it against the supplied password
@@ -35,7 +35,7 @@
     $check = $this->checkPass($pass,$email);
     if($check) { 
       
-      $userVars = self::$db->readAll("","email = '$email'");
+      $userVars = self::$db->readAll("email = '$email'");
 
       foreach($userVars as $key => $value) { $_SESSION["$key"] = $value; }
 

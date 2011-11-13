@@ -2,19 +2,25 @@
 
 
 		// Properties
-		
-		private $security;
-	  private $db;
+
+		private static $security;
+	  private static $db;
 
 
 	// Methods
 
-	function __construct($type) {
-	
-		$this->security = new security();
-		$this->db				= new db('users');
-	
+	function __construct() {
+
+		self::$security = new security();
+		self::$db				= new db('users');
+
 	}
-	
+
+  function activate($activateCode) {
+  
+    self::$db->readNumAll("activation = '$activateCode'");
+    
+  
+  } 
 
 } ?>

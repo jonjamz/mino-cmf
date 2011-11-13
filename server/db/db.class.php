@@ -81,7 +81,7 @@ class db {
 	function makeOrder($order) { if(!empty($order)) { return 'ORDER BY '.$order; } else { return; } }
 
 	// Create
-	function create($what,$table = '',$condition = '',$and = '') {
+	function create($what,$condition = '',$and = '',$table = '') {
 	
 		$table				= $this->makeTable($table);
 		$condition		= $this->makeCondition($condition);
@@ -93,7 +93,7 @@ class db {
 	}
 
 	// Read
-	function read($what,$table = '',$condition = '',$and = '',$order = '') {
+	function read($what,$condition = '',$and = '',$order = '',$table = '') {
 
 		$table				= $this->makeTable($table);
 		$condition		= $this->makeCondition($condition);
@@ -106,33 +106,33 @@ class db {
 	}
 	
 	    // Return entire row
-	    function readAll($table = '',$condition = '',$and = '',$order = '') {
+	    function readAll($condition = '',$and = '',$order = '',$table = '') {
 	      
 	      $what = '*';
-	      return $this->read($what,$table,$condition,$and,$order);
+	      return $this->read($what,$condition,$and,$order,$table);
 	    
 	    }
 	    
 	    // Return number of results for a query
-	    function readNum($what,$table = '',$condition = '',$and = '',$order = '') {
+	    function readNum($what,$condition = '',$and = '',$order = '',$table = '') {
 	
-		    $this->read($what,$table,$condition,$and,$order);
+		    $this->read($what,$condition,$and,$order,$table);
 		    $mysqli = $this->mysqli;
 		    return $mysqli->affected_rows;
 
 	    }
 	    
 	    // Return number of results for a query
-	    function readNumAll($table = '',$condition = '',$and = '',$order = '') {
+	    function readNumAll($condition = '',$and = '',$order = '',$table = '') {
 	
-		    $this->readAll($table,$condition,$and,$order);
+		    $this->readAll($condition,$and,$order,$table);
 		    $mysqli = $this->mysqli;
 		    return $mysqli->affected_rows;
 
 	    }
 
 	// Update
-	function update($what,$table = '',$condition,$and = '') {
+	function update($what,$condition,$and = '',$table = '') {
 
 		$table				= $this->makeTable($table);
 		$condition		= $this->makeCondition($condition);
@@ -145,26 +145,26 @@ class db {
 
 
 			// Safe delete with update
-			function archive($table,$condition,$and = '') {
+			function archive($condition,$and = '',$table = '') {
 
 				$what = 'archived = 1';
-				$set = $this->update($what,$table,$condition,$and);
+				$set = $this->update($what,$condition,$and,$table);
 				if($set) { return true; } else { return false; }
 
 			}
 			
 			// Restore
-			function unarchive($table,$condition,$and = '') {
+			function unarchive($condition,$and = '',$table = '') {
 
 				$what = 'archived = 0';
-				$set = $this->update($what,$table,$condition,$and);
+				$set = $this->update($what,$condition,$and,$table);
 				if($set) { return true; } else { return false; }
 
 			}
 
 	
 	// Delete for real
-	function delete($what,$table = '',$condition = '',$and = '') {
+	function delete($what,$condition = '',$and = '',$table = '') {
 
 		$table				= $this->makeTable($table);
 		$condition		= $this->makeCondition($condition);
@@ -212,7 +212,7 @@ class db {
 		// Perform a search for each element and add results to array
 		foreach($gets as $get) {
 	
-			$results = $this->search($table2,$what2,$get,$order);
+			$results = $this->search($what2,$get,$order,$table2);
 		
 			foreach($results as $result) {
 
@@ -230,7 +230,7 @@ class db {
 
 	}
 
-	function search($table,$what,$like,$etc) {
+	function search($what,$like,$etc,$table = '') {
 
 		$table				= $this->makeTable($table);	
 	
