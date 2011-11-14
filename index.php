@@ -1,4 +1,5 @@
 <?php 
+      header('Content-Type:text/html; charset=UTF-8');
       session_start(); 
       
       // Check if there's a ?dest= in the URL, add to variable 

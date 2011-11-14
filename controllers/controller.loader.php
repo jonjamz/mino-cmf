@@ -7,9 +7,9 @@
 	// Below is a general "get" function. It attaches a method's response to its designated div in the view.
 
 
-	function get(method) {
+	function idGet(method) {
 
-		$.post("<?php __DIR__.'/../server/models/'.$type.'.php' ?>", 
+		$.post(modelDir, 
 		{type: "direct", method: method, uid: "<?php echo $SESSION["id"]; ?>"}, 
 		function(data) { 
 		  if(data != '') { $('div[data-model=' + method + ']').html(data); }

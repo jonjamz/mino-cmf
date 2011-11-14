@@ -1,4 +1,4 @@
-<?php $type = basename(__FILE__, '.php'); require_once dirname(__FILE__).'/../view.wrapper.php'; ?>
+<?php $type = basename(__FILE__, '.php'); require_once __DIR__.'/../view.wrapper.php'; ?>
 
 <!-- View -->
 <div class="landing">
