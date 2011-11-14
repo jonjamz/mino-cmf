@@ -1,8 +1,0 @@
-<!-- Controller -->
-<script type="text/javascript">
-$(document).ready(function() {
-
-		<?php require_once dirname(__FILE__).'/../controllers/controller.loader.php'; ?>
-
-});
-</script>
