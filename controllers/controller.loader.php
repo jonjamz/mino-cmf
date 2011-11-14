@@ -4,20 +4,25 @@
 */
 
 
-	// Below is a general "get" function. It attaches a method's response to its designated div in the view.
+/* 
+    Below is a general "get" function. It attaches a method's response to its designated div in the view.
+    The "args" variable must be passed as a simple comma-delimited list according to the desired method.
+*/
 
 
-	function idGet(method) {
-
-		$.post(modelDir, 
-		{type: "direct", method: method, uid: "<?php echo $SESSION["id"]; ?>"}, 
-		function(data) { 
-		  if(data != '') { $('div[data-model=' + method + ']').html(data); }
-		});
+	function get(modelFile,method,args) {
+    
+    $.ajax({ 
+      type: "POST", 
+      url: modelFile, 
+      data: 'type=default&method=' + method + '&args=' + args,
+	    success: function(data) {
+	
+	      $('div[data-model=' + method + ']').html(data);
+	
+	    }
+	  });
 	
 	};
-
-	
-	// The controllers exist primarily to connect with complicated get and set model methods.
 	
 	<?php require_once __DIR__.'/'.$type.'.js'; ?>

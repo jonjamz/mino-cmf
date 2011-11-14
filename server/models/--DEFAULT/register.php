@@ -1,4 +1,4 @@
-<?php $type = "register"; require_once __DIR__."/../model.wrapper.php"; require_once __DIR__."/security/security.php"; require_once __DIR__."/utility/notifications.php"; require_once __DIR__."/utility/responses.php"; class register { 
+<?php $type = "register"; require_once __DIR__."/../model.wrapper.php"; class register { 
 
 
 		// Properties

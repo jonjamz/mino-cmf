@@ -12,8 +12,6 @@
 <script type="text/javascript">
 $(document).ready(function() {
     
-    var type = "<?php echo $type; ?>";
-    var modelDir = "<?php echo __DIR__.'/../server/models/'.$type.'.php' ?>";
 		<?php require_once __DIR__.'/../controllers/controller.loader.php'; ?>
 
 });

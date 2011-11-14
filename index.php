@@ -60,7 +60,7 @@
 
 <?php
 			// Logged in? Check page type, or Dashboard becomes your home
-			if(isset($pageType) && pageType = 'activate') { include "views/--DEFAULT/activate.php" }
+			if(isset($pageType) && $pageType == 'activate') { include "views/--DEFAULT/activate.php"; }
 			elseif(empty($_SESSION['id'])) { include 'views/--DEFAULT/landing.php'; }
 			else { include 'views/--DEFAULT/dashboard.php'; }
 ?>

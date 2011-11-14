@@ -1,4 +1,4 @@
-<?php /* session_start(); */ $type = "login"; require_once __DIR__."/../model.wrapper.php"; require_once __DIR__."/security/security.php"; require_once __DIR__."/utility/notifications.php"; require_once __DIR__."/utility/responses.php"; class login { 
+<?php /* session_start(); */ $type = "login"; require_once __DIR__."/../model.wrapper.php"; class login { 
 
 
 		// Properties

@@ -1,9 +1,8 @@
-<?php $type = "activate"; require_once __DIR__."/../model.wrapper.php"; require_once __DIR__."/security/security.php"; require_once __DIR__."/utility/notifications.php"; require_once __DIR__."/utility/responses.php"; class activate { 
+<?php $type = "activate"; require_once __DIR__."/../model.wrapper.php"; class activate { 
 
 
 		// Properties
 
-		private static $security;
 	  private static $db;
 
 
@@ -11,16 +10,18 @@
 
 	function __construct() {
 
-		self::$security = new security();
 		self::$db				= new db('users');
 
 	}
 
   function activate($activateCode) {
-  
-    self::$db->readNumAll("activation = '$activateCode'");
-    
-  
-  } 
+
+    $get = self::$db->read("activated","activateCode = '$activateCode'");
+    if ($get['activated'] == 0) {
+      $set = self::$db->update("activated = 1","activateCode = '$activateCode'");
+      if($set) { return responses::activationSuccess(); } else { return responses::error(); }
+    } else { return responses::alreadyActivated(); }
+
+  }
 
 } ?>
