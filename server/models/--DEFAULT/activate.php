@@ -18,7 +18,7 @@
 
     $get = self::$db->read("activated","activateCode = '$activateCode'");
     if ($get['activated'] == 0) {
-      $set = self::$db->update("activated = 1","activateCode = '$activateCode'");
+      $set = self::$db->update("activated = '1'","activateCode = '$activateCode'");
       if($set) { return responses::activationSuccess(); } else { return responses::error(); }
     } else { return responses::alreadyActivated(); }
 
