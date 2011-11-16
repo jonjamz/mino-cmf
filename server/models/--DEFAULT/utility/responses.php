@@ -3,7 +3,13 @@
 class responses {
  
  // Static methods for uniformity, because sometimes we'll pass args into messages
- 
+  
+  public static function redirect($url) {
+  
+    return "!redirect ".$url;
+  
+  }  
+  
   public static function error() {
   
     return "There was an error. Please try again.";

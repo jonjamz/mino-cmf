@@ -1,4 +1,4 @@
-<?php /* session_start(); */ $type = "login"; require_once __DIR__."/../model.wrapper.php"; class login { 
+<?php session_start(); $type = "login"; require_once __DIR__."/../model.wrapper.php"; class login { 
 
 
 		// Properties
@@ -37,9 +37,10 @@
       
       $userVars = self::$db->readAll("email = '$email'");
 
-      foreach($userVars as $key => $value) { $_SESSION["$key"] = $value; }
+      $_SESSION["id"] = $userVars["id"];
+      $_SESSION["email"] = $userVars["email"];
 
-      return true;
+      echo responses::redirect("index.php");
 
     } else { echo responses::loginFalse(); }
   
