@@ -281,6 +281,12 @@ em {
   padding: 0 10px;
   font-size: 18px;
 }
+#view-load {
+  float: left;
+  width: 770px;
+  
+  
+}
 .footer {
   height: 40px;
   padding: 20px 0;

@@ -2,11 +2,11 @@
       header('Content-Type:text/html; charset=UTF-8');
       session_start(); 
       
-      // Check if there's a ?dest= in the URL, add to variable 
       if(isset($_GET['activate'])) { 
         $pageType      = 'activate';
         $activateCode  = $_GET['activate'];
       }
+      elseif(isset($_GET['loggedout']) && $_GET['loggedout'] = 'yes') { $pageType = 'loggedOut'; }
 ?>
 
 <!DOCTYPE HTML>
@@ -42,16 +42,17 @@
 <body>
 <div id="fb-root"></div>
 <div class="container">
-
+<?php if($pageType == 'loggedOut') { echo "<div class=\"onLoadFade notifications\" style=\"position:absolute;width:770px;text-align:center;\">You have successfully logged out.</div>"; } ?>
 <?php	if(!empty($_SESSION['id'])) { // Header shows only when logged in ?>
 <div class="header">
 					
-			<a href="index.php" class="logo">Home</a>
+			<a href="index.php" class="logo"></a>
 					
 			<nav>
-						<a href="" onclick="return false" data-view="dashboard">Dashboard</a>
-						<a href="logout.php">Log Out</a>
-						<a href="" onclick="return false" data-view="projects">Projects</a>
+						<a href="" class="loadView" data-view="profile">Profile</a>
+						<a href="" class="loadView" data-view="--DEFAULT/settings">Settings</a>
+						<a href="" class="onClick" data-model="login" data-method="logout">Log Out</a>
+						
 			</nav>
 </div>
 <?php } ?>
@@ -84,22 +85,6 @@
 					</nav>
 </div>
 <?php } ?>
-
-<script type="text/javascript">
-$(document).ready(function(){
-			$('nav a').click(function() {
-						var view 			= $(this).attr('data-view');
-						var viewDir		= 'views/' + view + '.php';
-						var contDir		= 'controllers/' + view + '.php';
-							$.get(viewDir, function(data) {
-								$('#view-load').html(data);
-								//other action could go here
-							});
-						$('nav a').removeClass('selected');
-						$(this).addClass('selected');
-			})
-});
-</script>
 
 </div>
 </body>

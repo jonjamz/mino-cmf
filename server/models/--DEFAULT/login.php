@@ -1,4 +1,4 @@
-<?php session_start(); $type = "login"; require_once __DIR__."/../model.wrapper.php"; class login { 
+<?php $type = "login"; require_once __DIR__."/../model.wrapper.php"; class login { 
 
 
 		// Properties
@@ -31,7 +31,8 @@
 	}
   
   function login($email,$pass) {
-  
+    
+    session_start();
     $check = $this->checkPass($pass,$email);
     if($check) { 
       
@@ -43,6 +44,14 @@
       echo responses::redirect("index.php");
 
     } else { echo responses::loginFalse(); }
+  
+  }
+  
+  function logout() {
+    
+    session_start();
+    session_destroy();
+    echo responses::redirect("index.php?loggedout=yes");
   
   }
 
