@@ -8,7 +8,13 @@ class responses {
   
     return "!redirect ".$url;
   
-  }  
+  }
+  
+  public static function append($resp) {
+  
+    return "!append ".$resp;
+  
+  }
   
   public static function error() {
   
@@ -45,6 +51,12 @@ class responses {
   
   }
   
+  public static function notActivated() {
+  
+    return "This account must be activated before proceeding. Please follow the link in your activation email.";
+  
+  }
+  
   public static function alreadyActivated() {
   
     return "This account has already been activated.";
@@ -60,6 +72,30 @@ class responses {
   public static function userExists($email) {
   
     return "A user with email '$email' already exists. Please try a different email.";
+  
+  }
+  
+  public static function forgotPass() {
+  
+    return "We have sent you an email with a link to change your password.";
+  
+  }
+  
+  public static function passNotMatching() {
+  
+    return "The passwords you entered do not match. Please try again.";
+  
+  }
+  
+  public static function passUpdated() {
+  
+    return "Your password has been successfully updated.";
+  
+  }
+  
+  public static function passInvalid() {
+  
+    return "Invalid password! Please make sure it's at least 7 characters long and has no spaces.";
   
   }
  

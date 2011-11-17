@@ -7,6 +7,7 @@
     "register"    => __DIR__."/models/--DEFAULT/register.php",
     "settings"    => __DIR__."/models/--DEFAULT/settings.php",
     "dashboard"   => __DIR__."/models/--DEFAULT/dashboard.php",
+    "forgot"      => __DIR__."/models/--DEFAULT/forgot.php",
     
     "businesses"  => __DIR__."/models/businesses.php",
     "campaigns"   => __DIR__."/models/campaigns.php",

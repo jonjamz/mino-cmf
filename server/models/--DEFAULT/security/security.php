@@ -55,6 +55,40 @@ class security {
 	
 	}
 	
+	
+	// Generic hashing
+	
+	function hash($item, $double = '') {
+	  
+	  if($salt = '') {
+	  
+	    return md5($item);
+	  
+	  } else {
+	  
+	    return md5($item).md5($double);
+	
+	  }
+	  
+	}
+	
+	
+	// Validate passwords
+	
+	function validatePass($pass) {
+	
+	  // Is it over 7 characters?
+	  
+	  $pass = str_replace(' ','',$pass);
+	  
+	  if(strlen($pass) > 7) {
+	  
+	    return true;
+	  
+	  } else { return false; }
+	
+	}
+	
 }
 
 ?>

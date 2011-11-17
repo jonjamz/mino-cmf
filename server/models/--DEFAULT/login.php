@@ -5,14 +5,16 @@
 		
 		private static $security;
 	  private static $db;
+	  private static $notifications;
 
 
 	// Methods
 
-	function __construct($type) {
+	function __construct() {
 	
-		self::$security = new security();
-		self::$db				= new db('users');
+		self::$security       = new security();
+		self::$db				      = new db('users');
+		self::$notifications  = new notifications();
 	
 	}
 	
@@ -51,7 +53,22 @@
     
     session_start();
     session_destroy();
-    echo responses::redirect("index.php?loggedout=yes");
+    echo responses::redirect("index.php?loggedOut=yes");
+  
+  }
+  
+  function forgot($email) {
+    
+    $rand = mt_rand(20, 10000);
+    $passCode = self::$security->hash($email.$rand,'forgot');
+    $set = self::$db->readNum("passCode = '$passCode'","email = '$email'");
+    if($set > 0) {
+      
+      self::$db->update("passCode = '$passCode'","email = '$email'");
+      self::$notifications->forgotPass($email, $passCode);
+      echo responses::forgotPass();
+    
+    } else { echo responses::append(responses::error()); }
   
   }
 

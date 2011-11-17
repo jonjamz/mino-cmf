@@ -32,6 +32,16 @@ function models(model,method,args,affect) {
         dest = dest.replace(/!redirect\s*/,'');
         window.location.href = dest;
       }
+      else if(data.indexOf("!append") > -1) {
+        var resp = data;
+        resp = resp.replace(/!append\s*/,'');
+        if($('.' + affect + ' .response').is('*')) {
+          $('.' + affect + ' .response').html(resp);
+        }
+        else {
+          $('.' + affect).append('<div class="response">' + resp + '</div>');
+        }
+      }
       else {
         $('.' + affect).html(data);
       }
@@ -41,6 +51,27 @@ function models(model,method,args,affect) {
 
 //------------------> SPECIAL MINO CLASSES
 
+// .onLoad wrapped in a function, with initial call
+function onLoads() {
+  $('.onLoad').each(function() {
+    var rndm = 'random-' + Math.floor(Math.random()*1000000);
+    $(this).addClass(rndm);
+    var model   = $(this).attr('data-model');
+    var method  = $(this).attr('data-method');
+    var args    = $(this).attr('data-send');
+    models(model,method,args,rndm);
+  });
+}
+onLoads();
+
+function onLoadFades() {
+  $('.onLoadFade').each(function(){
+    $(this).delay(2000).fadeOut(1000);
+  });
+}
+onLoadFades();
+
+// .dbForm
 $('#view-load').on("submit", "form.dbForm", function(){
   var rndm = 'random-' + Math.floor(Math.random()*1000000);
   $(this).addClass(rndm);
@@ -52,7 +83,8 @@ $('#view-load').on("submit", "form.dbForm", function(){
   return false;
 });
 
-$('#view-load').on("click", ".onClick", function(){
+// .onClick
+$('body').on("click", ".onClick", function(){
   var rndm = 'random-' + Math.floor(Math.random()*1000000);
   $(this).addClass(rndm);
   var model   = $(this).attr('data-model');
@@ -62,23 +94,14 @@ $('#view-load').on("click", ".onClick", function(){
   return false;
 });
 
-$('body').on("ready", function(){
-  $(this).delay(2000).fadeOut(1000);
-});
-
-$('nav').on("click", ".loadView", function() {
+// .loadView with call to onLoads() to handle any new .onLoad elements
+$('body').on("click", ".loadView", function() {
 	var view 			= $(this).attr('data-view');
 	var viewDir		= 'views/' + view + '.php';
-	$('#view-load').load(viewDir);
-	$('nav a').removeClass('selected');
-	$(this).addClass('selected');
-	return false;
-});
-
-$('#view-load').on("click", ".loadView", function() {
-	var view 			= $(this).attr('data-view');
-	var viewDir		= 'views/' + view + '.php';
-	$('#view-load').load(viewDir);
+	$('#view-load').load(viewDir, function() {
+	  onLoads();
+	  onLoadFades();
+	});
 	$('nav a').removeClass('selected');
 	$(this).addClass('selected');
 	return false;

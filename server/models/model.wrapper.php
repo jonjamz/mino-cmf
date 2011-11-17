@@ -12,8 +12,8 @@ if(isset($_POST['type']) && isset($_POST['method'])) {
     if($_POST['type'] == 'default') {
       $method = $_POST['method'];
       if(isset($_POST['args'])) {
-        $args = $_POST['args'];
-        echo $$type->$method($args);
+        $args = explode(',', $_POST['args']);
+        echo call_user_func_array(array($$type, $method), $args);
       } else {
         echo $$type->$method();
       }

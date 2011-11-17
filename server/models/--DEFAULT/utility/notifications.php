@@ -9,6 +9,8 @@ class notifications {
   
   function __construct() {
   
+    // Get general info from settings.json
+  
     $getSettings = file_get_contents(__DIR__.'/../../../../settings.json');
 		
 		if(empty($getSettings)) { echo "Error! Can't find settings file, settings.json."; }
@@ -49,6 +51,41 @@ class notifications {
 		Confirm</a>
 		<br /><br /> 
 		Thanks, and we hope you enjoy '.self::$company.'!
+		<br /><br />
+		<i>Please contact '.self::$support.' with any questions or concerns.</i>
+		</body></html>';
+  
+    if(email::sendMail($email,$subject,$text,$html)) { return true; } else { return false; }
+  
+  }
+  
+  function forgotPass($email,$passCode) {
+    
+    $subject = 'Change your password';
+
+		$text = 'Hi!
+		
+		You are getting this email because you clicked "forgot password."
+		
+		If you didn\'t do that, please ignore this email.
+		
+		Please copy this link into your browser to change your password:
+		http://'.self::$domain.'/?changePass='.$passCode.'
+		
+		Thanks!
+		
+		Please contact '.self::$support.' with any questions or concerns.
+		';
+		
+		$html = '<html><body bgcolor="#FFFFFF">
+		Hi!<br /><br />
+		You are getting this email because you clicked "forgot password."
+		<br /><br />
+		Please click here to change your password &gt;&gt;
+		<a style="background: #FFC; padding: 3px 6px;" href="http://'.self::$domain.'/?changePass='.$passCode.'">
+		Change Password</a>
+		<br /><br />
+		Thanks!
 		<br /><br />
 		<i>Please contact '.self::$support.' with any questions or concerns.</i>
 		</body></html>';

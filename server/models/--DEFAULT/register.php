@@ -29,30 +29,41 @@
 	
 	function addUser($email,$pass) {
 	  
-	  $pass = self::$security->bCrypt($pass);
-	  $activateCode = md5($email);
-		$go = self::$db->create("email = '$email', password = '$pass', activateCode = '$activateCode'");
-		if($go) { return $activateCode; } else { return false; }
-	  
+	    $pass = self::$security->bCrypt($pass);
+	    $rand = mt_rand(20, 10000);
+	    $activateCode = self::$security->hash($email.$rand,'activation');
+		  $go = self::$db->create("email = '$email', password = '$pass', activateCode = '$activateCode'");
+		  if($go) { return $activateCode; } else { return false; }
+		  
 	}
 	
 	function register($email,$pass) {
 	  
 	  if($this->checkUser($email) == true) { 
 	    
-	    // Add the user, get the returned activation code for placement in the activation notification
-	    
-	    $activateCode = $this->addUser($email,$pass);
-	    
-	    if($activateCode) { 
-	    
-	      echo responses::registered(); 
+	    $test = self::$security->validatePass($pass);
+	  
+	    if($test) {
+	  
+	      // Add the user, get the returned activation code for placement in the activation notification
 	      
-	      if(self::$notifications->activation($email,$activateCode)) { echo responses::activationEmailSent(); } else { echo responses::emailError(); }
+	      $activateCode = $this->addUser($email,$pass);
 	      
-	    } else { echo responses::error(); }
+	      if($activateCode) { 
+	      
+	        echo responses::registered(); 
+	        
+	        if(self::$notifications->activation($email,$activateCode)) { 
+	        
+	          echo responses::append(responses::activationEmailSent()); 
+	        
+	        } else { echo responses::append(responses::emailError()); }
+	        
+	      } else { echo responses::append(responses::error()); }
+	  
+	    } else { echo responses::append(responses::passInvalid()); }
 	    
-    } else { echo responses::userExists($email); }
+    } else { echo responses::append(responses::userExists($email)); }
 	
 	}
 
