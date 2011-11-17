@@ -42,11 +42,14 @@
 <body>
 <div id="fb-root"></div>
 <div class="container">
+
 <?php if($pageType == 'loggedOut') { echo "<div class=\"onLoadFade notifications\" style=\"position:absolute;width:770px;text-align:center;\">You have successfully logged out.</div>"; } ?>
+
 <?php	if(!empty($_SESSION['id'])) { // Header shows only when logged in ?>
+
 <div class="header">
 					
-			<a href="index.php" class="logo"></a>
+			<a href="" class="loadView logo" data-view="--DEFAULT/dashboard"></a>
 					
 			<nav>
 						<a href="" class="loadView" data-view="profile">Profile</a>
@@ -55,36 +58,46 @@
 						
 			</nav>
 </div>
+
 <?php } ?>
 
 <div id="view-load">
 
 <?php
 			// Logged in? Check page type, or Dashboard becomes your home
-			if(isset($pageType) && $pageType == 'activate') { include "views/--DEFAULT/activate.php"; }
-			elseif(empty($_SESSION['id'])) { include 'views/--DEFAULT/landing.php'; }
-			else { include 'views/--DEFAULT/dashboard.php'; }
+			if(isset($pageType) && $pageType == 'activate') { require "views/--DEFAULT/activate.php"; }
+			elseif(empty($_SESSION['id'])) { require 'views/--DEFAULT/landing.php'; }
+			else { require 'views/--DEFAULT/dashboard.php'; }
 ?>
 
 </div>
 
 <?php	if(!empty($_SESSION['id'])) { // Footer shows only when logged in ?>
+
 <div class="footer">
-					<nav>
+		  <nav>
 					
-<?php 
-			// Generate Nav
-			foreach (glob("views/--DEFAULT/footer/*.php") as $nav) { 
-																		
-						$view = basename($nav, '.php');
-						$name = ucfirst($view);
-						echo "										<a href=\"\" onclick=\"return false\" data-view=\"$view\">$name</a> \n";
-			}
-?>
-															
-					</nav>
+						<a href="" class="loadView" data-view="--DEFAULT/footer/about">About</a>
+						<a href="" class="loadView" data-view="--DEFAULT/footer/help">Help</a>
+						<a href="" class="loadView" data-view="--DEFAULT/footer/terms">Terms</a>
+						
+			</nav>
+
 </div>
+
 <?php } ?>
 
 </div>
+
+<script type="text/javascript">
+$(document).ready(function() {
+
+<?php 
+      // Default Controller
+      require "controllers/--DEFAULT/controller.js";
+?>
+
+});
+</script>
+
 </body>
