@@ -10,6 +10,12 @@ class responses {
   
   }
   
+  public static function push($view) {
+  
+    return "!push ".$view;
+  
+  }
+  
   public static function append($resp) {
   
     return "!append ".$resp;

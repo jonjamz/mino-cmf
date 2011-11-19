@@ -40,31 +40,20 @@
 	function register($email,$pass) {
 	  
 	  if($this->checkUser($email) == true) { 
-	    
 	    $test = self::$security->validatePass($pass);
-	  
 	    if($test) {
-	  
+	 
 	      // Add the user, get the returned activation code for placement in the activation notification
 	      
 	      $activateCode = $this->addUser($email,$pass);
-	      
 	      if($activateCode) { 
-	      
 	        echo responses::registered(); 
-	        
 	        if(self::$notifications->activation($email,$activateCode)) { 
-	        
 	          echo responses::append(responses::activationEmailSent()); 
-	        
 	        } else { echo responses::append(responses::emailError()); }
-	        
 	      } else { echo responses::append(responses::error()); }
-	  
 	    } else { echo responses::append(responses::passInvalid()); }
-	    
     } else { echo responses::append(responses::userExists($email)); }
-	
 	}
 
 } ?>

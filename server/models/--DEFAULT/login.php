@@ -37,14 +37,10 @@
     session_start();
     $check = $this->checkPass($pass,$email);
     if($check) { 
-      
       $userVars = self::$db->readAll("email = '$email'");
-
       $_SESSION["id"] = $userVars["id"];
       $_SESSION["email"] = $userVars["email"];
-
       echo responses::redirect("index.php");
-
     } else { echo responses::loginFalse(); }
   
   }
@@ -53,7 +49,7 @@
     
     session_start();
     session_destroy();
-    echo responses::redirect("index.php?loggedOut=yes");
+    echo responses::redirect("index.php?url=logout");
   
   }
   
@@ -63,11 +59,9 @@
     $passCode = self::$security->hash($email.$rand,'forgot');
     $set = self::$db->readNum("passCode = '$passCode'","email = '$email'");
     if($set > 0) {
-      
       self::$db->update("passCode = '$passCode'","email = '$email'");
       self::$notifications->forgotPass($email, $passCode);
       echo responses::forgotPass();
-    
     } else { echo responses::append(responses::error()); }
   
   }

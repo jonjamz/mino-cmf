@@ -8,7 +8,7 @@
 	<div data-model="signup"></div>
 	
 	<nav>
-	  <a href="" class="login loadView" data-view="--DEFAULT/login">Sign In</a>
+	  <a href="" class="login loadView" data-view="login">Sign In</a>
   </nav>
 	
 	<div class="clear"></div>

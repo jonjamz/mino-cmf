@@ -1,32 +1,56 @@
 <?php 
+      
       header('Content-Type:text/html; charset=UTF-8');
       session_start(); 
+
+      if(empty($_GET['url'])) {
+        
+        if(isset($_SESSION['id'])) {
       
-      if(isset($_GET['activate'])) { 
-        $pageType      = 'activate';
-        $activateCode  = $_GET['activate'];
+          $view = 'dashboard';
+      
+        } else {
+      
+          $view = 'landing';
+          
+         }
+      
+      } else {
+      
+        $url = explode('/', $_GET['url']);
+        $view = $url[0];
+        
+        if($view == 'activate') { 
+          
+          // Trim -->code=
+          $activateCode  = substr($url[1],8);
+          
+        } elseif($view == 'logout') {
+          
+          $view = 'landing';
+          $showLogOut = 'yes';
+          
+        } elseif($view == 'change-pass') {
+        
+          // Trim -->code=
+          $passCode = substr($url[1],8);
+        
+        } 
+        
       }
-      elseif(isset($_GET['loggedOut']) && $_GET['loggedOut'] = 'yes') { $pageType = 'loggedOut'; }
-      elseif(isset($_GET['changePass'])) { 
-        $pageType = 'changePass';
-        $passCode = $_GET['changePass']; 
-      }
+
 ?>
 
 <!DOCTYPE HTML>
 
 <html>
 <head>
-<script type="text/javascript" src="library/js/redirection_mobile.min.js"></script>
-<script type="text/javascript">
-SA.redirection_mobile ({param:"isDefault", mobile_prefix : "m", cookie_hours : "1" });
-</script>
+
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 <meta name="description" content="Charity, Simplified.">
 <meta name="author" content="Dove.io">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta property="fb:page_id" content="173299469418115">
 
 <?php
 			// Generate js sources
@@ -34,6 +58,11 @@ SA.redirection_mobile ({param:"isDefault", mobile_prefix : "m", cookie_hours : "
 ?>
 
 <title>Charitable - Charity, Simplifed.</title>
+
+<script type="text/javascript">
+
+
+</script>
 
 <link rel="shortcut icon" type="image/vnd.microsoft.icon" href="library/images/favicon.png">
 <link rel="apple-touch-icon" href="library/images/apple-touch-icon.png">
@@ -45,43 +74,43 @@ SA.redirection_mobile ({param:"isDefault", mobile_prefix : "m", cookie_hours : "
 </head>
 
 <body>
-<div id="fb-root"></div>
+
+<?php //echo $view; ?>
+
 <div class="container">
 
-<?php if($pageType == 'loggedOut') { echo "<div class=\"onLoadFade\" style=\"position:absolute;width:770px;text-align:center;\">You have successfully logged out.</div>"; } ?>
+<?php if(isset($showLogOut) && $showLogOut == 'yes') { echo "<div class=\"onLoadFade\" style=\"position:absolute;width:770px;text-align:center;\">You have successfully logged out.</div>"; } ?>
 
 <?php	if(!empty($_SESSION['id'])) { // Header shows only when logged in ?>
 
 <div class="header">	
-	<a href="" class="loadView logo" data-view="--DEFAULT/dashboard"></a>
-		<nav>
-			<a href="" class="loadView" data-view="profile">Profile</a>
-			<a href="" class="loadView" data-view="--DEFAULT/settings">Settings</a>
-			<a href="" class="onClick" data-model="login" data-method="logout">Log Out</a>
-		</nav>
+	<a href="" class="loadView logo" data-view="dashboard"></a>
+	<nav>
+		<a href="" class="loadView" data-view="profile">Profile</a>
+		<a href="" class="loadView" data-view="settings">Settings</a>
+		<a href="" class="onClick" data-model="login" data-method="logout">Log Out</a>
+	</nav>
 </div>
 
 <?php } ?>
 
+
 <div id="view-load">
 
-<?php
-			// Logged in? Check page type, or Dashboard becomes your home
-			if(isset($pageType) && $pageType == 'activate') { require "views/--DEFAULT/activate.php"; }
-			elseif(isset($pageType) && $pageType == 'changePass') { require "views/--DEFAULT/forgot.php"; }
-			elseif(empty($_SESSION['id'])) { require 'views/--DEFAULT/landing.php'; }
-			else { require 'views/--DEFAULT/dashboard.php'; }
-?>
+<!-- You can add a loading message or animation here. Keep the noscript, though. -->
+
+<noscript><em>This site requires javascript. Please enable it and/or upgrade your browser!</em></noscript>
 
 </div>
+
 
 <?php	if(!empty($_SESSION['id'])) { // Footer shows only when logged in ?>
 
 <div class="footer">
   <nav>			
-		<a href="" class="loadView" data-view="--DEFAULT/footer/about">About</a>
-		<a href="" class="loadView" data-view="--DEFAULT/footer/help">Help</a>
-		<a href="" class="loadView" data-view="--DEFAULT/footer/terms">Terms</a>
+		<a href="" class="loadView" data-view="about">About</a>
+		<a href="" class="loadView" data-view="help">Help</a>
+		<a href="" class="loadView" data-view="terms">Terms</a>
   </nav>
 </div>
 
@@ -89,7 +118,9 @@ SA.redirection_mobile ({param:"isDefault", mobile_prefix : "m", cookie_hours : "
 
 </div>
 
+
 <script type="text/javascript">
+
 $(document).ready(function() {
 
 <?php 
@@ -98,6 +129,9 @@ $(document).ready(function() {
 ?>
 
 });
+
 </script>
 
+
 </body>
+</html>
