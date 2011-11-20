@@ -1,7 +1,7 @@
 <?php $type = basename(__FILE__, '.php'); require_once __DIR__.'/../view.wrapper.php'; ?>
 
 <form class="dbForm" data-model="forgot" data-method="forgot">
-<input type="hidden" name="passCode" value="<?php echo $passCode; ?>">
+<input type="hidden" name="passCode" value="<?php echo $viewArg; ?>">
 <p>
 Enter new password:<br>
 <input type="password" name="newPass1" required="required">

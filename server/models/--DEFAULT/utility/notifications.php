@@ -36,7 +36,7 @@ class notifications {
 		Thank you for registering with us.
 		
 		Please copy this link into your browser to activate your account:
-		http://'.self::$domain.'/activate/-->code='.$activateCode.'
+		http://'.self::$domain.'/activate~code='.$activateCode.'
 		
 		Thanks, and we hope you enjoy '.self::$company.'!
 		
@@ -47,7 +47,7 @@ class notifications {
 		Hi!
 		<br /><br />
 		Please click here to activate your account &gt;&gt;
-		<a style="background: #FFC; padding: 3px 6px;" href="http://'.self::$domain.'/activate/-->code='.$activateCode.'">
+		<a style="background: #FFC; padding: 3px 6px;" href="http://'.self::$domain.'/activate~code='.$activateCode.'">
 		Confirm</a>
 		<br /><br /> 
 		Thanks, and we hope you enjoy '.self::$company.'!
@@ -70,7 +70,7 @@ class notifications {
 		If you didn\'t do that, please ignore this email.
 		
 		Please copy this link into your browser to change your password:
-		http://'.self::$domain.'/change-pass/-->code='.$passCode.'
+		http://'.self::$domain.'/change-pass~code='.$passCode.'
 		
 		Thanks!
 		
@@ -82,7 +82,7 @@ class notifications {
 		You are getting this email because you clicked "forgot password."
 		<br /><br />
 		Please click here to change your password &gt;&gt;
-		<a style="background: #FFC; padding: 3px 6px;" href="http://'.self::$domain.'/change-pass/-->code='.$passCode.'">
+		<a style="background: #FFC; padding: 3px 6px;" href="http://'.self::$domain.'/change-pass~code='.$passCode.'">
 		Change Password</a>
 		<br /><br />
 		Thanks!

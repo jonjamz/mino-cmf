@@ -70,6 +70,7 @@ function onLoads() {
     var method  = $(this).attr('data-method');
     var args    = $(this).attr('data-send');
     models(model,method,args,affect);
+    $(this).removeClass('.onLoad');
   });
 }
 
@@ -131,7 +132,28 @@ $('body').on("click", ".loadView", function() {
   dbl = 1;
   History.pushState({state: view}, view, view);
   dbl = 0;
-	$('a').removeClass('selected');
+	$('.selected').removeClass('selected');
+	$(this).addClass('selected');
+	return false;
+});
+
+
+// .loadSubView with call to onLoads() to handle any new .onLoad elements
+$('body').on("click", ".loadSubView", function() {
+	var view 			= $(this).attr('data-view');
+	var affect    = $(this).attr('data-to');
+	var viewDir		= '';
+  $.get("view.router.php", { view: view }, function(data){
+    var viewDir = data;
+    $(affect).load(viewDir, function() {
+      onLoads();
+      onLoadFades();
+    });
+  });
+  dbl = 1;
+  History.pushState({state: view}, view, view);
+  dbl = 0;
+	$('.selected').removeClass('selected');
 	$(this).addClass('selected');
 	return false;
 });
@@ -143,6 +165,9 @@ function routeUrl() {
   $.get("view.router.php", { view: view }, function(data){
     var viewDir = data;
     $('#view-load').load(viewDir, function() {
+      // Inject any URL variables
+      $('[value="urlArg"]').attr('value', '<?php echo $viewArg; ?>');
+      $('[data-send="urlArg"]').attr('data-send', '<?php echo $viewArg; ?>');
       onLoads();
       onLoadFades();
     });
@@ -166,9 +191,8 @@ function routeState(state) {
 }
 
 var goState = function() {
+  if(dbl === 0) {
   var State = History.getState();
-	History.log('statechange:', State.data, State.title, State.url);
-	if(dbl === 0) {
 	  routeState(State.title);
 	}
 }
