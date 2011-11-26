@@ -53,7 +53,7 @@ class responses {
   
   public static function activationSuccess() {
   
-    return "You have successfully activated your account!";
+    return "You have successfully activated your account! <a href=\"\" class=\"loadView\" data-view=\"login\">Login</a>";
   
   }
   
@@ -95,13 +95,19 @@ class responses {
   
   public static function passUpdated() {
   
-    return "Your password has been successfully updated.";
+    return "Your password has been successfully updated! <a href=\"\" class=\"loadView\" data-view=\"login\">Login</a>";
   
   }
   
   public static function passInvalid() {
   
     return "Invalid password! Please make sure it's at least 7 characters long and has no spaces.";
+  
+  }
+  
+  public static function passCodeExpired() {
+  
+    return "Error. The link you used has expired.";
   
   }
  

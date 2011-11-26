@@ -105,6 +105,7 @@ class db {
 
 	}
 	
+	
 	    // Return entire row
 	    function readAll($condition = '',$and = '',$order = '',$table = '') {
 	      
@@ -130,6 +131,7 @@ class db {
 		    return $mysqli->affected_rows;
 
 	    }
+
 
 	// Update
 	function update($what,$condition,$and = '',$table = '') {
@@ -207,13 +209,13 @@ class db {
 		$all = array();
 
 		// Grab elements to search by
-		$gets = $this->query("SELECT $what FROM $table WHERE $condition");
-	
+		$gets = $this->read($what, $condition, false, false, $table);
+
 		// Perform a search for each element and add results to array
-		foreach($gets as $get) {
-	
-			$results = $this->search($what2,$get,$order,$table2);
-		
+		foreach($gets as $key => $value) {
+
+			$results = $this->search($what2,$value,$order,$table2);
+
 			foreach($results as $result) {
 
 				array_push($all, $result);
@@ -233,9 +235,10 @@ class db {
 	function search($what,$like,$etc,$table = '') {
 
 		$table				= $this->makeTable($table);	
-	
-		return $this->query("SELECT * FROM $table WHERE $what LIKE '%$like%' $etc");
 
+		$get = $this->query("SELECT * FROM $table WHERE $what LIKE '%$like%' $etc");
+    return $get->fetch_assoc();
+    
 	}
 
 

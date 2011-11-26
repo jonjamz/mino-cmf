@@ -77,23 +77,26 @@
 
 <?php
 			// Generate js sources
-			foreach (glob("library/js/dev.autoload/*.js") as $autoload) { echo "<script src=\"$autoload\"></script> \n"; }
+			foreach (glob("client/library/js/dev.autoload/*.js") as $autoload) { echo "<script src=\"$autoload\"></script> \n"; }
 ?>
+
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.3/jquery-ui.min.js"></script>
 
 <?php if(1==0) { // Get contents of settings.json file and check if mobile redirect is enabled... ?>
 
-<script type="text/javascript" src="library/js/redirection_mobile.min.js"></script>
+<script type="text/javascript" src="client/library/js/redirection_mobile.min.js"></script>
 <script type="text/javascript">SA.redirection_mobile ({param:"isDefault", mobile_prefix : "m", cookie_hours : "1" });
 </script>
 
 <?php } ?>
 
-<link rel="shortcut icon" type="image/vnd.microsoft.icon" href="library/images/favicon.png">
-<link rel="apple-touch-icon" href="library/images/apple-touch-icon.png">
-<link rel="apple-touch-icon" sizes="72x72" href="library/images/apple-touch-icon-72x72-precomposed.png">
-<link rel="apple-touch-icon" sizes="114x114" href="library/images/apple-touch-icon-114x114-precomposed.png">
-<link rel="stylesheet" href="library/css/screen.css" media="screen">
-<link href="http://fonts.googleapis.com/css?family=PT+Sans:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+<link rel="shortcut icon" type="image/vnd.microsoft.icon" href="client/library/images/favicon.png">
+<link rel="apple-touch-icon" href="client/library/images/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="72x72" href="client/library/images/apple-touch-icon-72x72-precomposed.png">
+<link rel="apple-touch-icon" sizes="114x114" href="client/library/images/apple-touch-icon-114x114-precomposed.png">
+<link rel="stylesheet" href="client/library/css/normalize.css">
+<link rel="stylesheet" href="client/library/css/absolution.mino.custom.css">
+<link rel="stylesheet" href="client/library/css/reveal.css">
 
 </head>
 
@@ -119,9 +122,9 @@
             <!-- hi -->
 
 
-<div class="header">	
-
 <?php	if(isset($_SESSION['id'])) { // Header when logged in ?>
+
+<div class="header">	
 
   <a href="" class="loadView logo" data-view="dashboard"></a>
    
@@ -131,11 +134,11 @@
     <a href="" class="onClick" data-model="login" data-method="logout">Log Out</a>
   </nav>
 
+</div>
+
 <?php } elseif(!isset($_SESSION['id'])) { // Header when logged out ?>
 
 <?php } ?>
-
-</div>
 
 
             <!-- to -->
@@ -152,10 +155,10 @@
 
             <!-- the -->
 
-
-<div class="footer">
   	
 <?php	if(isset($_SESSION['id'])) { // Footer when logged in ?>
+
+<div class="footer">
 
   <nav>	
     <a href="" class="loadView" data-view="about">About</a>
@@ -163,11 +166,12 @@
     <a href="" class="loadView" data-view="terms">Terms</a>
   </nav>
 
+</div>
+
 <?php } elseif(!isset($_SESSION['id'])) { // Footer when logged out ?>
 
 <?php } ?>
 
-</div>
 
 </div>
 
@@ -182,7 +186,7 @@ $(document).ready(function() {
 
 <?php 
       // Controller
-      require "controllers/--DEFAULT/controller.js";
+      require "controller.js";
 ?>
 
 
@@ -191,7 +195,7 @@ $(document).ready(function() {
 </script>
 
 
-            <!-- framework (awesome) created by jon james, github.com/jonjamz -->
+            <!-- framework, created by jon james (github.com/jonjamz) -->
 
 
 </body>

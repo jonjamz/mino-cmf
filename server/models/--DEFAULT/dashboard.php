@@ -2,7 +2,7 @@
 
   function gridViews() {
     
-    foreach (glob(__DIR__."/../../../views/*.php") as $nav) { 
+    foreach (glob(__DIR__."/../../../client/views/*.php") as $nav) { 
 																		
     	$view = basename($nav, '.php');
     	if($view != "view.wrapper") {
