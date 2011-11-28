@@ -3,16 +3,22 @@
 
 		// Properties
 		
-		private $db;
-		
-		//--> Put model properties here.
-		
+		private static $db;
+				
 		
 	// Methods
 
-  function __construct($type) { $this->db = new db($type); }
+  function __construct() { self::$db = new db(); }
 
-	//--> Put model methods here. Call them from your view with get(method) and give them a div with data-model=method attribute to spill into.
+
+  function getMatches($id) {
+    
+    $gets = self::$db->wildMatch("interest","interests","uid = '$id'","title","tags","opportunities","datetime_utc ASC");
+
+    foreach($gets as $get) {
+      echo $get;
+    }
+  }
 
 
 } ?>

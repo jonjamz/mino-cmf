@@ -6,9 +6,6 @@ class db {
 	private $mysqli;
 	
 	
-#	function testing($stuff) { $this->query($stuff); }
-	
-	
 	private function query($query) {
 
 		$go = $this->mysqli;
@@ -92,7 +89,7 @@ class db {
 	
 	}
 
-	// Read
+	// Read, general associative
 	function read($what,$condition = '',$and = '',$order = '',$table = '') {
 
 		$table				= $this->makeTable($table);
@@ -100,9 +97,23 @@ class db {
 		$and					= $this->makeAnd($and);
 		$order				= $this->makeOrder($order);
 	
-		$get = $this->query("SELECT $what FROM $table $condition $and $order");
-		return $get->fetch_assoc();
-
+	  $get = $this->query("SELECT $what FROM $table $condition $and $order");
+	
+	  if($get) {
+	  
+	    if($get->num_rows === 1) { 
+	    
+	      return $get->fetch_assoc();
+	    
+	    } else {
+	    
+		    while($row = $get->fetch_assoc()) { $all[] = $row; }
+        return $all;
+      
+      }
+    
+    } else { return false; }
+    
 	}
 	
 	
@@ -201,20 +212,20 @@ class db {
 
 	}
 
-	function wildMatch($what,$table,$condition,$what2,$table2,$order = 'id ASC',$arrange = '') {
+	function wildMatch($what,$table,$condition,$cols,$what2,$table2,$order = 'id ASC',$arrange = '') {
 
 		$table				= $this->makeTable($table);
 		$order				= $this->makeOrder($order);
 
 		$all = array();
 
-		// Grab elements to search by
+		// Grab single column of elements to search by
 		$gets = $this->read($what, $condition, false, false, $table);
 
 		// Perform a search for each element and add results to array
-		foreach($gets as $key => $value) {
+		foreach($gets as $get) {
 
-			$results = $this->search($what2,$value,$order,$table2);
+			$results = $this->search($cols,$what2,$get[$what],$order,$table2);
 
 			foreach($results as $result) {
 
@@ -232,12 +243,26 @@ class db {
 
 	}
 
-	function search($what,$like,$etc,$table = '') {
+	function search($cols,$what,$like,$etc = '',$table = '') {
 
-		$table				= $this->makeTable($table);	
+		$table = $this->makeTable($table);	
 
-		$get = $this->query("SELECT * FROM $table WHERE $what LIKE '%$like%' $etc");
-    return $get->fetch_assoc();
+		$get = $this->query("SELECT $cols FROM $table WHERE $what LIKE '%$like%' $etc");
+    
+    if($get) {
+	  
+	    if($get->num_rows === 1) { 
+	    
+	      return $get->fetch_assoc();
+	    
+	    } else {
+	    
+		    while($row = $get->fetch_assoc()) { $all[] = $row; }
+        return $all;
+      
+      }
+    
+    } else { return false; }
     
 	}
 
