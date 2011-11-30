@@ -12,15 +12,19 @@
  
   */
   
+  // Doesn't require __DIR__ because the locations go to js for referencing
+  
+  $viewDir = "client/views/";
+  
   
   // Universally accessible
   
   $uViews = array(
 
-    "about"       => "client/views/--DEFAULT/footer/about.php",
-    "help"        => "client/views/--DEFAULT/footer/help.php",
-    "terms"       => "client/views/--DEFAULT/footer/terms.php",
-    "contact"     => "client/views/--DEFAULT/footer/contact.php"
+    "about"       => "--DEFAULT/footer/about.php",
+    "help"        => "--DEFAULT/footer/help.php",
+    "terms"       => "--DEFAULT/footer/terms.php",
+    "contact"     => "--DEFAULT/footer/contact.php"
     
   );
   
@@ -29,10 +33,10 @@
   
   $oViews = array(
 
-    "activate"    => "client/views/--DEFAULT/activate.php",
-    "change-pass" => "client/views/--DEFAULT/forgot.php",
-    "landing"     => "client/views/--DEFAULT/landing.php",
-    "login"       => "client/views/--DEFAULT/login.php"
+    "activate"    => "--DEFAULT/activate.php",
+    "change-pass" => "--DEFAULT/forgot.php",
+    "landing"     => "--DEFAULT/landing.php",
+    "login"       => "--DEFAULT/login.php"
   
   );
   
@@ -41,11 +45,11 @@
   
   $iViews = array(
 
-    "dashboard"   => "client/views/--DEFAULT/dashboard.php",
-    "settings"    => "client/views/--DEFAULT/settings.php",
-    "profile"     => "client/views/--DEFAULT/profile.php",
+    "dashboard"   => "--DEFAULT/dashboard.php",
+    "settings"    => "--DEFAULT/settings.php",
+    "profile"     => "--DEFAULT/profile.php",
     
-    "nonprofits"  => "client/views/nonprofits.php"
+    "nonprofits"  => "nonprofits.php"
   
   );
   
@@ -56,17 +60,17 @@
     
     if(isset($uViews[$view])) {
     
-      echo $uViews[$view];
+      echo $viewDir.$uViews[$view];
     
     } elseif(isset($oViews[$view])) {
     
       if(isset($_SESSION['id'])) {
       
-        echo $iViews['dashboard'];
+        echo $viewDir.$iViews['dashboard'];
       
       } else {
       
-        echo $oViews[$view];
+        echo $viewDir.$oViews[$view];
       
       }
     
@@ -74,11 +78,11 @@
     
       if(isset($_SESSION['id'])) {
       
-        echo $iViews[$view];
+        echo $viewDir.$iViews[$view];
       
       } else {
       
-        echo $oViews['login'];
+        echo $viewDir.$oViews['login'];
       
       }
     
@@ -91,11 +95,11 @@
       
       if(isset($_SESSION['id'])) {
       
-        echo $iViews['dashboard'];
+        echo $viewDir.$iViews['dashboard'];
       
       } else {
       
-        echo $oViews['landing'];
+        echo $viewDir.$oViews['landing'];
       
       }
     

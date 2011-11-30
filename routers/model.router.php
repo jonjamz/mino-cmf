@@ -1,22 +1,24 @@
 <?php
-
+  
+  $modelDir = __DIR__."/../server/models/";
+  
   $models = array(
 
-    "activate"    => __DIR__."/../server/models/--DEFAULT/authorization/activate.php",
-    "login"       => __DIR__."/../server/models/--DEFAULT/authorization/login.php",
-    "register"    => __DIR__."/../server/models/--DEFAULT/authorization/register.php",
-    "forgot"      => __DIR__."/../server/models/--DEFAULT/authorization/forgot.php",
-    "settings"    => __DIR__."/../server/models/--DEFAULT/settings.php",
-    "dashboard"   => __DIR__."/../server/models/--DEFAULT/dashboard.php",
+    "activate"    => "--DEFAULT/authorization/activate.php",
+    "login"       => "--DEFAULT/authorization/login.php",
+    "register"    => "--DEFAULT/authorization/register.php",
+    "forgot"      => "--DEFAULT/authorization/forgot.php",
+    "settings"    => "--DEFAULT/settings.php",
+    "dashboard"   => "--DEFAULT/dashboard.php",
     
-    "nonprofits"  => __DIR__."/../server/models/nonprofits.php",
+    "nonprofits"  => "nonprofits.php",
   
   );
   
   if(isset($_POST['model'])) {
     
     $model = $_POST['model'];
-    $destination = $models[$model];
+    $destination = $modelDir.$models[$model];
     require $destination;
   
   }
