@@ -75,28 +75,16 @@
 <meta name="author" content="Dove.io">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
-<?php
-			// Generate js sources
-			foreach (glob("client/library/js/dev.autoload/*.js") as $autoload) { echo "<script src=\"$autoload\"></script> \n"; }
-?>
+<script src="compilers/js-compiler.php"></script>
 
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.3/jquery-ui.min.js"></script>
-
-<?php if(1==0) { // Get contents of settings.json file and check if mobile redirect is enabled... ?>
-
-<script type="text/javascript" src="client/library/js/redirection_mobile.min.js"></script>
-<script type="text/javascript">SA.redirection_mobile ({param:"isDefault", mobile_prefix : "m", cookie_hours : "1" });
-</script>
-
-<?php } ?>
 
 <link rel="shortcut icon" type="image/vnd.microsoft.icon" href="client/library/images/favicon.png">
 <link rel="apple-touch-icon" href="client/library/images/apple-touch-icon.png">
 <link rel="apple-touch-icon" sizes="72x72" href="client/library/images/apple-touch-icon-72x72-precomposed.png">
 <link rel="apple-touch-icon" sizes="114x114" href="client/library/images/apple-touch-icon-114x114-precomposed.png">
-<link rel="stylesheet" href="client/library/css/normalize.css">
-<link rel="stylesheet" href="client/library/css/absolution.mino.custom.css">
-<link rel="stylesheet" href="client/library/css/reveal.css">
+
+<link rel="stylesheet" href="compilers/css-compiler.php">
 
 </head>
 
