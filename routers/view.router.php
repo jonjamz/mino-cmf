@@ -90,7 +90,7 @@
       
       /*
           Here you can do a fallback where if the page doesn't exist, check if there's a matching username
-          and load in the person's profile
+          and load in the person's profile. Or a 404!
       */
       
       if(isset($_SESSION['id'])) {
