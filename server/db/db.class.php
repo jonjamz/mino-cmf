@@ -1,4 +1,5 @@
-<?php 
+<?php
+
 
 class db {
 
@@ -19,9 +20,23 @@ class db {
 		// Match model with table according to the variables below if they have been configured
 		$totable = $type.'Tbl';
 		if($this->$totable != '') { $this->table = $this->$totable; } else { $this->table = $type; }
-
+    
+    // Get db info from settings.json and decode
+    $getSettings = file_get_contents(__DIR__.'/../settings.json');
+		if(empty($getSettings)) { echo "Error! Can't find settings file, settings.json."; }
+		$settings = json_decode($getSettings, true);
+    
 		// Connect to db
-		$this->mysqli = new mysqli('localhost', 'root', 'Azztast1c!', 'jon') or die("Db connection problem.");
+		$this->mysqli = new mysqli(
+		                          
+		                            $settings['db-host'], 
+		                            $settings['db-user'], 
+		                            $settings['db-pass'], 
+		                            $settings['db-name']
+		                          
+		                          ) 
+		                          
+		                          or die ("Db connection problem.");
 
 	}
 
