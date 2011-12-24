@@ -21,10 +21,16 @@
   
   $uViews = array(
 
-    "about"       => "--DEFAULT/footer/about.php",
-    "help"        => "--DEFAULT/footer/help.php",
-    "terms"       => "--DEFAULT/footer/terms.php",
-    "contact"     => "--DEFAULT/footer/contact.php"
+
+    // Default
+    
+    "about"       => "--DEFAULT/about.php",
+    "help"        => "--DEFAULT/help.php",
+    "terms"       => "--DEFAULT/terms.php",
+    "contact"     => "--DEFAULT/contact.php"
+    
+    
+    // Project
     
   );
   
@@ -33,11 +39,18 @@
   
   $oViews = array(
 
-    "activate"    => "--DEFAULT/activate.php",
-    "change-pass" => "--DEFAULT/forgot.php",
+
+    // Default
+    
     "landing"     => "--DEFAULT/landing.php",
-    "login"       => "--DEFAULT/login.php"
-  
+    "activate"    => "--DEFAULT/authorization/activate.php",
+    "change-pass" => "--DEFAULT/authorization/forgot.php",    
+    "login"       => "--DEFAULT/authorization/login.php",
+    "register"    => "--DEFAULT/authorization/register.php"
+    
+    
+    // Project
+    
   );
   
   
@@ -45,9 +58,15 @@
   
   $iViews = array(
 
-    "dashboard"   => "--DEFAULT/dashboard.php",
-    "settings"    => "--DEFAULT/settings.php",
-    "profile"     => "--DEFAULT/profile.php",
+
+    // Default
+    
+    "dashboard"   => "--DEFAULT/user/dashboard.php",
+    "settings"    => "--DEFAULT/user/settings.php",
+    "profile"     => "--DEFAULT/user/profile.php",
+    
+    
+    // Project
     
     "nonprofits"  => "nonprofits.php"
   

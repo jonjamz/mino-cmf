@@ -114,7 +114,7 @@
 
 <div class="header">	
 
-  <a href="" class="loadView logo" data-view="dashboard"></a>
+  <a href="" class="loadView logo" data-view="dashboard">Home</a>
    
   <nav>
     <a href="" class="loadView" data-view="profile">Profile</a>

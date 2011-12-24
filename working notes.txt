@@ -1,0 +1,31 @@
+Working Notes
+
+  Should make the .onLoad etc. classes just data-onLoad="" and then parse from there.
+  Can grab them with jQuery $('[data-onload]')
+  http://api.jquery.com/has-attribute-selector/
+  
+  Need to combine loadview and loadsubview like this:
+      
+      <a href="" data-loadview="dashboard, #walrus">
+
+  The url variables can be standardized to ~a=b&b=c&c=d
+  Just make an array out of all the variables so you can call them by name
+  Pass that array to js
+  
+  You could have it to where when people land on a page it prompts them to log in
+  and it holds the url variables and passes those in with the login?
+  
+  Router could be where we check sessions? Not index.php
+  
+  Still need to add ajax file uploading with progress bar
+  
+  Mino uses file structure and filesystem functions to decipher
+  a website's structure, rather than storing that information in a database.
+  
+    To Do:
+    
+      - Make headers and footers in their own file structure in the client folder
+      - Connect headers and footers to pages in router
+      
+      
+  

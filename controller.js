@@ -62,7 +62,7 @@ function models(model,method,args,affect) {
 //------------------> SPECIAL MINO CLASSES
 
 
-// .onLoad wrapped in a function, with initial call
+// .onLoad wrapped in a function
 function onLoads() {
   $('.onLoad').each(function() {
     var rndm = 'random-' + Math.floor(Math.random()*100000);
@@ -76,6 +76,28 @@ function onLoads() {
   });
 }
 
+// .include wrapped in a function
+function loadIncludes() {
+  $('.include').each(function() {
+    var rndm = 'random-' + Math.floor(Math.random()*100000);
+    $(this).addClass(rndm);
+    
+    // Prevent an infinite loop
+    $(this).removeClass('include');
+    
+    var affect  = '.' + rndm;
+    var view   = $(this).attr('data-view');
+    $.get("routers/view.router.php", { view: view }, function(data){
+      var viewDir = data;
+      $(affect).load(viewDir, function() {
+        onLoads();
+        onLoadFades();
+        loadIncludes();
+        loadInputs();
+      });
+    });
+  });
+}
 
 // .onLoadFades, for logout or errors possibly
 function onLoadFades() {
@@ -86,7 +108,6 @@ function onLoadFades() {
 
 
 // Assign classes to inputs based on their type
-
 function loadInputs() {
   $('input').each(function() {
     var type = $(this).attr('type');
@@ -142,6 +163,7 @@ $('body').on("click", ".loadView", function() {
     $('#view-load').load(viewDir, function() {
       onLoads();
       onLoadFades();
+      loadIncludes();
       loadInputs();
     });
   });
@@ -164,6 +186,7 @@ $('body').on("click", ".loadSubView", function() {
     $(affect).load(viewDir, function() {
       onLoads();
       onLoadFades();
+      loadIncludes();
       loadInputs();
     });
   });
@@ -176,17 +199,20 @@ $('body').on("click", ".loadSubView", function() {
 });
 
 
-// Page load router
+// Page load & URL variable router
 function routeUrl() {
   var view  = '<?php echo $view; ?>';
   $.get("routers/view.router.php", { view: view }, function(data){
     var viewDir = data;
     $('#view-load').load(viewDir, function() {
+    
       // Inject any URL variables
       $('[value="urlArg"]').attr('value', '<?php echo $urlArg; ?>');
       $('[data-send="urlArg"]').attr('data-send', '<?php echo $urlArg; ?>');
+      
       onLoads();
       onLoadFades();
+      loadIncludes();
       loadInputs();
     });
   });
@@ -204,6 +230,7 @@ function routeState(state) {
     $('#view-load').load(viewDir, function() {
       onLoads();
       onLoadFades();
+      loadIncludes();
       loadInputs();
     });
   });
