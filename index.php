@@ -32,8 +32,16 @@
         
         if(preg_match('/~/', $_GET['url']) != 0) {
         
+          // Separate URL args and get page name
+          
           $url = explode('~', $_GET['url']);
           $view = $url[0];
+          
+          // Remove page name from array so we just have URL args
+          
+          unset($url[0]);
+          
+          // Process some defaults uniquely so no one can screw with them
           
           if($view == 'activate') { 
        
@@ -43,7 +51,34 @@
           
             $urlArg = substr($url[1],5);
           
-          } 
+          } else {
+          
+            // Assign args to an array
+            
+            foreach($url as $arg) {
+              
+              // If there's an equals sign, go associative!
+              
+              if(preg_match('/=/', $arg) != 0) {
+              
+                $kv = explode('=', $arg);
+                $urlArgs[$kv[0]] = $kv[1];
+              
+              }
+              
+              // If there is no equals sign, go numeric!
+              
+              elseif(preg_match('/=/', $arg) === 0) {
+              
+                $urlArgs[] = $arg;
+              
+              }
+            
+            } 
+          
+          //var_dump($urlArgs);
+          
+          }
           
         } else {
        
@@ -174,7 +209,8 @@ $(document).ready(function() {
 
 <?php 
       // Controller
-      require "controller.js";
+      //require "controller.js";
+      require "controller.min.js";
 ?>
 
 

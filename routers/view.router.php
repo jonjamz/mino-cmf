@@ -101,7 +101,7 @@
       
       } else {
       
-        echo $viewDir.$oViews['login'];
+        echo '!logout';
       
       }
     
