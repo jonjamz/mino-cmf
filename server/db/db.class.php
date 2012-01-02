@@ -3,8 +3,84 @@
 
 class db {
 
-	public $table;
+	public  $table;
 	private $mysqli;
+	
+	
+	/*
+	
+	    Static sugar
+	    
+  */
+  
+  
+	public static function q($x) {
+	
+	  $go = $this->query($x);
+	  if($go) { return true; } else { return false; }
+	
+	}
+	
+	public static function c($x) {
+	
+	  $go = $this->create($x);
+	
+	}
+	
+	public static function r($x) {
+	
+	  $go = $this->read($x);
+	
+	}
+	
+	public static function u($x) {
+	
+	  $go = $this->update($x);
+	
+	}
+	
+	public static function d($x) {
+	
+	  $go = $this->delete($x);
+	
+	}
+	
+	public static function a($x) {
+	
+	  $go = $this->archive($x);
+	
+	}
+	
+	public static function s($x) {
+	
+	  $go = $this->search($x);
+	
+	}
+	
+	public static function wm($x) {
+	
+	  $go = $this->wildMatch($x);
+	
+	}
+	
+	public static function cmu($x) {
+	
+	  $go = $this->contentMatchUser($x);
+	
+	}
+	
+	public static function umc($x) {
+	
+	  $go = $this->userMatchContent($x);
+	
+	}
+	
+	
+	/*
+	
+	    Foundation
+	
+	*/
 	
 	
 	private function query($query) {
@@ -48,9 +124,55 @@ class db {
 
 	}
 
+
+  /*
+  
+      Create databases and tables
+      
+      All mino tables must have an 'archived' row with enum(0,1) and a uid column for matching content with a user
+      "But what if we don't have logins and users?" You say...
+      We create the 'base' user which is the owner of all public content. So there is always one user.
+  
+  */
+
+  
+  // Make a new database
+	function createDb($name) {
+
+		$set = $this->query("CREATE DATABASE IF NOT EXISTS `$name`");
+		if($set) { echo "Db '$name' created."; } else { echo "Problem creating Db '$name'."; }
+
+	}
+	
+	
+
+	// Make a table
+	function createTable($name) {
+
+		$set = $this->query("CREATE TABLE IF NOT EXISTS `$name` (`id` bigint(20) NOT NULL AUTO_INCREMENT, PRIMARY KEY (`id`))");
+		if($set) { echo "Table '$name' created."; } else { echo "Problem creating table '$name'."; }
+
+	}
+
+	// Add a column safely (in case they build multiple times)
+	function createColumn($table,$column,$type) {
+
+		$set = $this->query("SELECT $column FROM $table");
+		
+		if(!$set) {
+
+			$go = $this->query("ALTER TABLE `$table` ADD COLUMN `$column` $type");
+			if($go) { echo "Column '$column' created in table '$table'!"; } else { echo "There was an error creating column '$column' in table '$table'."; }
+		
+		} else { echo "Column '$column' exists! Check table '$table' and try again."; }
+
+	}
+
 	
 	/*
 
+			Table obscuring
+			
 			If you obscure your db table names...do it manually and add them in here
 			For generating, probably going to have to inject these Tbl variables based on what tables end up being created
 			(Which means you can have some automatic obscuring like no vowels or limit to 4 letters as a build option)
@@ -153,8 +275,8 @@ class db {
 	    function readNum($what,$condition = '',$and = '',$order = '',$table = '') {
 	
 		    $this->read($what,$condition,$and,$order,$table);
-		    $mysqli = $this->mysqli;
-		    return $mysqli->affected_rows;
+		    $go = $this->mysqli;
+		    return $go->affected_rows;
 
 	    }
 	    
@@ -162,8 +284,8 @@ class db {
 	    function readNumAll($condition = '',$and = '',$order = '',$table = '') {
 	
 		    $this->readAll($condition,$and,$order,$table);
-		    $mysqli = $this->mysqli;
-		    return $mysqli->affected_rows;
+		    $go = $this->mysqli;
+		    return $go->affected_rows;
 
 	    }
 
@@ -225,14 +347,42 @@ class db {
 	function contentMatchUser($uid,$item,$location) {
 	
 		$get = $this->query("SELECT $location.$item FROM $location, users WHERE $location.uid = users.id AND users.id = $uid");
-		return $get;
+		
+		if($get) {
+	  
+	    if($get->num_rows === 1) { 
+	    
+	      return $get->fetch_assoc();
+	    
+	    } else {
+	    
+		    while($row = $get->fetch_assoc()) { $all[] = $row; }
+        return $all;
+      
+      }
+    
+    } else { return false; }
 	
 	}
 
 	function userMatchContent($uid,$item,$location) {
 
 		$get = $this->query("SELECT users.$item FROM users, $location WHERE $location.uid = users.id AND users.id = $uid");
-		return $get;
+		
+		if($get) {
+	  
+	    if($get->num_rows === 1) { 
+	    
+	      return $get->fetch_assoc();
+	    
+	    } else {
+	    
+		    while($row = $get->fetch_assoc()) { $all[] = $row; }
+        return $all;
+      
+      }
+    
+    } else { return false; }
 
 	}
 

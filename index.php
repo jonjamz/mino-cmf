@@ -3,11 +3,16 @@
       
       /*
       
-          MINO FRAMEWORK
+          MINO FRAMEWORK LAMP EDITION
           
             v1.0
       
       */
+      
+      
+// Check if Mino is installed, and if not, prompt to install
+    
+if(1 = 1) {
       
       
       header('Content-Type:text/html; charset=UTF-8');
@@ -102,12 +107,12 @@
 <html>
 <head>
 
-<title>Mino Framework</title>
+<title>Mino Framework LAMP Edition</title>
 
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-<meta name="description" content="Mino Framework, Model-View-Strong-Router">
-<meta name="author" content="Dove.io">
+<meta name="description" content="Mino Framework LAMP Edition, Model-View-Strong-Router">
+<meta name="author" content="Jonathan James">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
 <script src="compilers/js-compiler.php"></script>
@@ -224,3 +229,15 @@ $(document).ready(function() {
 
 </body>
 </html>
+
+<?php 
+
+// If Mino is not installed, prompt for Db information and install
+
+} else {
+
+  
+
+}
+
+?>
