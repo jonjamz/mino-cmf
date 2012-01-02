@@ -14,6 +14,14 @@ class db {
 		return $result;
 
 	}
+	
+	private function escape($string) {
+	
+	  $go = $this->mysqli;
+	  $result = $go->real_escape_string($string);
+	  return $result;
+	
+	}
 
 	function __construct($type) {
 
@@ -94,7 +102,8 @@ class db {
 
 	// Create
 	function create($what,$condition = '',$and = '',$table = '') {
-	
+	  
+	  $what         = $this->escape($what);
 		$table				= $this->makeTable($table);
 		$condition		= $this->makeCondition($condition);
 		$and					= $this->makeAnd($and);
