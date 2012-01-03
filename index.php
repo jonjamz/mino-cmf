@@ -12,7 +12,7 @@
       
 // Check if Mino is installed, and if not, prompt to install
     
-if(1 = 1) {
+if(1 == 1) {
       
       
       header('Content-Type:text/html; charset=UTF-8');
