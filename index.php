@@ -10,14 +10,23 @@
       */
       
       
-// Check if Mino is installed, and if not, prompt to install
-    
-if(1 == 1) {
+// Check if Mino is installed, and if not, prompt to install. Remove this if you have a working install and you know what you're doing.
+
+require __DIR__.'/server/db/db.class.php';
+$m = new db('users',true);
+$t = $m->r("*", "type = 'super'"); 
+
+if($t) {
       
       
       header('Content-Type:text/html; charset=UTF-8');
       session_start(); 
       
+      
+      // Give us some empty vars
+      
+      $urlArg   = '';
+      $urlArgs  = array();      
       
       // Basic router pre-processing
       
@@ -80,8 +89,6 @@ if(1 == 1) {
               }
             
             } 
-          
-          //var_dump($urlArgs);
           
           }
           
@@ -214,8 +221,8 @@ $(document).ready(function() {
 
 <?php 
       // Controller
-      //require "controller.js";
-      require "controller.min.js";
+      require "controller.js";
+      // require "controller.min.js";
 ?>
 
 
@@ -234,10 +241,102 @@ $(document).ready(function() {
 
 // If Mino is not installed, prompt for Db information and install
 
-} else {
+} else { ?>
 
-  
+<!DOCTYPE HTML>
+<html>
+<head>
+<style type="text/css">
+  body {font-family: arial,verdana,sans-serif;}
+  input {border-radius:6px;border:1px solid #2299ff;padding:6px;color:#bbb;font-size:1.2em;font-style:italic}
+  input:hover {background:#dff3ff;border-radius:9px;}
+  input:focus {box-shadow:0 0 4px #6699ff, inset 0 0 14px #fff;background:#dff3ff;outline:none;border-radius:9px;}
+  input[type=submit] {box-shadow:inset 0 -3px 14px #aaa;background:#fff;border:4px solid #2299ff;color:#000;margin-top:30px;font-size:1.4em;font-style:normal}
+  input[type=submit]:hover {box-shadow:inset 0 3px 14px #aaa}
+  p, ul, ol {margin: 1.5em;padding-left:12px; border-left:8px #eee solid}
+  h1, h2, h3, h4, h5, h6 {letter-spacing: -1px;font-family: arial,verdana,sans-serif;margin: 1.2em 0 .3em;color:#000;border-bottom: 1px solid #eee;padding-bottom: .1em}
+  h1 {font-size: 196%;margin-top:.6em}
+  h2 {font-size: 136%}
+  h3 {font-size: 126%}
+  h4 {font-size: 116%}
+  h5 {font-size: 106%}
+  h6 {font-size: 96%}
+</style>
+</head>
+<body>
+<h1>Install Mino Framework LAMP Edition</h1>
+<p>
+<em><b>&copy; 2011 Jon James (github.com/jonjamz)</b></em><br><br>
+This edition of Mino Framework is dependent upon the following free software:<br><br>
 
-}
+  <span style="color:#ff8844">Linux with Apache 2, PHP 5.3+ w/PEAR Mail, MySQL 5, and YUI compressor installed.
 
-?>
+</p>
+<h2>Preparing Your Server (Optional)</h2>
+<p>
+We use Ubuntu Linux 32-bit for our server.<br><br>
+Here are simple terminal commands to get a new Ubuntu 32-bit server ready for Mino.<br><br>
+<b>Newbs:</b> Copy in <i>one line at a time</i> and press enter after each line.
+</p>
+<div style="font-family: Courier, monospace">
+<p>
+cd ~<br>
+sudo apt-get install tasksel<br>
+sudo tasksel install lamp-server<br>
+sudo apt-get install phpmyadmin<br>
+sudo apt-get install php-pear<br>
+sudo pear install mail<br>
+sudo pear install Net_SMTP<br>
+sudo pear install Auth_SASL<br>
+sudo pear install mail_mime<br>
+sudo apt-get install yui-compressor<br>
+</p>
+</div>
+<h3>All the below fields are required.</h3>
+<form method="post" action="install.php">
+<h2>Admin (Your) Details</h2>
+<p>
+<label>Admin Username</label><br>
+<input type="text" name="adun" required><br>
+<label>Admin Email</label><br>
+<input type="email" name="adem" required><br>
+<label>Admin Password</label><br>
+<input type="password" name="adpw" required><br>
+</p>
+<h2>Company/Site Details</h2>
+<p>
+<label>Company Name or Site Title</label><br>
+<input type="text" name="company" required><br>
+<label>Domain Name (yourdomain.com, without http://www.)</label><br>
+<input type="text" name="domain" required><br>
+<label>Support Email (Usually support@yourdomain.com)</label><br>
+<input type="email" name="support" required><br>
+</p>
+<h2>Database Details</h2>
+<p>
+<label>Database Host</label><br>
+<input type="text" name="host" value="localhost" required><br>
+<label>Database Username (Can use root)</label><br>
+<input type="text" name="user" required><br>
+<label>Database Password</label><br>
+<input type="password" name="pass" required>
+</p>
+<h3>Final Notes</h3>
+<p>
+By default, Mino Framework installs into its own database, named <i>mino_[unique code]</i>.<br>
+To do this, the username you entered above requires the appropriate permissions.<br><br>
+After install, you will find the file settings.json in the /settings folder.<br>
+You can update information about your site there, should you change the above information later.<br><br>
+If you <i>already</i> have created a new database for Mino Framework, please enter its name below.<br>
+Otherwise, leave it blank.
+</p>
+<p>
+<label>Database Name (Usually left blank)</label><br>
+<input type="text" name="name"><br>
+<input type="submit" value="Install &rarr;">
+</p>
+</form>
+</body>
+</html>
+
+<?php } ?>

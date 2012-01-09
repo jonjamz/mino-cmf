@@ -1,6 +1,33 @@
 <?php
 
 
+/*
+
+    This class substitutes mysqli as far as we use it and returns everything as false
+
+*/
+
+
+class emptyc {
+
+  function query($x) {
+    return false;
+  }
+  
+  function real_escape_string($x) {
+    return '';
+  }
+
+}
+
+
+/*
+
+    This is the mysqli-based db class
+
+*/
+
+
 class db {
 
 	public  $table;
@@ -9,69 +36,79 @@ class db {
 	
 	/*
 	
-	    Static sugar
+	    Highest-level for sugar
 	    
   */
   
-  
-	public static function q($x) {
+
+	public function c($x) {
 	
-	  $go = $this->query($x);
-	  if($go) { return true; } else { return false; }
-	
-	}
-	
-	public static function c($x) {
-	
-	  $go = $this->create($x);
+	  $args = func_get_args();
+	  $go   = call_user_func_array(array($this, "create"), $args);
+	  return $go;
 	
 	}
 	
-	public static function r($x) {
+	public function r($x) {
 	
-	  $go = $this->read($x);
+	  $args = func_get_args();
+	  $go   = call_user_func_array(array($this, "read"), $args);
+	  return $go;
+	  
+	}
+	
+	public function u($x) {
+	
+	  $args = func_get_args();
+	  $go   = call_user_func_array(array($this, "update"), $args);
+	  return $go;
 	
 	}
 	
-	public static function u($x) {
+	public function d($x) {
 	
-	  $go = $this->update($x);
+	  $args = func_get_args();
+	  $go   = call_user_func_array(array($this, "delete"), $args);
+	  return $go;
+	}
+	
+	public function a($x) {
+	
+	  $args = func_get_args();
+	  $go   = call_user_func_array(array($this, "archive"), $args);
+	  return $go;
 	
 	}
 	
-	public static function d($x) {
+	public function s($x) {
 	
-	  $go = $this->delete($x);
-	
-	}
-	
-	public static function a($x) {
-	
-	  $go = $this->archive($x);
+	  $args = func_get_args();
+	  $go   = call_user_func_array(array($this, "search"), $args);
+	  return $go;
 	
 	}
 	
-	public static function s($x) {
+	public function wm($x) {
 	
-	  $go = $this->search($x);
-	
-	}
-	
-	public static function wm($x) {
-	
-	  $go = $this->wildMatch($x);
+	  $args = func_get_args();
+	  $go   = call_user_func_array(array($this, "wildMatch"), $args);
+	  return $go;
 	
 	}
 	
-	public static function cmu($x) {
+	public function cmu($x) {
 	
-	  $go = $this->contentMatchUser($x);
+	  $args = func_get_args();
+	  $go   = call_user_func_array(array($this, "contentMatchUser"), $args);
+	  return $go;
 	
 	}
 	
-	public static function umc($x) {
+	public function umc($x) {
 	
-	  $go = $this->userMatchContent($x);
+	  $args = func_get_args();
+	  $go   = call_user_func_array(array($this, "userMatchContent"), $args);
+	  return $go;
 	
 	}
 	
@@ -87,7 +124,7 @@ class db {
 
 		$go = $this->mysqli;
 		$result = $go->query($query);
-		return $result;
+		if($result) { return $result; } else { return false; }
 
 	}
 	
@@ -99,28 +136,51 @@ class db {
 	
 	}
 
-	function __construct($type) {
+	function __construct($type,$install = false) {
 
 		// Match model with table according to the variables below if they have been configured
 		$totable = $type.'Tbl';
 		if($this->$totable != '') { $this->table = $this->$totable; } else { $this->table = $type; }
     
-    // Get db info from settings.json and decode
-    $getSettings = file_get_contents(__DIR__.'/../settings.json');
-		if(empty($getSettings)) { echo "Error! Can't find settings file, settings.json."; }
-		$settings = json_decode($getSettings, true);
+    // Location of settings file
+    $setLoc = __DIR__.'/../../settings/settings.json';
     
-		// Connect to db
-		$this->mysqli = new mysqli(
-		                          
-		                            $settings['db-host'], 
-		                            $settings['db-user'], 
-		                            $settings['db-pass'], 
-		                            $settings['db-name']
-		                          
-		                          ) 
-		                          
-		                          or die ("Db connection problem.");
+    // Check existence of settings file, and if it's not install mode, echo error and instantiate emptyc
+    if(file_exists($setLoc)) {
+    
+      // Get db info from settings.json
+      $getSettings = file_get_contents($setLoc);
+      
+      // If it's not empty, instantiate mysqli, otherwise instantiate emptyc
+      if(!empty($getSettings)) {
+        
+        // Decode settings.json into a PHP array
+        $settings = json_decode($getSettings, true);
+		    
+		    // Instantiate object-oriented mysqli into a local property
+		    $this->mysqli = new mysqli(
+		                                
+		                                 $settings['db-host'], 
+		                                 $settings['db-user'], 
+		                                 $settings['db-pass'], 
+		                                 $settings['db-name']
+		                                
+		                              ) 
+		                                
+		                                 or die ("Db connection problem.");
+    
+      } else { $this->mysqli = new emptyc(); }
+    
+    } else { 
+    
+      if($install == false) { 
+      
+        echo "Error! Can't find settings file, settings.json.";
+        $this->mysqli = new emptyc();
+      
+      } else { $this->mysqli = new emptyc(); } 
+      
+    }
 
 	}
 
@@ -144,8 +204,6 @@ class db {
 
 	}
 	
-	
-
 	// Make a table
 	function createTable($name) {
 
@@ -236,14 +294,14 @@ class db {
 	}
 
 	// Read, general associative
-	function read($what,$condition = '',$and = '',$order = '',$table = '') {
+	function read($what,$condition = '',$and = '',$order = '',$table = '',$etc = '') {
 
 		$table				= $this->makeTable($table);
 		$condition		= $this->makeCondition($condition);
 		$and					= $this->makeAnd($and);
 		$order				= $this->makeOrder($order);
 	
-	  $get = $this->query("SELECT $what FROM $table $condition $and $order");
+	  $get = $this->query("SELECT $what FROM $table $condition $and $order $etc");
 	
 	  if($get) {
 	  

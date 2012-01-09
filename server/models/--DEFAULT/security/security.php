@@ -60,7 +60,7 @@ class security {
 	
 	function hash($item, $double = '') {
 	  
-	  if($salt = '') {
+	  if($double == '') {
 	  
 	    return md5($item);
 	  

@@ -1,6 +1,12 @@
 //------------------> CONTROLLER FUNCTIONS
 
 
+// Capitalize a first letter (for titles)
+function ucfirst(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+
 // PHP.JS implode function
 function implode(glue, pieces) {
   var i = '',
@@ -157,6 +163,7 @@ var dbl = 0;
 // .loadView with call to onLoads() to handle any new .onLoad elements
 $('body').on("click", ".loadView", function() {
 	var view 			= $(this).attr('data-view');
+	var title     = ucfirst(view);
 	var viewDir		= '';
   $.get("routers/view.router.php", { view: view }, function(data){
     if(data.indexOf("!logout") > -1) {
@@ -172,7 +179,7 @@ $('body').on("click", ".loadView", function() {
     }
   });
   dbl = 1;
-  History.pushState({state: view}, view, view);
+  History.pushState({state: view}, title, view);
   dbl = 0;
 	$('.selected').removeClass('selected');
 	$(this).addClass('selected');
@@ -183,6 +190,7 @@ $('body').on("click", ".loadView", function() {
 // .loadSubView with call to onLoads() to handle any new .onLoad elements
 $('body').on("click", ".loadSubView", function() {
 	var view 			= $(this).attr('data-view');
+	var title     = ucfirst(view);
 	var affect    = $(this).attr('data-to');
 	var viewDir		= '';
   $.get("routers/view.router.php", { view: view }, function(data){
@@ -199,7 +207,7 @@ $('body').on("click", ".loadSubView", function() {
     }
   });
   dbl = 1;
-  History.pushState({state: view}, view, view);
+  History.pushState({state: view}, title, view);
   dbl = 0;
 	$('.selected').removeClass('selected');
 	$(this).addClass('selected');
@@ -210,11 +218,12 @@ $('body').on("click", ".loadSubView", function() {
 // Page load & URL variable router
 function routeUrl() {
   var view  = '<?php echo $view; ?>';
+  var title = ucfirst(view);
   $.get("routers/view.router.php", { view: view }, function(data){
     var viewDir = data;
     $('#view-load').load(viewDir, function() {
     
-      // Inject default URL variables
+      // Inject default URL variables if they exist
       
         // For (hidden?) input types
         $('[value="urlArg"]').attr('value', '<?php echo $urlArg; ?>');
@@ -256,7 +265,7 @@ function routeUrl() {
     });
   });
   dbl = 1;
-  History.pushState({state: view}, view, view);
+  History.pushState({state: view}, title, view);
   dbl = 0;
 }
 routeUrl();

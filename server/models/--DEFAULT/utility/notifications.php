@@ -11,7 +11,7 @@ class notifications {
   
     // Get general info from settings.json
   
-    $getSettings = file_get_contents(__DIR__.'/../../../../client/library/settings.json');
+    $getSettings = file_get_contents(__DIR__.'/../../../../settings/settings.json');
 		
 		if(empty($getSettings)) { echo "Error! Can't find settings file, settings.json."; }
 		

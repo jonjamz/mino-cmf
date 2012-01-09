@@ -1,5 +1,18 @@
 Working Notes
 
+  Tomorrow (7th Jan)
+
+  MAKE INSTALL SCRIPT CREATE THE SETTINGS.JSON FILE WITH THE RIGHT INFO IN IT (done)
+  
+  MAKE THE VIEW ROUTER BE WHERE THE URL VARIABLES ARE DECIPHERED
+  
+  GITHUB THIS SHIT
+  
+  =================================
+
+  I think we're going to have to pass the full URL to the router and have it send back
+  both a file location to load and an array of variables.
+
   Should make the .onLoad etc. classes just data-onLoad="" and then parse from there.
   Can grab them with jQuery $('[data-onload]')
   http://api.jquery.com/has-attribute-selector/
