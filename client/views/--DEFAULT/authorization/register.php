@@ -1,5 +1,7 @@
 <form class="dbForm" data-model="register" data-method="register">
 
+<h3>Register</h3>
+
     <h2>Email</h2>
 		<p><input type="email" name="email" placeholder="Email Address..." id="email"></p>
 

@@ -6,7 +6,5 @@
 
 <div class="include" data-view="register"></div>
 
-<a href="" class="loadSubView" data-view="login" data-to="#loadhere">sign in</a>
-<div id="loadhere"></div>
-
+<h3>Testing URL Vars</h3>
 <input type="text" value="urlArgsA">
