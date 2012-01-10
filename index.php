@@ -10,7 +10,9 @@
       */
       
       
-// Check if Mino is installed, and if not, prompt to install. Remove this if you have a working install and you know what you're doing.
+// Check if Mino is installed, and if not, prompt to install. 
+
+// Remove this if you have a working install and you know what you're doing. This is really the only inline PHP
 
 require __DIR__.'/server/db/db.class.php';
 $m = new db('users',true);
@@ -20,92 +22,7 @@ if($t) {
       
       
       header('Content-Type:text/html; charset=UTF-8');
-      session_start(); 
-      
-      
-      // Give us some empty vars
-      
-      $urlArg   = '';
-      $urlArgs  = array();      
-      
-      // Basic router pre-processing
-      
-      if(empty($_GET['url'])) {
-        
-        if(isset($_SESSION['id'])) {
-      
-          $view = 'dashboard';
-      
-        } else {
-      
-          $view = 'landing';
-          
-         }
-      
-      } else {
-        
-        if(preg_match('/~/', $_GET['url']) != 0) {
-        
-          // Separate URL args and get page name
-          
-          $url = explode('~', $_GET['url']);
-          $view = $url[0];
-          
-          // Remove page name from array so we just have URL args
-          
-          unset($url[0]);
-          
-          // Process some defaults uniquely so no one can screw with them
-          
-          if($view == 'activate') { 
-       
-            $urlArg = substr($url[1],5);
-            
-          } elseif($view == 'change-pass') {
-          
-            $urlArg = substr($url[1],5);
-          
-          } else {
-          
-            // Assign args to an array
-            
-            foreach($url as $arg) {
-              
-              // If there's an equals sign, go associative!
-              
-              if(preg_match('/=/', $arg) != 0) {
-              
-                $kv = explode('=', $arg);
-                $urlArgs[$kv[0]] = $kv[1];
-              
-              }
-              
-              // If there is no equals sign, go numeric!
-              
-              elseif(preg_match('/=/', $arg) === 0) {
-              
-                $urlArgs[] = $arg;
-              
-              }
-            
-            } 
-          
-          }
-          
-        } else {
-       
-          $view = $_GET['url'];
-          
-          if($view == 'logout') {
-            
-            $view = 'landing';
-            $showLogOut = 'yes';
-            
-          }
-      
-        }
-        
-      }
+      session_start();
 
 ?>
 

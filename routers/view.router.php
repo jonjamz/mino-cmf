@@ -72,24 +72,113 @@
   
   );
   
-
-  if(isset($_GET['view'])) {
+  
+  /*
+      Parse URL...we could eventually just do this all in JS with JSON arrays like above.
+      Then we could use the server side language to do simple things like URLs, includes, encoding and decoding.
+  */
+  
+  
+  // Prepare vars
+  
+  $urlArgs = array();
+  
+  // If there is nothing (it's the index) route to logged in or out home page
+  
+  if($_GET['url'] == 'emptyVar') {
     
-    $view = $_GET['view'];
+    if(isset($_SESSION['id'])) {
+  
+      $view = 'dashboard';
+  
+    } else {
+  
+      $view = 'landing';
+      
+     }
+  
+  // For every other case...
+  
+  } else {
+    
+    if(preg_match('/~/', $_GET['url']) != 0) {
+    
+      // Separate URL args from page name and create $view
+      
+      $url = explode('~', $_GET['url']);
+      $view = $url[0];
+      
+      // Check if there is more than one variable.
+      
+      if(preg_match('/,/', $url[1]) != 0) { 
+      
+        // Split up variables by &
+        
+        $args = explode(',', $url[1]);
+        
+      } else {
+      
+        $args = array($url[1]);
+      
+      }
+      
+      // Assign args to an array
+      
+      foreach($args as $arg) {
+        
+        // If there's an equals sign, go associative!
+        
+        if(preg_match('/=/', $arg) != 0) {
+        
+          $kv = explode('=', $arg);
+          $urlArgs[$kv[0]] = $kv[1];
+        
+        }
+        
+        // If there is no equals sign, go numeric!
+        
+        elseif(preg_match('/=/', $arg) === 0) {
+        
+          $urlArgs[] = $arg;
+        
+        }
+      
+      }
+      
+    } else {
+   
+      $view = $_GET['url'];
+      
+#      if($view == 'logout') {
+#        
+#        $view = 'landing';
+#        
+#      }
+  
+    }
+    
+  }
+  
+
+  /*
+      Now that we have split up view and variables, we process for the right view.
+      The above should have created $view.
+  */
+  
     
     if(isset($uViews[$view])) {
     
-      echo $viewDir.$uViews[$view];
+      $viewLoc = $viewDir.$uViews[$view];
     
     } elseif(isset($oViews[$view])) {
     
       if(isset($_SESSION['id'])) {
       
-        echo $viewDir.$iViews['dashboard'];
+        $viewLoc = $viewDir.$iViews['dashboard'];
       
       } else {
       
-        echo $viewDir.$oViews[$view];
+        $viewLoc = $viewDir.$oViews[$view];
       
       }
     
@@ -97,33 +186,67 @@
     
       if(isset($_SESSION['id'])) {
       
-        echo $viewDir.$iViews[$view];
+        $viewLoc = $viewDir.$iViews[$view];
       
       } else {
       
-        echo '!logout';
+        // If they're logged out and trying to load a logged in page, this flag will redirect them out
+        
+        $viewLoc = '!logout';
       
       }
     
     } else { 
+  
       
       /*
+          When $view doesn't match any existing views...
+          
           Here you can do a fallback where if the page doesn't exist, check if there's a matching username
           and load in the person's profile. Or a 404!
       */
+  
       
       if(isset($_SESSION['id'])) {
       
-        echo $viewDir.$iViews['dashboard'];
+        $viewLoc = $viewDir.$iViews['dashboard'];
       
       } else {
       
-        echo $viewDir.$oViews['landing'];
+        $viewLoc = $viewDir.$oViews['landing'];
       
       }
     
     }
-
-  }
-
+  
+    
+  /*
+      Now we have the view name, the view file location, and the url variables.
+      We just have to put these into usable JSON format to return.
+  */
+  
+  
+  // Create title with capitalized first letter
+  
+  $title = ucfirst($view);
+  
+  // Process address
+  
+  if(!isset($address)) { $address = $view; }
+  
+  // Create array for encoding
+  
+  $final = array(
+  
+                    "view"    => $viewLoc,
+                    "title"   => $title,
+                    "address" => $address,
+                    "vars"    => $urlArgs
+  
+  );
+ 
+  // JSON-encode the array and return it
+  
+  echo json_encode($final);
+  
 ?>

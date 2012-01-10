@@ -1,12 +1,6 @@
 //------------------> CONTROLLER FUNCTIONS
 
 
-// Capitalize a first letter (for titles)
-function ucfirst(string) {
-  return string.charAt(0).toUpperCase() + string.slice(1);
-}
-
-
 // PHP.JS implode function
 function implode(glue, pieces) {
   var i = '',
@@ -93,7 +87,7 @@ function loadIncludes() {
     
     var affect  = '.' + rndm;
     var view   = $(this).attr('data-view');
-    $.get("routers/view.router.php", { view: view }, function(data){
+    $.get("routers/view.router.php", { url: view }, function(data){
       var viewDir = data;
       $(affect).load(viewDir, function() {
         onLoads();
@@ -159,28 +153,40 @@ $('body').on("click", ".onClick", function(){
 // Stop from double-loading pages
 var dbl = 0;
 
+function viewLoad(viewDir, vars, varslist, affect) {
+  $(affect).load(viewDir, function() {
+    $.each(vars, function(k, v) {
+      $('[value="^' + k + '"]').attr('value', v);
+      $('[data-send="^' + k + '"]').attr('data-send', v);
+    });
+    $('[value="urlArgs"]').attr('value', varslist);
+    $('[data-send="urlArgs"]').attr('data-send', varslist);
+    onLoads();
+    onLoadFades();
+    loadIncludes();
+    loadInputs();
+  });
+}
 
 // .loadView with call to onLoads() to handle any new .onLoad elements
 $('body').on("click", ".loadView", function() {
 	var view 			= $(this).attr('data-view');
-	var title     = ucfirst(view);
-	var viewDir		= '';
-  $.get("routers/view.router.php", { view: view }, function(data){
-    if(data.indexOf("!logout") > -1) {
-        window.location.href = 'index.php?url=logout';
+  $.get("routers/view.router.php", { url: view }, function(data){
+    var viewDir   = data.view;
+    var title     = data.title;
+    var address   = data.address;
+    var vars      = data.vars;
+    var varslist  = implode(',', vars);
+    var affect    = '#view-load';
+    if(viewDir.indexOf("!logout") > -1) {
+      window.location.href = 'index.php';
     } else {
-      var viewDir = data;
-      $('#view-load').load(viewDir, function() {
-        onLoads();
-        onLoadFades();
-        loadIncludes();
-        loadInputs();
-      });
+      viewLoad(viewDir, vars, varslist, affect);
     }
-  });
-  dbl = 1;
-  History.pushState({state: view}, title, view);
-  dbl = 0;
+    dbl = 1;
+    History.pushState({state: view}, title, address);
+    dbl = 0;
+  }, "json");
 	$('.selected').removeClass('selected');
 	$(this).addClass('selected');
 	return false;
@@ -190,25 +196,22 @@ $('body').on("click", ".loadView", function() {
 // .loadSubView with call to onLoads() to handle any new .onLoad elements
 $('body').on("click", ".loadSubView", function() {
 	var view 			= $(this).attr('data-view');
-	var title     = ucfirst(view);
 	var affect    = $(this).attr('data-to');
-	var viewDir		= '';
-  $.get("routers/view.router.php", { view: view }, function(data){
-    if(data.indexOf("!logout") > -1) {
-        window.location.href = 'index.php?url=logout';
+  $.get("routers/view.router.php", { url: view }, function(data){
+    var viewDir   = data.view;
+    var title     = data.title;
+    var address   = data.address;
+    var vars      = data.vars;
+    var varslist  = implode(',', vars);
+    if(viewDir.indexOf("!logout") > -1) {
+      window.location.href = 'index.php';
     } else {
-    var viewDir = data;
-      $(affect).load(viewDir, function() {
-        onLoads();
-        onLoadFades();
-        loadIncludes();
-        loadInputs();
-      });
+      viewLoad(viewDir, vars, varslist, affect);
     }
-  });
-  dbl = 1;
-  History.pushState({state: view}, title, view);
-  dbl = 0;
+    dbl = 1;
+    History.pushState({state: view}, title, address);
+    dbl = 0;
+  }, "json");
 	$('.selected').removeClass('selected');
 	$(this).addClass('selected');
 	return false;
@@ -217,77 +220,53 @@ $('body').on("click", ".loadSubView", function() {
 
 // Page load & URL variable router
 function routeUrl() {
-  var view  = '<?php echo $view; ?>';
-  var title = ucfirst(view);
-  $.get("routers/view.router.php", { view: view }, function(data){
-    var viewDir = data;
-    $('#view-load').load(viewDir, function() {
+  
+  var url  = '<?php 
+  
+  // Because we're sending this off using REST we should provide a value if var is empty
+  if(empty($_GET["url"])) { echo 'emptyVar'; } else { echo $_GET["url"]; }
+  
+  ?>';
+  
+  // Send to view router, which returns json with view location, page title, and vars
+  $.get("routers/view.router.php", { url: url }, function(data){
     
-      // Inject default URL variables if they exist
-      
-        // For (hidden?) input types
-        $('[value="urlArg"]').attr('value', '<?php echo $urlArg; ?>');
-        
-        // For onLoads or onClicks...
-        $('[data-send="urlArg"]').attr('data-send', '<?php echo $urlArg; ?>');
-      
-      // Inject custom URL variables
-      
-        // Replace by single variable
-        <?php foreach($urlArgs as $key => $val) { ?>
-            
-            $('[value="^<?php echo $key; ?>"]').attr('value', '<?php echo $val; ?>');
-            $('[data-send="^<?php echo $key; ?>"]').attr('data-send', '<?php echo $val; ?>');
-            
-        <?php } ?>
-        
-        // List all values in comma delimited list for sending to models
-        $('[value="urlArgs"]').attr('value', '<?php echo implode(",", $urlArgs); ?>');
-        $('[data-send="urlArgs"]').attr('data-send', '<?php echo implode(",", $urlArgs); ?>');
-      
-        // List only non-alphabetic keys (reserves associative items for separate use)
-        <?php foreach($urlArgs as $key => $val) { if(is_int($key)) { $urlArgsNumeric[] = $val; } } ?>
-        
-        // List only alphabetic keys (reserves numeric items for separate use)
-        <?php foreach($urlArgs as $key => $val) { if(!is_int($key)) { $urlArgsAlpha[] = $val; } } ?>
-        
-        $('[value="urlArgs"]').attr('value', '<?php echo implode(",", $urlArgs); ?>');
-        $('[data-send="urlArgs"]').attr('data-send', '<?php echo implode(",", $urlArgs); ?>');
-        $('[value="urlArgsN"]').attr('value', '<?php echo implode(",", $urlArgsNumeric); ?>');
-        $('[data-send="urlArgsN"]').attr('data-send', '<?php echo implode(",", $urlArgsNumeric); ?>');
-        $('[value="urlArgsA"]').attr('value', '<?php echo implode(",", $urlArgsAlpha); ?>');
-        $('[data-send="urlArgsA"]').attr('data-send', '<?php echo implode(",", $urlArgsAlpha); ?>');
-        
-      onLoads();
-      onLoadFades();
-      loadIncludes();
-      loadInputs();
-    });
-  });
-  dbl = 1;
-  History.pushState({state: view}, title, view);
-  dbl = 0;
+    var viewDir   = data.view;
+    var title     = data.title;
+    var address   = data.address;
+    var vars      = data.vars;
+    var varslist  = implode(',', vars);
+    var affect    = '#view-load';
+    
+    // Load view into #view-load
+    viewLoad(viewDir, vars, varslist, affect);
+    
+    // Push the state with History.js
+    dbl = 1;
+    History.pushState({state: url}, title, address);
+    dbl = 0;
+  }, "json");
+
 }
 routeUrl();
 
 
 // State router
 function routeState(state) {
-  $.get("routers/view.router.php", { view: state }, function(data){
-    var viewDir = data;
-    $('#view-load').load(viewDir, function() {
-      onLoads();
-      onLoadFades();
-      loadIncludes();
-      loadInputs();
-    });
-  });
+  $.get("routers/view.router.php", { url: state }, function(data){
+    var viewDir   = data.view;
+    var title     = data.title;
+    var vars      = data.vars;
+    var varslist  = implode(',', vars);
+    var affect    = '#view-load';
+    viewLoad(viewDir, vars, varslist, affect);
+  }, "json");
 }
 
 var goState = function() {
   if(dbl === 0) {
   var State = History.getState();
-	  routeState(State.title);
+	  routeState(State.data.state);
 	}
 }
 

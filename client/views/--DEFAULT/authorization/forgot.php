@@ -1,7 +1,7 @@
 
 
 <form class="dbForm" data-model="forgot" data-method="forgot">
-<input type="hidden" name="passCode" value="urlArg">
+<input type="hidden" name="passCode" value="^code">
 <p>
 Enter new password:<br>
 <input type="password" name="newPass1" required="required">
