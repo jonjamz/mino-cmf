@@ -88,14 +88,16 @@ function loadIncludes() {
     var affect  = '.' + rndm;
     var view   = $(this).attr('data-view');
     $.get("routers/view.router.php", { url: view }, function(data){
-      var viewDir = data;
-      $(affect).load(viewDir, function() {
-        onLoads();
-        onLoadFades();
-        loadIncludes();
-        loadInputs();
-      });
-    });
+    var viewDir   = data.view;
+    var vars      = data.vars;
+    var varslist  = implode(',', vars);
+    if(viewDir.indexOf("!logout") > -1) {
+      window.location.href = 'index.php';
+    } else {
+      viewLoad(viewDir, vars, varslist, affect);
+    }
+
+  }, "json");
   });
 }
 
