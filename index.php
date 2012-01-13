@@ -38,41 +38,22 @@ if($t) {
 <meta name="description" content="Mino Framework LAMP Edition, Model-View-Strong-Router">
 <meta name="author" content="Jonathan James">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-
-<script src="compilers/js-compiler.php"></script>
-
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.3/jquery-ui.min.js"></script>
-
 <link rel="shortcut icon" type="image/vnd.microsoft.icon" href="client/library/images/favicon.png">
 <link rel="apple-touch-icon" href="client/library/images/apple-touch-icon.png">
 <link rel="apple-touch-icon" sizes="72x72" href="client/library/images/apple-touch-icon-72x72-precomposed.png">
 <link rel="apple-touch-icon" sizes="114x114" href="client/library/images/apple-touch-icon-114x114-precomposed.png">
-
 <link rel="stylesheet" href="compilers/css-compiler.php">
+<!--[if lt IE 9]>
+<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+<script src="compilers/js-compiler.php"></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.3/jquery-ui.min.js"></script>
 
 </head>
 
-
 <body>
 
-
-            <!-- say -->
-
-
 <div class="container">
-
-<?php 
-      // Display logout message
-      if(isset($showLogOut) && $showLogOut == 'yes') { 
-        echo "<div class=\"onLoadFade\" style=\"position:absolute;width:770px;text-align:center;\">
-        You have successfully logged out.
-        </div>"; 
-      } 
-?>
-
-
-            <!-- hi -->
-
 
 <?php	if(isset($_SESSION['id'])) { // Header when logged in ?>
 
@@ -92,10 +73,6 @@ if($t) {
 
 <?php } ?>
 
-
-            <!-- to -->
-
-
 <div id="view-load">
 
   <!-- You can add a loading message or animation here. Keep the noscript, though. -->
@@ -103,16 +80,12 @@ if($t) {
   <noscript><em>This site requires javascript. Please enable it and/or upgrade your browser!</em></noscript>
 
 </div>
-
-
-            <!-- the -->
-
   	
 <?php	if(isset($_SESSION['id'])) { // Footer when logged in ?>
 
 <div class="footer">
 
-  <nav>	
+  <nav>
     <a href="" class="loadView" data-view="about">About</a>
     <a href="" class="loadView" data-view="help">Help</a>
     <a href="" class="loadView" data-view="terms">Terms</a>
@@ -124,17 +97,11 @@ if($t) {
 
 <?php } ?>
 
-
 </div>
-
-
-            <!-- mino -->
-
 
 <script type="text/javascript">
 
 $(document).ready(function() {
-
 
 <?php 
       // Controller
@@ -142,14 +109,9 @@ $(document).ready(function() {
       // require "controller.min.js";
 ?>
 
-
 });
 
 </script>
-
-
-            <!-- framework, created by jon james (github.com/jonjamz) -->
-
 
 </body>
 </html>

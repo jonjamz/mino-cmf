@@ -128,7 +128,7 @@ class db {
 
 	}
 	
-	private function escape($string) {
+	function escape($string) {
 	
 	  $go = $this->mysqli;
 	  $result = $go->real_escape_string($string);
@@ -283,7 +283,7 @@ class db {
 	// Create
 	function create($what,$condition = '',$and = '',$table = '') {
 	  
-	  $what         = $this->escape($what);
+	  // $what      = $this->escape($what); <---- Need to run self::$db->escape() on items IN MODELS before sending in $what.
 		$table				= $this->makeTable($table);
 		$condition		= $this->makeCondition($condition);
 		$and					= $this->makeAnd($and);

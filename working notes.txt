@@ -1,14 +1,44 @@
 Working Notes
-
-  Tomorrow (7th Jan)
-
-  MAKE INSTALL SCRIPT CREATE THE SETTINGS.JSON FILE WITH THE RIGHT INFO IN IT (done)
   
-  MAKE THE VIEW ROUTER BE WHERE THE URL VARIABLES ARE DECIPHERED
+  ================================= LEFT TO IMPLEMENT
   
-  GITHUB THIS SHIT
+  - Google Maps functionality...should be as simple as <div class="gmap"> and assigning a JSON array of coords
+  - File uploads...multiple file uploading with progress bars, as well as image preview for profiles
+  - Should have the user's avatar saved in the users table (need to add that column and put it in the installer)
+  - Class "userpost" that automatically minifies links using an API? Or even YOURLS
+  - Need different colored notifications, this should use jquery ui i guess, just like error (red), notice 
+    (yellow), good (green)
+  - Need a drop-down search like on the early CWAH
+  - Maybe generalize sending a confirmation link with hash into something simple like hashConfirm
+  - Add jQuery password strength meter, username availability check, and a view password check box like working
+    memory had.
+  - Mino should have native and transparent editing-in-place abilities
+  - Need a Facebook login ability where they can just drop in their app ID thing and it works
   
-  =================================
+  ================================= LIST OF MINO FEATURES FOR WEBSITE
+  
+  - JQuery 1.7 (latest) and uses features from this like .on
+  - LAMP Edition works with Tasksel LAMP install, PEAR Mail, YUI Compressor
+  - Easy setup instructions for getting a fresh server going with Mino
+  - Project assumes you want to use Google SMTP Mail Server (with its benefits) and is ready to go
+  - Single file with all your response messages
+  - Single file with all your email notifications
+  - Simple set of pre-written emails that implement your site title, domain, and support email
+  - HTML5 Shiv for IE before version 9
+  - 100% Reliable HTML5 PushState with Hash fallbacks thanks to custom History.js implementation
+  - Real-time MVC framework that supports loading dynamic views and subviews without page loads
+    - Custom Mino HTML classes turn regular links into content-loaders with HTML5 and jQuery AJAX
+    - Yes, you can pass URL variables to views and have them load content from models in real-time
+    
+  ================================= ABOUT MINO FRAMEWORK
+    
+  - Focuses more on the future than the past, and makes some tradeoffs that might not be suitable for some projects
+    - Requires JS to function, but notifies users if they don't have JS on
+  - Built for the web startup community
+  - Built to make the LAMP stack feel more like emerging technology like Node.js/Express with LAMP stability base
+    - A great transitional framework if you want to make LAMP projects with a modern feel and feature set
+  
+  ================================= IDEAS
 
   I think we're going to have to pass the full URL to the router and have it send back
   both a file location to load and an array of variables.

@@ -31,16 +31,19 @@ function models(model,method,args,affect) {
     url: "routers/model.router.php", 
     data: 'type=default&method=' + method + '&args=' + args + '&model=' + model,
     success: function(data) {
+      // Initiates a JS redirect with page load
       if(data.indexOf("!redirect") > -1) {
         var dest = data;
         dest = dest.replace(/!redirect\s*/,'');
         window.location.href = dest;
       }
+      // Initiates a view change without page load
       else if(data.indexOf("!push") > -1) {
         var dest = data;
         dest = dest.replace(/!push\s*/,'');
         History.pushState({state: dest}, dest, dest);
       }
+      // Injects a response div with a message
       else if(data.indexOf("!append") > -1) {
         var resp = data;
         resp = resp.replace(/!append\s*/,'');
@@ -51,6 +54,10 @@ function models(model,method,args,affect) {
           $(affect).append('<div class="response">' + resp + '</div>');
         }
       }
+      // To do: 
+      
+          // Notification that goes to a different page afterward (through JSON response?) like for deletes
+          // 
       else {
         $(affect).html(data);
       }
@@ -121,7 +128,7 @@ function loadInputs() {
 
 // .dbForm
 $('#view-load').on("submit", "form.dbForm", function(){
-  var rndm = 'random-' + Math.floor(Math.random()*100000);
+  var rndm    = 'random-' + Math.floor(Math.random()*100000);
   $(this).addClass(rndm);
   var affect  = '.' + rndm;
   var model   = $(this).attr('data-model');
@@ -129,10 +136,39 @@ $('#view-load').on("submit", "form.dbForm", function(){
   var args1   = $(this).serializeJSON();
   var args2   = implode(',', args1);
   models(model,method,args2,affect);
-  $('input[type=submit]', this).attr('disabled','disabled');
+  $('input[type=submit]', this).attr('disabled','disabled').delay(1000).queue(function() {
+    $(this).removeAttr('disabled');
+  });
   return false;
 });
 
+// .dbFormWait
+$('#view-load').on("submit", "form.dbFormWait", function(){
+  var rndm    = 'random-' + Math.floor(Math.random()*100000);
+  var val     = $('input[type=submit]', this).attr('value');
+  $(this).addClass(rndm);
+  var affect  = '.' + rndm;
+  var model   = $(this).attr('data-model');
+  var method  = $(this).attr('data-method');
+  var args1   = $(this).serializeJSON();
+  var args2   = implode(',', args1);
+  models(model,method,args2,affect);
+  $('input[type=submit]', this).attr('disabled','disabled').delay(1000).queue(function() {
+    $(this).attr('value', 'Wait...5');
+  }).delay(1000).queue(function() {
+    $(this).attr('value', 'Wait...4');
+  }).delay(1000).queue(function() {
+    $(this).attr('value', 'Wait...3');
+  }).delay(1000).queue(function() {
+    $(this).attr('value', 'Wait...2');
+  }).delay(1000).queue(function() {
+    $(this).attr('value', 'Wait...1');
+  }).delay(1000).queue(function() {
+    $(this).removeAttr('disabled');
+    $(this).value(val);
+  });
+  return false;
+});
 
 // .onClick
 $('body').on("click", ".onClick", function(){
