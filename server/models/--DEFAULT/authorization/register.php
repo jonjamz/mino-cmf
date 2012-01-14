@@ -33,7 +33,8 @@
 	    $rand = mt_rand(20, 10000);
 	    $activateCode = self::$security->hash($email.$rand,'activation');
 	    
-	    // Escape user input...will move to prepared statements soon so I don't have to do this
+	    // Escape user input
+	    
 	    $email  = self::$db->escape($email);
 	    $pass   = self::$db->escape($pass);
 	    

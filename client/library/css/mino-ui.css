@@ -1,0 +1,13 @@
+.flresp {
+
+  position: fixed;
+  bottom: 0px;
+  right: 0px;
+  padding: 10px;
+  font-size: 1.2em;
+  background: #333;
+  color: #999;
+  border: 3px solid #666;
+  display: none
+  
+}

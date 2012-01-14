@@ -1,8 +1,12 @@
 Working Notes
   
+  ================================= TASK LIST
+  
+  - Add response message differentiation for good, bad, notice
+  
   ================================= LEFT TO IMPLEMENT
   
-  - Google Maps functionality...should be as simple as <div class="gmap"> and assigning a JSON array of coords
+  - (v2) Google Maps functionality...should be as simple as <div class="gmap"> and assigning a JSON array of coords
   - File uploads...multiple file uploading with progress bars, as well as image preview for profiles
   - Should have the user's avatar saved in the users table (need to add that column and put it in the installer)
   - Class "userpost" that automatically minifies links using an API? Or even YOURLS
@@ -13,12 +17,14 @@ Working Notes
   - Add jQuery password strength meter, username availability check, and a view password check box like working
     memory had.
   - Mino should have native and transparent editing-in-place abilities
-  - Need a Facebook login ability where they can just drop in their app ID thing and it works
+  - (v2) Need an oauth implementation where they can just drop in their app ID thing and it works with twitter, fb 
+    etc.
   
   ================================= LIST OF MINO FEATURES FOR WEBSITE
   
   - JQuery 1.7 (latest) and uses features from this like .on
   - LAMP Edition works with Tasksel LAMP install, PEAR Mail, YUI Compressor
+  - File hash-based caching, automatically compiles coffee, sass, less, and stylus too
   - Easy setup instructions for getting a fresh server going with Mino
   - Project assumes you want to use Google SMTP Mail Server (with its benefits) and is ready to go
   - Single file with all your response messages

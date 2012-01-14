@@ -37,13 +37,36 @@ function models(model,method,args,affect) {
         dest = dest.replace(/!redirect\s*/,'');
         window.location.href = dest;
       }
+      // A floating response that then redirects a user via page load after 3 seconds (for deletions)
+      else if(data.indexOf("!resredir") > -1) {
+        var resp = data;
+        var url = resp.replace(/.*\[/,'');
+        url = url.replace(/\].*/,'');
+        var message = resp.replace(/.*\]/,'');
+        $('body').append('<div class="flresp">' + message + '</div>');
+        $('.flresp').fadeIn().delay(3000).queue(function(){
+          window.location.href = url;
+        });
+      }
       // Initiates a view change without page load
       else if(data.indexOf("!push") > -1) {
         var dest = data;
         dest = dest.replace(/!push\s*/,'');
         History.pushState({state: dest}, dest, dest);
       }
-      // Injects a response div with a message
+      // A real-time version of !resredir that loads in a replaces the primary view (capable of passing vars)
+      else if(data.indexOf("!respush") > -1) {
+        var resp = data;
+        var url = resp.replace(/.*\[/,'');
+        url = url.replace(/\].*/,'');
+        var message = resp.replace(/.*\]/,'');
+        $('body').append('<div class="flresp">' + message + '</div>');
+        $('.flresp').fadeIn().delay(3000).queue(function(){
+          $(this).fadeOut();
+          History.pushState({state: url}, url, url);
+        });
+      }
+      // Injects a response div with content, appends one first if it has to
       else if(data.indexOf("!append") > -1) {
         var resp = data;
         resp = resp.replace(/!append\s*/,'');
@@ -54,10 +77,28 @@ function models(model,method,args,affect) {
           $(affect).append('<div class="response">' + resp + '</div>');
         }
       }
-      // To do: 
-      
-          // Notification that goes to a different page afterward (through JSON response?) like for deletes
-          // 
+      // Injects a response div with an error message inside an error class div
+      else if(data.indexOf("!error") > -1) {
+        var resp = data;
+        resp = resp.replace(/!error\s*/,'');
+        if($(affect + ' .response').is('*')) {
+          $(affect + ' .response').html('<div class="error ui-state-error">' + resp + '</div>');
+        }
+        else {
+          $(affect).append('<div class="response"><div class="error ui-state-error">' + resp + '</div></div>');
+        }
+      }
+      // Injects a response div with a highlighted message inside a highlight class div
+      else if(data.indexOf("!highlight") > -1) {
+        var resp = data;
+        resp = resp.replace(/!highlight\s*/,'');
+        if($(affect + ' .response').is('*')) {
+          $(affect + ' .response').html('<div class="highlight ui-state-highlight">' + resp + '</div>');
+        }
+        else {
+          $(affect).append('<div class="response"><div class="highlight ui-state-highlight">' + resp + '</div></div>');
+        }
+      }
       else {
         $(affect).html(data);
       }
@@ -136,38 +177,10 @@ $('#view-load').on("submit", "form.dbForm", function(){
   var args1   = $(this).serializeJSON();
   var args2   = implode(',', args1);
   models(model,method,args2,affect);
-  $('input[type=submit]', this).attr('disabled','disabled').delay(1000).queue(function() {
+  $('input[type=submit]', this).attr('disabled','disabled').delay(2000).queue(function() {
     $(this).removeAttr('disabled');
+    return false;
   });
-  return false;
-});
-
-// .dbFormWait
-$('#view-load').on("submit", "form.dbFormWait", function(){
-  var rndm    = 'random-' + Math.floor(Math.random()*100000);
-  var val     = $('input[type=submit]', this).attr('value');
-  $(this).addClass(rndm);
-  var affect  = '.' + rndm;
-  var model   = $(this).attr('data-model');
-  var method  = $(this).attr('data-method');
-  var args1   = $(this).serializeJSON();
-  var args2   = implode(',', args1);
-  models(model,method,args2,affect);
-  $('input[type=submit]', this).attr('disabled','disabled').delay(1000).queue(function() {
-    $(this).attr('value', 'Wait...5');
-  }).delay(1000).queue(function() {
-    $(this).attr('value', 'Wait...4');
-  }).delay(1000).queue(function() {
-    $(this).attr('value', 'Wait...3');
-  }).delay(1000).queue(function() {
-    $(this).attr('value', 'Wait...2');
-  }).delay(1000).queue(function() {
-    $(this).attr('value', 'Wait...1');
-  }).delay(1000).queue(function() {
-    $(this).removeAttr('disabled');
-    $(this).value(val);
-  });
-  return false;
 });
 
 // .onClick
@@ -297,7 +310,11 @@ function routeState(state) {
     var vars      = data.vars;
     var varslist  = implode(',', vars);
     var affect    = '#view-load';
-    viewLoad(viewDir, vars, varslist, affect);
+    if(viewDir.indexOf("!logout") > -1) {
+      window.location.href = 'index.php';
+    } else {
+      viewLoad(viewDir, vars, varslist, affect);
+    }
   }, "json");
 }
 

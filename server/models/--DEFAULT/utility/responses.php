@@ -10,9 +10,21 @@ class responses {
   
   }
   
+  public static function resredir($url,$resp) {
+  
+    return "!resredir [$url] ".$resp;
+  
+  }
+  
   public static function push($view) {
   
     return "!push ".$view;
+  
+  }
+  
+  public static function respush($view,$resp) {
+  
+    return "!respush [$view] ".$resp;
   
   }
   
