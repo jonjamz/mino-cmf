@@ -1,38 +1,87 @@
 <?php
 
+
+/*********************************************************************
+
+    The Responses Class
+
+    All content and categorizing of text-based returns from models
+
+*********************************************************************/
+
+
 class responses {
  
- // Static methods for uniformity, because sometimes we'll pass args into messages
+  /*************************************************************************
+
+      Categories for wrapping text that are recognized by the controller
+
+  *************************************************************************/
   
+  // Redirect with page load
   public static function redirect($url) {
   
     return "!redirect ".$url;
   
   }
   
+  // Show a response and then redirect with page load several seconds later
   public static function resredir($url,$resp) {
   
     return "!resredir [$url] ".$resp;
   
   }
   
+  // Change main view without page load
   public static function push($view) {
   
     return "!push ".$view;
   
   }
   
+  // Show a response and then change the main view
   public static function respush($view,$resp) {
   
     return "!respush [$view] ".$resp;
   
   }
   
+  // Append a non-themed response div and show content
   public static function append($resp) {
   
     return "!append ".$resp;
   
   }
+  
+    /**************************
+    
+        Themes for append()
+    
+    **************************/
+  
+    public static function appendSuccess($resp) {
+    
+      return '!append <div class="success">'.$resp.'</div>';
+    
+    }
+    
+    public static function appendError($resp) {
+    
+      return '!append <div class="error">'.$resp.'</div>';
+    
+    }
+
+    public static function appendNotice($resp) {
+    
+      return '!append <div class="notice">'.$resp.'</div>';
+    
+    }
+  
+  /****************************************************************************
+  
+      Response text - usually put through a category above before returning
+  
+  ****************************************************************************/
   
   public static function error() {
   

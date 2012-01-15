@@ -2,7 +2,9 @@ Working Notes
   
   ================================= TASK LIST
   
-  - Add response message differentiation for good, bad, notice
+  - Add response message differentiation for good, bad, notice in controller (Done)
+  - Change where the responses are themed to within the responses model. The current way (in controller) doesn't
+    allow more than one different kind of response (Done)
   
   ================================= LEFT TO IMPLEMENT
   
@@ -10,10 +12,12 @@ Working Notes
   - File uploads...multiple file uploading with progress bars, as well as image preview for profiles
   - Should have the user's avatar saved in the users table (need to add that column and put it in the installer)
   - Class "userpost" that automatically minifies links using an API? Or even YOURLS
-  - Need different colored notifications, this should use jquery ui i guess, just like error (red), notice 
-    (yellow), good (green)
-  - Need a drop-down search like on the early CWAH
+  - Need built-in ajax search function with 2 letter minimum that runs onkeyup, and a search model.
+    - Need a drop-down search like on the early CWAH, that hovers above everything else and sits right at the bottom 
+      of the search. Maybe
   - Maybe generalize sending a confirmation link with hash into something simple like hashConfirm
+    - In mino lang could attach everything to a name, and then go Name1 > hashConfirm > Name2 which would mean they
+      would have to get a confirmation email to access Name2
   - Add jQuery password strength meter, username availability check, and a view password check box like working
     memory had.
   - Mino should have native and transparent editing-in-place abilities
@@ -21,6 +25,21 @@ Working Notes
     etc.
   
   ================================= LIST OF MINO FEATURES FOR WEBSITE
+  
+  "A high-level framework for realtime single-page websites on the LAMP stack" 
+  
+  "Built with web startups in mind, specifically the Startup Weekend crowd,
+  who need to rapidly construct websites for their app or service on a stack
+  they are already very familiar with. I thought the LAMP Edition would hit
+  by far the most people. Pretty much every web developer has worked with it.
+  And it runs easily on the cheap hosts that people use when their company is
+  first starting out. Priorities were low barrier to entry, a wide potential
+  user base, and easy access to progressive features that we're seeing from
+  new startups with killer developers. That's why I abstracted these more
+  advanced features to a very high level. People don't need to play with the
+  timing of their fade-in or drop-down animations. They need to focus on their
+  design, functionality, and getting to that first revision that they can sell. 
+  With Mino, they can do it in record time."
   
   - JQuery 1.7 (latest) and uses features from this like .on
   - LAMP Edition works with Tasksel LAMP install, PEAR Mail, YUI Compressor
@@ -45,6 +64,13 @@ Working Notes
     - A great transitional framework if you want to make LAMP projects with a modern feel and feature set
   
   ================================= IDEAS
+
+  Could have middleware that is associated with each incoming model request. Just have 
+  a folder for middleware (each would be its own file), and then have the model router
+  grab them with a glob, analyze what model the content is going to, test it against
+  a user-edited array connecting models to middleware, and then either process the
+  incoming content and send it on to the model, or return a response before it even
+  hits the model if it's for security.
 
   I think we're going to have to pass the full URL to the router and have it send back
   both a file location to load and an array of variables.

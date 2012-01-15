@@ -1,5 +1,15 @@
 <?php require_once __DIR__.'/email/email.php';
 
+
+/**********************************************************
+
+    The Notifications Class
+    
+    All system emails that will be sent from the server
+
+**********************************************************/
+
+
 class notifications {
   
   private static $company;
@@ -9,8 +19,7 @@ class notifications {
   
   function __construct() {
   
-    // Get general info from settings.json
-  
+    // Get info from settings.json
     $getSettings = file_get_contents(__DIR__.'/../../../../settings/settings.json');
 		
 		if(empty($getSettings)) { echo "Error! Can't find settings file, settings.json."; }
@@ -27,6 +36,7 @@ class notifications {
   
   }
   
+  // Activation email
   function activation($email,$activateCode) {
     
     $subject = 'Activate your account';
@@ -59,6 +69,7 @@ class notifications {
   
   }
   
+  // Forgot password email
   function forgotPass($email,$passCode) {
     
     $subject = 'Change your password';

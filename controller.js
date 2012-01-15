@@ -31,6 +31,9 @@ function models(model,method,args,affect) {
     url: "routers/model.router.php", 
     data: 'type=default&method=' + method + '&args=' + args + '&model=' + model,
     success: function(data) {
+      
+      //---> RETURNS
+      
       // Initiates a JS redirect with page load
       if(data.indexOf("!redirect") > -1) {
         var dest = data;
@@ -75,28 +78,6 @@ function models(model,method,args,affect) {
         }
         else {
           $(affect).append('<div class="response">' + resp + '</div>');
-        }
-      }
-      // Injects a response div with an error message inside an error class div
-      else if(data.indexOf("!error") > -1) {
-        var resp = data;
-        resp = resp.replace(/!error\s*/,'');
-        if($(affect + ' .response').is('*')) {
-          $(affect + ' .response').html('<div class="error ui-state-error">' + resp + '</div>');
-        }
-        else {
-          $(affect).append('<div class="response"><div class="error ui-state-error">' + resp + '</div></div>');
-        }
-      }
-      // Injects a response div with a highlighted message inside a highlight class div
-      else if(data.indexOf("!highlight") > -1) {
-        var resp = data;
-        resp = resp.replace(/!highlight\s*/,'');
-        if($(affect + ' .response').is('*')) {
-          $(affect + ' .response').html('<div class="highlight ui-state-highlight">' + resp + '</div>');
-        }
-        else {
-          $(affect).append('<div class="response"><div class="highlight ui-state-highlight">' + resp + '</div></div>');
         }
       }
       else {
