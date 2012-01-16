@@ -164,6 +164,7 @@ $('#view-load').on("submit", "form.dbForm", function(){
   });
 });
 
+
 // .onClick
 $('body').on("click", ".onClick", function(){
   var model   = $(this).attr('data-model');
@@ -178,6 +179,23 @@ $('body').on("click", ".onClick", function(){
   return false;
 });
 
+
+// .search, if search string is greater than 2 chars
+$('body').on("keyup", "input.search", function(){
+  var value     = $(this).val();
+  if(value.length > 2) {
+    var model   = $(this).attr('data-model');
+    var method  = $(this).attr('data-method');
+    var args    = $(this).attr('data-send');
+    var affect  = $(this).attr('data-to');
+    if(affect === 'this' || affect === '') {
+      affect = 'random-' + Math.floor(Math.random()*100000);
+      $(this).addClass(rndm);
+    }
+    models(model,method,args,affect);
+    return false;
+  }
+});
 
 //------------------> ROUTING AND PUSHSTATE
 
