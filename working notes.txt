@@ -2,9 +2,7 @@ Working Notes
   
   ================================= TASK LIST
   
-  - Add response message differentiation for good, bad, notice in controller (Done)
-  - Change where the responses are themed to within the responses model. The current way (in controller) doesn't
-    allow more than one different kind of response (Done)
+
   
   ================================= LEFT TO IMPLEMENT
   
@@ -12,9 +10,6 @@ Working Notes
   - File uploads...multiple file uploading with progress bars, as well as image preview for profiles
   - Should have the user's avatar saved in the users table (need to add that column and put it in the installer)
   - Class "userpost" that automatically minifies links using an API? Or even YOURLS
-  - Need built-in ajax search function with 2 letter minimum that runs onkeyup, and a search model.
-    - Need a drop-down search like on the early CWAH, that hovers above everything else and sits right at the bottom 
-      of the search. Maybe
   - Maybe generalize sending a confirmation link with hash into something simple like hashConfirm
     - In mino lang could attach everything to a name, and then go Name1 > hashConfirm > Name2 which would mean they
       would have to get a confirmation email to access Name2

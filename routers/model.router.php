@@ -11,7 +11,7 @@
     "settings"    => "--DEFAULT/settings.php",
     "dashboard"   => "--DEFAULT/dashboard.php",
     
-    "nonprofits"  => "nonprofits.php",
+    "searches"  => "--DEFAULT/searches.php",
   
   );
   

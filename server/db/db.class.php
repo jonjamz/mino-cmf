@@ -485,7 +485,8 @@ class db {
 	  
 	    if($get->num_rows === 1) { 
 	    
-	      return $get->fetch_assoc();
+	      $all[] = $get->fetch_assoc();
+	      return $all;
 	    
 	    } else {
 	    

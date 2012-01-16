@@ -173,7 +173,7 @@ $('body').on("click", ".onClick", function(){
   var affect  = $(this).attr('data-to');
   if(affect === 'this' || affect === '') {
     affect = 'random-' + Math.floor(Math.random()*100000);
-    $(this).addClass(rndm);
+    $(this).addClass(affect);
   }
   models(model,method,args,affect);
   return false;
@@ -181,20 +181,16 @@ $('body').on("click", ".onClick", function(){
 
 
 // .search, if search string is greater than 2 chars
-$('body').on("keyup", "input.search", function(){
+$('body').on("keyup", ".search", function(){
   var value     = $(this).val();
-  if(value.length > 2) {
+  //if(value.length > 2) {
     var model   = $(this).attr('data-model');
     var method  = $(this).attr('data-method');
-    var args    = $(this).attr('data-send');
+    var args    = value;
+    // For search, you must have a specific place for the return value
     var affect  = $(this).attr('data-to');
-    if(affect === 'this' || affect === '') {
-      affect = 'random-' + Math.floor(Math.random()*100000);
-      $(this).addClass(rndm);
-    }
     models(model,method,args,affect);
-    return false;
-  }
+  //}
 });
 
 //------------------> ROUTING AND PUSHSTATE
