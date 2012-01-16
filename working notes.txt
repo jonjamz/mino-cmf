@@ -2,7 +2,8 @@ Working Notes
   
   ================================= TASK LIST
   
-
+  - Change all views to .html! DONE
+  - Add native file uploading
   
   ================================= LEFT TO IMPLEMENT
   

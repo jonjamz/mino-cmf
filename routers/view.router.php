@@ -2,15 +2,17 @@
   
   session_start();
   
-  /*      
+  /*******************************************************************  
   
       View Router
       
-        This is where you control the security and naming of views  
+      This is where you control the security and naming of views
+      
+      Also where the URL is parsed
         
-        Don't put the same view in more than one array!
+      Don't put the same view in more than one array!
  
-  */
+  *******************************************************************/
   
   // Doesn't require __DIR__ because the locations go to js for referencing
   
@@ -24,10 +26,10 @@
 
     // Default
     
-    "about"       => "--DEFAULT/about.php",
-    "help"        => "--DEFAULT/help.php",
-    "terms"       => "--DEFAULT/terms.php",
-    "contact"     => "--DEFAULT/contact.php"
+    "about"       => "--DEFAULT/about.html",
+    "help"        => "--DEFAULT/help.html",
+    "terms"       => "--DEFAULT/terms.html",
+    "contact"     => "--DEFAULT/contact.html"
     
     
     // Project
@@ -42,11 +44,11 @@
 
     // Default
     
-    "landing"     => "--DEFAULT/landing.php",
-    "activate"    => "--DEFAULT/authorization/activate.php",
-    "change-pass" => "--DEFAULT/authorization/forgot.php",    
-    "login"       => "--DEFAULT/authorization/login.php",
-    "register"    => "--DEFAULT/authorization/register.php"
+    "landing"     => "--DEFAULT/landing.html",
+    "activate"    => "--DEFAULT/authorization/activate.html",
+    "change-pass" => "--DEFAULT/authorization/forgot.html",    
+    "login"       => "--DEFAULT/authorization/login.html",
+    "register"    => "--DEFAULT/authorization/register.html"
     
     
     // Project
@@ -61,14 +63,12 @@
 
     // Default
     
-    "dashboard"   => "--DEFAULT/user/dashboard.php",
-    "settings"    => "--DEFAULT/user/settings.php",
-    "profile"     => "--DEFAULT/user/profile.php",
+    "dashboard"   => "--DEFAULT/user/dashboard.html",
+    "settings"    => "--DEFAULT/user/settings.html",
+    "profile"     => "--DEFAULT/user/profile.html",
     
     
     // Project
-    
-    "nonprofits"  => "nonprofits.php"
   
   );
   
