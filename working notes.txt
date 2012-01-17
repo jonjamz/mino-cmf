@@ -8,10 +8,13 @@ Working Notes
   - Modify the login form to use keyup checks on the registration form. This will be
     sexier. Then when all the information is filled out the submit button becomes usable
     and when they submit, the server will double check (in case they modify something in
-    dev tools)
+    dev tools).
   
   ================================= LEFT TO IMPLEMENT
   
+  - Figure out the API -- obviously an API user should register for a key and include that in their request, so we
+    will have to use a db check before sending them a response with information (another argument for a simple email
+    based hash confirmation that we can use for everything and just slap different header messages on?)
   - Should have a way for people to decide whether they want to build with usernames emails and passwords or just 
     emails and passwords
   - (v2) Google Maps functionality...should be as simple as <div class="gmap"> and assigning a JSON array of coords
