@@ -137,6 +137,26 @@ function onLoadFades() {
   });
 }
 
+// .onLoadPoll, for ajax polling over an interval via setTimeout
+function onLoadPolls() {
+  $('.onLoadPoll').each(function(){
+    var rndm = 'random-' + Math.floor(Math.random()*100000);
+    $(this).addClass(rndm);
+    var affect  = '.' + rndm;
+    var model   = $(this).attr('data-model');
+    var method  = $(this).attr('data-method');
+    var args    = $(this).attr('data-send');
+    var time    = $(this).attr('data-time');
+    if(time === '') {
+      time = 10000;
+    }
+    function poll() {
+      models(model,method,args,affect);
+      setTimeout(poll,time);
+    }
+    poll();
+  });
+}
 
 // Assign classes to inputs based on their type
 function loadInputs() {
@@ -183,14 +203,14 @@ $('body').on("click", ".onClick", function(){
 // .search, if search string is greater than 2 chars
 $('body').on("keyup", ".search", function(){
   var value     = $(this).val();
-  //if(value.length > 2) {
+  if(value.length > 2) {
     var model   = $(this).attr('data-model');
     var method  = $(this).attr('data-method');
     var args    = value;
     // For search, you must have a specific place for the return value
     var affect  = $(this).attr('data-to');
     models(model,method,args,affect);
-  //}
+  }
 });
 
 //------------------> ROUTING AND PUSHSTATE
@@ -209,6 +229,7 @@ function viewLoad(viewDir, vars, varslist, affect) {
     $('[data-send="urlArgs"]').attr('data-send', varslist);
     onLoads();
     onLoadFades();
+    onLoadPolls();
     loadIncludes();
     loadInputs();
   });

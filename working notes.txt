@@ -4,9 +4,15 @@ Working Notes
   
   - Change all views to .html! DONE
   - Add native file uploading
+  - Add ajax polling over an interval controllable by the user DONE
+  - Check ajax polling DONE
+  - Add a native function for testing how long it's been since a user's last activity
+    for example, in chat applications
   
   ================================= LEFT TO IMPLEMENT
   
+  - Should have a way for people to decide whether they want to build with usernames emails and passwords or just 
+    emails and passwords
   - (v2) Google Maps functionality...should be as simple as <div class="gmap"> and assigning a JSON array of coords
   - File uploads...multiple file uploading with progress bars, as well as image preview for profiles
   - Should have the user's avatar saved in the users table (need to add that column and put it in the installer)
@@ -60,6 +66,8 @@ Working Notes
     - A great transitional framework if you want to make LAMP projects with a modern feel and feature set
   
   ================================= IDEAS
+
+  
 
   Could have middleware that is associated with each incoming model request. Just have 
   a folder for middleware (each would be its own file), and then have the model router
