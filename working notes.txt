@@ -2,12 +2,13 @@ Working Notes
   
   ================================= TASK LIST
   
-  - Change all views to .html! DONE
   - Add native file uploading
-  - Add ajax polling over an interval controllable by the user DONE
-  - Check ajax polling DONE
   - Add a native function for testing how long it's been since a user's last activity
     for example, in chat applications
+  - Modify the login form to use keyup checks on the registration form. This will be
+    sexier. Then when all the information is filled out the submit button becomes usable
+    and when they submit, the server will double check (in case they modify something in
+    dev tools)
   
   ================================= LEFT TO IMPLEMENT
   
