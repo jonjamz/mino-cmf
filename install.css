@@ -1,0 +1,14 @@
+body {font-family: arial,verdana,sans-serif;}
+input {border-radius:6px;border:1px solid #2299ff;padding:6px;color:#bbb;font-size:1.2em;font-style:italic}
+input:hover {background:#dff3ff;border-radius:9px;}
+input:focus {box-shadow:0 0 4px #6699ff, inset 0 0 14px #fff;background:#dff3ff;outline:none;border-radius:9px;}
+input[type=submit] {box-shadow:inset 0 -3px 14px #aaa;background:#fff;border:4px solid #2299ff;color:#000;margin-top:30px;font-size:1.4em;font-style:normal}
+input[type=submit]:hover {box-shadow:inset 0 3px 14px #aaa}
+p, ul, ol {margin: 1.5em;padding-left:12px; border-left:8px #eee solid}
+h1, h2, h3, h4, h5, h6 {letter-spacing: -1px;font-family: arial,verdana,sans-serif;margin: 1.2em 0 .3em;color:#000;border-bottom: 1px solid #eee;padding-bottom: .1em}
+h1 {font-size: 196%;margin-top:.6em}
+h2 {font-size: 136%}
+h3 {font-size: 126%}
+h4 {font-size: 116%}
+h5 {font-size: 106%}
+h6 {font-size: 96%}

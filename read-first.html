@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Mino Framework | Dependencies</title>
+<link rel="stylesheet" href="install.css">
+</head>
+<body style="width:700px;">
+<h2>Preparing Your Server (Optional)</h2>
+<p>
+We use Ubuntu Linux 32-bit for our server.<br><br>
+Here are simple terminal commands to get a new Ubuntu 32-bit server ready for Mino.<br><br>
+<b>Newbs:</b> Copy in <i>one line at a time</i> (<strong>shift+insert</strong>) and press <strong>enter</strong> after each line.
+</p>
+<div style="font-family: Courier, monospace">
+<p>
+cd ~<br>
+sudo apt-get install tasksel<br>
+sudo tasksel install lamp-server<br>
+sudo apt-get install phpmyadmin<br>
+sudo apt-get install php-pear<br>
+sudo pear install mail<br>
+sudo pear install Net_SMTP<br>
+sudo pear install Auth_SASL<br>
+sudo pear install mail_mime<br>
+sudo apt-get install yui-compressor<br>
+</p>
+</div>
+<p>Now, we're going to make life easier for ourselves:</p>
+<div style="font-family: Courier, monospace">
+<p>
+sudo nano /etc/phpmyadmin/apache.conf
+</p>
+</div>
+<p>Where it says "Alias /phpmyadmin", change "/phpmyadmin" to "/db" or something short,
+and hit <b>ctrl+o</b>, press <b>enter</b>, and hit <b>ctrl+x</b>. Now let's edit the Apache default file to allow
+our custom .htaccess file to work:</p>
+<div style="font-family: Courier, monospace">
+<p>
+sudo nano /etc/apache2/sites-available/default
+</p>
+</div>
+<p>Find the section with a tag that contains <em>&lt;Directory /var/www/&gt;</em> and change
+"AllowOverride None" to "AllowOverride All". Hit <b>ctrl+o</b>, press <b>enter</b>, and hit <b>ctrl+x</b>.
+Now let's turn on the Apache Rewrite Engine, which we need for Mino:
+</p>
+<div style="font-family: Courier, monospace">
+<p>
+sudo a2enmod rewrite
+</p>
+</div>
+<p>
+To finalize our changes, reload Apache:</p>
+<div style="font-family: Courier, monospace">
+<p>
+sudo /etc/init.d/apache2 reload
+</p>
+</div>
+<p>Open a browser and type "localhost" in the address bar. You should see a message telling
+you everything is up and running.
+Now try "localhost/db" and you should see the login page
+for PHPMyAdmin.</p>
+<p><b>There's one last thing:</b> where did you extract these Mino files? You either need to copy them into
+the /var/www folder, or create a symlink from that folder to the directory where you have these files:</p>
+<div style="font-family: Courier, monospace">
+<p>
+sudo ln -s [current path to Mino files] /var/www/mino
+</p>
+</div>
+<p>If you did the symlink as above, you would type "localhost/mino" in your browser's address bar to get to the install page.
+<em>Now, go and install Mino!</em></p>
+</body>
+</html>
