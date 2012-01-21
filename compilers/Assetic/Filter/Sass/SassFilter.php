@@ -39,7 +39,7 @@ class SassFilter implements FilterInterface
     private $noCache;
     private $compass;
 
-    public function __construct($sassPath = '/usr/bin/sass')
+    public function __construct($sassPath = '')
     {
         $this->sassPath = $sassPath;
         $this->cacheLocation = realpath(sys_get_temp_dir());

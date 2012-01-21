@@ -137,7 +137,7 @@ This edition of Mino Framework is dependent upon the following free software:<br
 <br><br>
 We recommend viewing the <a href="read-first.html">Read-First</a> file for specific instructions on getting a Linux server going from scratch.
 <br><br>
-<b>Before moving forward, please make sure to assign 777 permissions to the settings folder.</b>
+<b>Before moving forward, please make sure to assign 777 permissions to the settings folder and compilers/cache folder.</b>
 </p>
 <h3>All the below fields are required.</h3>
 <form method="post" action="install.php">

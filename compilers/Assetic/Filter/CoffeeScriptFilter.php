@@ -28,7 +28,7 @@ class CoffeeScriptFilter implements FilterInterface
     // coffee options
     private $bare;
 
-    public function __construct($coffeePath = '/usr/bin/coffee', $nodePath = '/usr/bin/node')
+    public function __construct($coffeePath = '/usr/local/bin/coffee', $nodePath = '/usr/local/bin/node')
     {
         $this->coffeePath = $coffeePath;
         $this->nodePath = $nodePath;

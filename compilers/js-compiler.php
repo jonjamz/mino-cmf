@@ -20,36 +20,36 @@ $globDirs = array(
 
    'CoffeeScript' => $toMainDir.'client/library/other/coffee/*.coffee',
    'js'           => $toMainDir.'client/library/js/*.js',
-    
+
 );
 
 // Calculate file hash for cache comparison
 foreach($globDirs as $key => $value) {
 
   $thisGlob  = glob($value);
-  
+
   $fileHash = '';
-  
+
   if(count($thisGlob) != 0) {
-  
+
     foreach($thisGlob as $key => $value) {
-      
+
       $fileBase = basename($value);
       $fileHash .= hash_file('md5', $value);
-      
+
     }
-  
+
   }
 
 }
 
 // Check local folder for existing cache file
 $localGlob = glob(__DIR__."/cache/*.js");
-$count = count($localGlob);  
+$count = count($localGlob);
 
 // If multiple, throw error
 if($count > 1) {
-  
+
   echo "Error. Please remove all files from 'compilers/cache' folder. If you put files there, manually, move them to 'client/library' instead.";
 
 // If a file exists, compare name with hash
@@ -71,9 +71,7 @@ if($count > 1) {
 
     if($key != 'js' && count(glob($value)) != 0) {
 
-      $func = $key.'Filter';
-
-      $toFilter[] = new GlobAsset($value, array(new $func()));
+      $toFilter[] = new GlobAsset($value, array(new CoffeeScriptFilter()));
 
     } elseif($key == 'js' && count(glob($value)) != 0) {
 
@@ -87,9 +85,9 @@ if($count > 1) {
   $js = new AssetCollection($toFilter, array(
 
     new YuiJs('/usr/share/yui-compressor/yui-compressor.jar'),
-      
+
   ));
-  
+
   $content  = $js->dump();
 	$name		  = $fileHash.".js";
 
@@ -98,10 +96,10 @@ if($count > 1) {
 	$inject	= $content;
 	fwrite($make, $inject);
 	fclose($make);
-		
+
 	header('Content-Type: application/js');
 	include $in;
- 
+
 }
 
 ?>
