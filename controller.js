@@ -1,3 +1,7 @@
+// Receives url and rootPath variables from index.php
+// -----------------
+
+
 //------------------> CONTROLLER FUNCTIONS
 
 
@@ -13,7 +17,7 @@ function implode(glue, pieces) {
   if (typeof(pieces) === 'object') {
     if (Object.prototype.toString.call(pieces) === '[object Array]') {
       return pieces.join(glue);
-    } 
+    }
     for (i in pieces) {
       retVal += tGlue + pieces[i];
       tGlue = glue;
@@ -25,15 +29,15 @@ function implode(glue, pieces) {
 
 
 // Models function for interfacing with models
-function models(model,method,args,affect) {  
-  $.ajax({ 
-    type: "POST", 
-    url: "routers/model.router.php", 
+function models(model,method,args,affect) {
+  $.ajax({
+    type: "POST",
+    url: rootPath + "/routers/model.router.php",
     data: 'type=default&method=' + method + '&args=' + args + '&model=' + model,
     success: function(data) {
-      
+
       //---> RETURNS
-      
+
       // Initiates a JS redirect with page load
       if(data.indexOf("!redirect") > -1) {
         var dest = data;
@@ -110,18 +114,18 @@ function loadIncludes() {
   $('.include').each(function() {
     var rndm = 'random-' + Math.floor(Math.random()*100000);
     $(this).addClass(rndm);
-    
+
     // Prevent an infinite loop
     $(this).removeClass('include');
-    
+
     var affect  = '.' + rndm;
     var view   = $(this).attr('data-view');
-    $.get("routers/view.router.php", { url: view }, function(data){
+    $.get(rootPath + "/routers/view.router.php", { url: view }, function(data){
     var viewDir   = data.view;
     var vars      = data.vars;
     var varslist  = implode(',', vars);
     if(viewDir.indexOf("!logout") > -1) {
-      window.location.href = 'index.php';
+      window.location.href = rootPath + '/';
     } else {
       viewLoad(viewDir, vars, varslist, affect);
     }
@@ -162,7 +166,7 @@ function onLoadPolls() {
 function loadInputs() {
   $('input').each(function() {
     var type = $(this).attr('type');
-    
+
     $(this).addClass(type);
   });
 }
@@ -220,13 +224,17 @@ $('body').on("keyup", ".search", function(){
 var dbl = 0;
 
 function viewLoad(viewDir, vars, varslist, affect) {
+
+  // Prepend the root path to avoid breaking view filepaths with / URLs
+  viewDir = rootPath + "/" + viewDir;
+
   $(affect).load(viewDir, function() {
     $.each(vars, function(k, v) {
-      $('[value="^' + k + '"]').attr('value', v);
-      $('[data-send="^' + k + '"]').attr('data-send', v);
+      $('[value~="^' + k + '"]').attr('value', v);
+      $('[data-send~="^' + k + '"]').attr('data-send', v);
     });
-    $('[value="urlArgs"]').attr('value', varslist);
-    $('[data-send="urlArgs"]').attr('data-send', varslist);
+    $('[value~="urlArgs"]').attr('value', varslist);
+    $('[data-send~="urlArgs"]').attr('data-send', varslist);
     onLoads();
     onLoadFades();
     onLoadPolls();
@@ -238,7 +246,7 @@ function viewLoad(viewDir, vars, varslist, affect) {
 // .loadView with call to onLoads() to handle any new .onLoad elements
 $('body').on("click", ".loadView", function() {
 	var view 			= $(this).attr('data-view');
-  $.get("routers/view.router.php", { url: view }, function(data){
+  $.get(rootPath + "/routers/view.router.php", { url: view }, function(data){
     var viewDir   = data.view;
     var title     = data.title;
     var address   = data.address;
@@ -246,7 +254,7 @@ $('body').on("click", ".loadView", function() {
     var varslist  = implode(',', vars);
     var affect    = '#view-load';
     if(viewDir.indexOf("!logout") > -1) {
-      window.location.href = 'index.php';
+      window.location.href = rootPath + '/';
     } else {
       viewLoad(viewDir, vars, varslist, affect);
     }
@@ -264,14 +272,14 @@ $('body').on("click", ".loadView", function() {
 $('body').on("click", ".loadSubView", function() {
 	var view 			= $(this).attr('data-view');
 	var affect    = $(this).attr('data-to');
-  $.get("routers/view.router.php", { url: view }, function(data){
+  $.get(rootPath + "/routers/view.router.php", { url: view }, function(data){
     var viewDir   = data.view;
     var title     = data.title;
     var address   = data.address;
     var vars      = data.vars;
     var varslist  = implode(',', vars);
     if(viewDir.indexOf("!logout") > -1) {
-      window.location.href = 'index.php';
+      window.location.href = rootPath + '/';
     } else {
       viewLoad(viewDir, vars, varslist, affect);
     }
@@ -287,31 +295,46 @@ $('body').on("click", ".loadSubView", function() {
 
 // Page load & URL variable router
 function routeUrl() {
-  
-  var url  = '<?php 
-  
-  // Because we're sending this off using REST we should provide a value if var is empty
-  if(empty($_GET["url"])) { echo 'emptyVar'; } else { echo $_GET["url"]; }
-  
-  ?>';
-  
+
+  var initFlag = '!init';
+
   // Send to view router, which returns json with view location, page title, and vars
-  $.get("routers/view.router.php", { url: url }, function(data){
-    
+  $.get(rootPath + "/routers/view.router.php", { url: initFlag + url }, function(data){
+
     var viewDir   = data.view;
     var title     = data.title;
     var address   = data.address;
     var vars      = data.vars;
+    var flag      = data.flag;
     var varslist  = implode(',', vars);
     var affect    = '#view-load';
-    
-    // Load view into #view-load
-    viewLoad(viewDir, vars, varslist, affect);
-    
-    // Push the state with History.js
-    dbl = 1;
-    History.pushState({state: url}, title, address);
-    dbl = 0;
+
+    if(flag === 2) { window.location.href = rootPath + '/'; }
+    else if(flag === 1) {
+
+      // Load view into #view-load
+      viewLoad(viewDir, vars, varslist, affect);
+
+      // Force title change
+      document.title = title;
+
+      dbl = 1;
+      History.pushState({state: url}, title);
+      dbl = 0;
+
+    }
+    else {
+
+      // Load view into #view-load
+      viewLoad(viewDir, vars, varslist, affect);
+
+      dbl = 1;
+      History.pushState({state: url}, title, address);
+      dbl = 0;
+
+
+    }
+
   }, "json");
 
 }
@@ -320,14 +343,14 @@ routeUrl();
 
 // State router
 function routeState(state) {
-  $.get("routers/view.router.php", { url: state }, function(data){
+  $.get(rootPath + "/routers/view.router.php", { url: state }, function(data){
     var viewDir   = data.view;
     var title     = data.title;
     var vars      = data.vars;
     var varslist  = implode(',', vars);
     var affect    = '#view-load';
     if(viewDir.indexOf("!logout") > -1) {
-      window.location.href = 'index.php';
+      window.location.href = rootPath + '/';
     } else {
       viewLoad(viewDir, vars, varslist, affect);
     }

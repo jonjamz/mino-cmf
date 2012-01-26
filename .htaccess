@@ -1,4 +1,4 @@
-Options +FollowSymLinks
+Options +FollowSymLinks -MultiViews
 IndexIgnore */*
 <IfModule mod_rewrite.c>
     RewriteEngine On

@@ -24,6 +24,9 @@ if($t) {
       header('Content-Type:text/html; charset=UTF-8');
       session_start();
 
+      // Path to Mino root from server root ex. /mino
+      $pathToRoot = "/mino";
+
 ?>
 
 <!DOCTYPE HTML>
@@ -38,15 +41,23 @@ if($t) {
 <meta name="description" content="Mino Framework LAMP Edition, Model-View-Strong-Router">
 <meta name="author" content="Jonathan James">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<link rel="shortcut icon" type="image/vnd.microsoft.icon" href="client/library/images/favicon.png">
-<link rel="apple-touch-icon" href="client/library/images/apple-touch-icon.png">
-<link rel="apple-touch-icon" sizes="72x72" href="client/library/images/apple-touch-icon-72x72-precomposed.png">
-<link rel="apple-touch-icon" sizes="114x114" href="client/library/images/apple-touch-icon-114x114-precomposed.png">
-<link rel="stylesheet" href="compilers/css-compiler.php">
+<link rel="shortcut icon" type="image/vnd.microsoft.icon" href="<?php echo $pathToRoot; ?>/client/library/images/favicon.png">
+<link rel="apple-touch-icon" href="<?php echo $pathToRoot; ?>/client/library/images/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="72x72" href="<?php echo $pathToRoot; ?>/client/library/images/apple-touch-icon-72x72-precomposed.png">
+<link rel="apple-touch-icon" sizes="114x114" href="<?php echo $pathToRoot; ?>/client/library/images/apple-touch-icon-114x114-precomposed.png">
+<link rel="stylesheet" href="<?php echo $pathToRoot; ?>/compilers/css-compiler.php">
+<script type="text/javascript">
+var url = '<?php
+  if(empty($_GET["url"])) { echo "emptyVar"; } else { echo $_GET["url"]; }
+?>';
+var rootPath = '<?php
+  echo $pathToRoot;
+?>';
+</script>
 <!--[if lt IE 9]>
 <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
 <![endif]-->
-<script src="compilers/js-compiler.php"></script>
+<script src="<?php echo $pathToRoot; ?>/compilers/js-compiler.php"></script>
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.3/jquery-ui.min.js"></script>
 
 </head>
