@@ -68,8 +68,15 @@
 
 
   /*
-      Parse URL...we could eventually just do this all in JS with JSON arrays like above.
-      Then we could use the server side language to do simple things like URLs, includes, encoding and decoding.
+      Parse URL...
+
+      ************
+
+      Flags:
+
+        0 - just to start, should never be passed through
+        1 - everything is ok, continue
+        2 - init state, do not push a state with History API or Hash
   */
 
 

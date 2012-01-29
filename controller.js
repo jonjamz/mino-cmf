@@ -1,46 +1,86 @@
-// Receives url and rootPath variables from index.php
-// -----------------
+/*!
+
+     .
+       .
+   . ;.
+    .;
+     ;;.
+   ;.;;
+   ;;;;.
+   ;;;;;
+   ;;;;;
+   ;;;;;
+   ;;;;;
+   ;;;;;
+ ..;;;;;..
+  ':::::'
+    ':`
+
+
+--------- Receives from index
+
+*/
+
+
+// Decode constants, place as new constants
+ENERGIZE('B1',base64_decode(MINOC('LOC')));
+ENERGIZE('B2',base64_decode(MINOC('RTP')));
+ENERGIZE('B3',base64_decode(MINOC('AXC')));
+ENERGIZE('B4',base64_decode(MINOC('RIT')));
+ENERGIZE('B5',base64_decode(MINOC('EST')));
+ENERGIZE('B6',base64_decode(MINOC('ESM')));
+ENERGIZE('B7',base64_decode(MINOC('NNC')));
+ENERGIZE('B8',base64_decode(MINOC('PTM')));
+ENERGIZE('B9',base64_decode(MINOC('PTV')));
+
 
 // Optionally disable AJAX caching
-if(ajaxCache === 'off') {
-  $.ajaxSetup ({
-      // Disable caching of AJAX responses for testing
-      cache: false
-  });
+if(MINOC('B3') === 'off') { $.ajaxSetup ({ cache: false }); }
+
+
+//------------------> USER ACTIVITY STATE
+
+
+// Init
+var currentUserState = 'active';
+
+
+// Has not moved mouse or clicked in x seconds
+function setUserInactive() {
+  currentUserState = 'recently-inactive';
 }
+
+
+// In long durations of inactivity, this will launch a modal
+function setEnergySaver() {
+  if(MINOC('B6') === 'on') {
+    currentUserState = 'energy-saver';
+    $('#energySaver').fadeIn(1000);
+  }
+}
+
+
+// Main stuffs
+var inactiveTimer = setTimeout(setUserInactive, MINOC('B4'));
+var energySaverTimer = setTimeout(setEnergySaver, MINOC('B5'));
+$('body').bind('mousedown keydown', function(event) {
+  clearTimeout(inactiveTimer);
+  clearTimeout(energySaverTimer);
+  $('#energySaver').hide();
+  currentUserState = 'active';
+  inactiveTimer = setTimeout(setUserInactive, MINOC('B4'));
+  energySaverTimer = setTimeout(setEnergySaver, MINOC('B5'));
+});
+
 
 //------------------> CONTROLLER FUNCTIONS
-
-
-// PHP.JS implode function
-function implode(glue, pieces) {
-  var i = '',
-    retVal = '',
-    tGlue = '';
-  if (arguments.length === 1) {
-    pieces = glue;
-    glue = '';
-  }
-  if (typeof(pieces) === 'object') {
-    if (Object.prototype.toString.call(pieces) === '[object Array]') {
-      return pieces.join(glue);
-    }
-    for (i in pieces) {
-      retVal += tGlue + pieces[i];
-      tGlue = glue;
-    }
-      return retVal;
-  }
-  return pieces;
-}
-
 
 // Models function for interfacing with models
 function models(model,method,args,affect) {
   $.ajax({
     type: "POST",
-    url: rootPath + "/routers/model.router.php",
-    data: 'type=default&method=' + method + '&args=' + args + '&model=' + model,
+    url: MINOC('B2') + MINOC('B8'),
+    data: 'type=default&method=' + method + '&args=' + args + '&model=' + model + '&nnc=' + MINOC('B7'),
     success: function(data) {
 
       //---> RETURNS
@@ -49,7 +89,7 @@ function models(model,method,args,affect) {
       if(data.indexOf("!redirect") > -1) {
         var dest = data;
         dest = dest.replace(/!redirect\s*/,'');
-        window.location.href = rootPath + "/" + dest;
+        window.location.href = MINOC('B2') + "/" + dest;
       }
       // A floating response that then redirects a user via page load after 3 seconds (for deletions)
       else if(data.indexOf("!resredir") > -1) {
@@ -59,7 +99,7 @@ function models(model,method,args,affect) {
         var message = resp.replace(/.*\]/,'');
         $('body').append('<div class="flresp">' + message + '</div>');
         $('.flresp').fadeIn().delay(3000).queue(function(){
-          window.location.href = rootPath + "/" + url;
+          window.location.href = MINOC('B2') + "/" + url;
         });
       }
       // Initiates a view change without page load
@@ -132,12 +172,12 @@ function loadIncludes() {
 
     var affect  = '.' + rndm;
     var view   = $(this).attr('data-view');
-    $.get(rootPath + "/routers/view.router.php", { url: view }, function(data){
+    $.get(MINOC('B2') + MINOC('B9'), { url: view }, function(data){
     var viewDir   = data.view;
     var vars      = data.vars;
     var varslist  = implode(',', vars);
     if(viewDir.indexOf("!logout") > -1) {
-      window.location.href = rootPath + '/';
+      window.location.href = MINOC('B2') + '/';
     } else {
       viewLoad(viewDir, vars, varslist, affect);
     }
@@ -167,8 +207,20 @@ function onLoadPolls() {
       time = 10000;
     }
     function poll() {
-      models(model,method,args,affect);
-      setTimeout(poll,time);
+      // If the user has been active within the last x seconds...
+      if(currentUserState === 'active') {
+        // Call database normally
+        models(model,method,args,affect);
+        setTimeout(poll,time);
+      } else if(currentUserState === 'recently-inactive') {
+        // Call database less often
+        var newtime = time * 2;
+        models(model,method,args,affect);
+        setTimeout(poll,newtime);
+      } else if(currentUserState === 'energy-saver') {
+        // Don't call database at all
+        setTimeout(poll,1000);
+      }
     }
     poll();
   });
@@ -196,8 +248,8 @@ $('#view-load').on("submit", "form.dbForm", function(){
   models(model,method,args2,affect);
   $('input[type=submit]', this).attr('disabled','disabled').delay(2000).queue(function() {
     $(this).removeAttr('disabled');
-    return false;
   });
+  return false;
 });
 
 
@@ -235,63 +287,47 @@ $('body').on("keyup", ".search", function(){
 // Stop from double-loading pages
 var dbl = 0;
 
+
+// Main loading function for everything, delegates URL vars
 function viewLoad(viewDir, vars, varslist, affect) {
 
   // Prepend the root path to avoid breaking view filepaths with / URLs
-  var viewDir = rootPath + "/" + viewDir;
+  var viewDir = MINOC('B2') + "/" + viewDir;
 
-  $(affect).load(viewDir, function() {
-    $.each(vars, function(k, v) {
-      $('[value~="^' + k + '"]').attr('value', v);
-      $('[data-send~="^' + k + '"]').attr('data-send', v);
-    });
-    $('[value~="urlArgs"]').attr('value', varslist);
-    $('[data-send~="urlArgs"]').attr('data-send', varslist);
-    onLoads();
-    onLoadFades();
-    onLoadPolls();
-    loadIncludes();
-    loadInputs();
+  $(affect).fadeOut(100,function(){
+    $(this).load(viewDir, function() {
+      $.each(vars, function(k, v) {
+        $('[value~="^' + k + '"]').attr('value', v);
+        $('[data-send~="^' + k + '"]').attr('data-send', v);
+      });
+      $('[value~="urlArgs"]').attr('value', varslist);
+      $('[data-send~="urlArgs"]').attr('data-send', varslist);
+      onLoads();
+      onLoadFades();
+      onLoadPolls();
+      loadIncludes();
+      loadInputs();
+    }).fadeIn(100);
   });
 }
 
-// .loadView with call to onLoads() to handle any new .onLoad elements
+
+// .loadView
 $('body').on("click", ".loadView", function() {
 	var view 			= $(this).attr('data-view');
-  $.get(rootPath + "/routers/view.router.php", { url: view }, function(data){
+  $.get(MINOC('B2') + MINOC('B9'), { url: view }, function(data){
     var viewDir   = data.view;
     var title     = data.title;
     var address   = data.address;
     var vars      = data.vars;
     var varslist  = implode(',', vars);
-    var affect    = '#view-load';
-    if(viewDir.indexOf("!logout") > -1) {
-      window.location.href = rootPath + '/';
+    if($(this).attr('data-to')) {
+      var affect  = $(this).attr('data-to');
     } else {
-      viewLoad(viewDir, vars, varslist, affect);
+      var affect    = '#view-load';
     }
-    dbl = 1;
-    History.pushState({state: view}, title, address);
-    dbl = 0;
-  }, "json");
-	$('.selected').removeClass('selected');
-	$(this).addClass('selected');
-	return false;
-});
-
-
-// .loadSubView with call to onLoads() to handle any new .onLoad elements
-$('body').on("click", ".loadSubView", function() {
-	var view 			= $(this).attr('data-view');
-	var affect    = $(this).attr('data-to');
-  $.get(rootPath + "/routers/view.router.php", { url: view }, function(data){
-    var viewDir   = data.view;
-    var title     = data.title;
-    var address   = data.address;
-    var vars      = data.vars;
-    var varslist  = implode(',', vars);
     if(viewDir.indexOf("!logout") > -1) {
-      window.location.href = rootPath + '/';
+      window.location.href = MINOC('B2') + '/';
     } else {
       viewLoad(viewDir, vars, varslist, affect);
     }
@@ -311,7 +347,7 @@ function routeUrl() {
   var initFlag = '!init';
 
   // Send to view router, which returns json with view location, page title, and vars
-  $.get(rootPath + "/routers/view.router.php", { url: initFlag + url }, function(data){
+  $.get(MINOC('B2') + MINOC('B9'), { url: initFlag + MINOC('B1') }, function(data){
 
     var viewDir   = data.view;
     var title     = data.title;
@@ -321,7 +357,7 @@ function routeUrl() {
     var varslist  = implode(',', vars);
     var affect    = '#view-load';
 
-    if(flag === 2) { window.location.href = rootPath + '/'; }
+    if(flag === 2) { window.location.href = MINOC('B2') + '/'; }
     else if(flag === 1) {
 
       // Load view into #view-load
@@ -331,7 +367,7 @@ function routeUrl() {
       document.title = title;
 
       dbl = 1;
-      History.pushState({state: url}, title);
+      History.pushState({state: MINOC('B1')}, title);
       dbl = 0;
 
     }
@@ -341,7 +377,7 @@ function routeUrl() {
       viewLoad(viewDir, vars, varslist, affect);
 
       dbl = 1;
-      History.pushState({state: url}, title, address);
+      History.pushState({state: MINOC('B1')}, title, address);
       dbl = 0;
 
 
@@ -355,14 +391,14 @@ routeUrl();
 
 // State router
 function routeState(state) {
-  $.get(rootPath + "/routers/view.router.php", { url: state }, function(data){
+  $.get(MINOC('B2') + MINOC('B9'), { url: state }, function(data){
     var viewDir   = data.view;
     var title     = data.title;
     var vars      = data.vars;
     var varslist  = implode(',', vars);
     var affect    = '#view-load';
     if(viewDir.indexOf("!logout") > -1) {
-      window.location.href = rootPath + '/';
+      window.location.href = MINOC('B2') + '/';
     } else {
       viewLoad(viewDir, vars, varslist, affect);
     }

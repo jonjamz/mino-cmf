@@ -1,4 +1,12 @@
-<?php 
+<?php
+
+// Make sure nonce is sent, otherwise abort
+
+session_start();
+
+if(!isset($_POST['nnc']) || (isset($_POST['nnc']) && $_POST['nnc'] != $_SESSION['nonce'])) {
+  die("Fail.");
+}
 
 require_once __DIR__.'/../db/db.class.php';
 require_once __DIR__."/--DEFAULT/utility/responses.php";

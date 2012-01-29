@@ -24,11 +24,22 @@ if($t) {
       header('Content-Type:text/html; charset=UTF-8');
       session_start();
 
-      // Path to Mino root from server root ex. /mino
-      $pathToRoot = "/mino";
-      
-      // Turn site wide Ajax Caching on/off
+      // Paths
+      $pathToRoot         = "/mino";
+      $pathToModelRouter  = "/routers/model.router.php";
+      $pathToViewRouter   = "/routers/view.router.php";
+
+      // Turn site wide Ajax Caching on/off (will replace with adjustable cache timing)
       $ajaxCache = "off";
+
+      // User activity state settings
+      $recentlyInactiveTime = '180000';
+      $energySaverTime      = '300000';
+      $energySaverMode      = 'on';
+
+      // Set random string for nonce
+      $nonce = mt_rand();
+      $_SESSION['nonce'] = $nonce;
 
 ?>
 
@@ -49,22 +60,49 @@ if($t) {
 <link rel="apple-touch-icon" sizes="72x72" href="<?php echo $pathToRoot; ?>/client/library/images/apple-touch-icon-72x72-precomposed.png">
 <link rel="apple-touch-icon" sizes="114x114" href="<?php echo $pathToRoot; ?>/client/library/images/apple-touch-icon-114x114-precomposed.png">
 <link rel="stylesheet" href="<?php echo $pathToRoot; ?>/compilers/css-compiler.php">
-<script type="text/javascript">
-var url = '<?php
-  if(empty($_GET["url"])) { echo "emptyVar"; } else { echo $_GET["url"]; }
-?>';
-var rootPath = '<?php
-  echo $pathToRoot;
-?>';
-var ajaxCache = '<?php
-  echo $ajaxCache;
-?>';
-</script>
 <!--[if lt IE 9]>
 <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
 <![endif]-->
 <script src="<?php echo $pathToRoot; ?>/compilers/js-compiler.php"></script>
+<script type="text/javascript">
 
+/*
+
+         _  _"              POWERED BY MINO ->
+        ( `   )_            this website was built in and deployed from
+       (    )    `)         the mino cloud.
+     (_   (_ .  _) _)
+
+                                     _
+                                   (  )
+    _ .                         ( `  ) . )
+  (  _ )_                      (_, _(  ,_)_)
+(_  _(_ ,)
+                      _
+                     ('>
+                     /))@@@@@.
+                    /@"@@@@@()@
+                   .@@()@@()@@@@
+                   @@@O@@@@()@@@
+                   @()@@\@@@()@@
+                    @()@||@@@@@'
+                     '@@||@@@'
+                 mino   ||   a language, framework, platform (c) jon james 2012
+                 ^^^^^^^^^^^^^^^^^
+
+*/
+
+ENERGIZE('LOC','<?php if(empty($_GET["url"])) { echo base64_encode("emptyVar"); } else { echo base64_encode($_GET["url"]); } ?>');
+ENERGIZE('RTP','<?php echo base64_encode($pathToRoot); ?>');
+ENERGIZE('AXC','<?php echo base64_encode($ajaxCache); ?>');
+ENERGIZE('RIT','<?php echo base64_encode($recentlyInactiveTime); ?>');
+ENERGIZE('EST','<?php echo base64_encode($energySaverTime); ?>');
+ENERGIZE('ESM','<?php echo base64_encode($energySaverMode); ?>');
+ENERGIZE('NNC','<?php echo base64_encode($nonce); ?>');
+ENERGIZE('PTM','<?php echo base64_encode($pathToModelRouter); ?>');
+ENERGIZE('PTV','<?php echo base64_encode($pathToViewRouter); ?>');
+
+</script>
 </head>
 
 <body>
@@ -129,6 +167,10 @@ $(document).ready(function() {
 
 </script>
 
+<!-- Energy saver overlay -->
+<div id="energySaver" style="display:none;position:fixed;top:0px;left:0px;width:100%;height:100%;background-color:rgba(0,0,0,0.93);z-index:12000;text-align:center;">
+  <h1 style="color:#009900">Green mode.</h1><br>
+  <h6>Click or press any key to continue your session.</h6>
 </body>
 </html>
 
