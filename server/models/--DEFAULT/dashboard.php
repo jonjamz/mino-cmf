@@ -2,9 +2,9 @@
 
   function gridViews() {
     
-    foreach (glob(__DIR__."/../../../client/views/*.php") as $nav) { 
+    foreach (glob(__DIR__."/../../../client/views/*.html") as $nav) { 
 																		
-    	$view = basename($nav, '.php');
+    	$view = basename($nav, '.html');
     	if($view != "view.wrapper") {
       	$name = ucfirst($view);
 

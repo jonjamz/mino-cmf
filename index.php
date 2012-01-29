@@ -26,6 +26,9 @@ if($t) {
 
       // Path to Mino root from server root ex. /mino
       $pathToRoot = "/mino";
+      
+      // Turn site wide Ajax Caching on/off
+      $ajaxCache = "off";
 
 ?>
 
@@ -53,12 +56,14 @@ var url = '<?php
 var rootPath = '<?php
   echo $pathToRoot;
 ?>';
+var ajaxCache = '<?php
+  echo $ajaxCache;
+?>';
 </script>
 <!--[if lt IE 9]>
 <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
 <![endif]-->
 <script src="<?php echo $pathToRoot; ?>/compilers/js-compiler.php"></script>
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.3/jquery-ui.min.js"></script>
 
 </head>
 

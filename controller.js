@@ -1,6 +1,13 @@
 // Receives url and rootPath variables from index.php
 // -----------------
 
+// Optionally disable AJAX caching
+if(ajaxCache === 'off') {
+  $.ajaxSetup ({
+      // Disable caching of AJAX responses for testing
+      cache: false
+  });
+}
 
 //------------------> CONTROLLER FUNCTIONS
 
@@ -42,7 +49,7 @@ function models(model,method,args,affect) {
       if(data.indexOf("!redirect") > -1) {
         var dest = data;
         dest = dest.replace(/!redirect\s*/,'');
-        window.location.href = dest;
+        window.location.href = rootPath + "/" + dest;
       }
       // A floating response that then redirects a user via page load after 3 seconds (for deletions)
       else if(data.indexOf("!resredir") > -1) {
@@ -52,7 +59,7 @@ function models(model,method,args,affect) {
         var message = resp.replace(/.*\]/,'');
         $('body').append('<div class="flresp">' + message + '</div>');
         $('.flresp').fadeIn().delay(3000).queue(function(){
-          window.location.href = url;
+          window.location.href = rootPath + "/" + url;
         });
       }
       // Initiates a view change without page load
@@ -94,6 +101,11 @@ function models(model,method,args,affect) {
 
 //------------------> SPECIAL MINO CLASSES
 
+
+// .modal turns a div into a modal
+if($(".modal").length > 0) {
+  $(".modal").modal();
+}
 
 // .onLoad wrapped in a function
 function onLoads() {
@@ -226,7 +238,7 @@ var dbl = 0;
 function viewLoad(viewDir, vars, varslist, affect) {
 
   // Prepend the root path to avoid breaking view filepaths with / URLs
-  viewDir = rootPath + "/" + viewDir;
+  var viewDir = rootPath + "/" + viewDir;
 
   $(affect).load(viewDir, function() {
     $.each(vars, function(k, v) {

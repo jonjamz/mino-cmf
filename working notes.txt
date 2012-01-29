@@ -2,6 +2,7 @@ Working Notes
 
   ================================= TASK LIST
 
+  - Change the home page view from 'landing' to nothing. Should be clean.
   - Add native file uploading
       Start with the basic file field, make them choose an upload limit and file types
       See if they want the other options, make it modular
@@ -12,7 +13,6 @@ Working Notes
     sexier. Then when all the information is filled out the submit button becomes usable
     and when they submit, the server will double check (in case they modify something in
     dev tools).
-  - Add Jade.php parsing, or force them to use Mino instead of HTML and use the native stuff (probably better)
   - Set up the code editor with the sliding-in-from-right full page previewer. Then make some sweet graphics for it.
 
   ================================= LEFT TO IMPLEMENT

@@ -26,7 +26,8 @@
     "about"       => "--DEFAULT/about.html",
     "help"        => "--DEFAULT/help.html",
     "terms"       => "--DEFAULT/terms.html",
-    "contact"     => "--DEFAULT/contact.html"
+    "contact"     => "--DEFAULT/contact.html",
+    "uploads"     => "--DEFAULT/uploads.html"
 
 
     // Project
@@ -42,7 +43,7 @@
     "landing"     => "--DEFAULT/landing.html",
     "activate"    => "--DEFAULT/authorization/activate.html",
     "change-pass" => "--DEFAULT/authorization/forgot.html",
-    "go/login"       => "--DEFAULT/authorization/login.html",
+    "login"       => "--DEFAULT/authorization/login.html",
     "register"    => "--DEFAULT/authorization/register.html"
 
 
@@ -58,8 +59,8 @@
     // Default
     "dashboard"   => "--DEFAULT/user/dashboard.html",
     "settings"    => "--DEFAULT/user/settings.html",
-    "profile"     => "--DEFAULT/user/profile.html"
-
+    "profile"     => "--DEFAULT/user/profile.html",
+    "mypage"      => "mypage.html"
 
     // Project
 

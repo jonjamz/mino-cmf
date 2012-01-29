@@ -34,10 +34,11 @@ foreach($globDirs as $key => $value) {
 
     foreach($thisGlob as $key => $value) {
 
-      $fileBase = basename($value);
       $fileHash .= hash_file('md5', $value);
 
     }
+    
+    $fileHash = md5($fileHash);
 
   }
 
