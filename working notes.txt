@@ -2,6 +2,7 @@ Working Notes
 
   ================================= TASK LIST
 
+  - Start using mongodb instead of mysql...need to add that into the install instructions.
   - Change the home page view from 'landing' to nothing. Should be clean.
   - Add native file uploading
       Start with the basic file field, make them choose an upload limit and file types

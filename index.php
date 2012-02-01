@@ -1,18 +1,17 @@
 <?php
 
-
-      /*
+/*
 
           MINO FRAMEWORK LAMP EDITION
 
             v1.0
 
-      */
+*/
 
 
-// Check if Mino is installed, and if not, prompt to install.
 
-// Remove this if you have a working install and you know what you're doing. This is really the only inline PHP
+  /* CHECK IF MINO IS INSTALLED AND RUN...
+   * ========================== */
 
 require __DIR__.'/server/db/db.class.php';
 $m = new db('users',true);
@@ -29,21 +28,25 @@ if($t) {
       $pathToModelRouter  = "/routers/model.router.php";
       $pathToViewRouter   = "/routers/view.router.php";
 
-      // Turn site wide Ajax Caching on/off (will replace with adjustable cache timing)
+      // Turn site wide Ajax Caching on/off, and set timing for any caching
       $ajaxCache = "off";
+      $ajaxTimeout = "600"; // Seconds (600 = 10 mins)
 
       // User activity state settings
-      $recentlyInactiveTime = '180000';
-      $energySaverTime      = '300000';
+      $recentlyInactiveTime = '180000'; // Milliseconds
+      $energySaverTime      = '900000'; // Milliseconds
       $energySaverMode      = 'on';
 
       // Set random string for nonce
       $nonce = mt_rand();
       $_SESSION['nonce'] = $nonce;
 
+
 ?>
 
+
 <!DOCTYPE HTML>
+
 
 <html>
 <head>
@@ -60,17 +63,17 @@ if($t) {
 <link rel="apple-touch-icon" sizes="72x72" href="<?php echo $pathToRoot; ?>/client/library/images/apple-touch-icon-72x72-precomposed.png">
 <link rel="apple-touch-icon" sizes="114x114" href="<?php echo $pathToRoot; ?>/client/library/images/apple-touch-icon-114x114-precomposed.png">
 <link rel="stylesheet" href="<?php echo $pathToRoot; ?>/compilers/css-compiler.php">
+<script src="<?php echo $pathToRoot; ?>/mino.package.js"></script>
 <!--[if lt IE 9]>
 <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
 <![endif]-->
-<script src="<?php echo $pathToRoot; ?>/compilers/js-compiler.php"></script>
 <script type="text/javascript">
 
 /*
 
          _  _"              POWERED BY MINO ->
         ( `   )_            this website was built in and deployed from
-       (    )    `)         the mino cloud.
+       (    )    `)         the Mino cloud.
      (_   (_ .  _) _)
 
                                      _
@@ -87,96 +90,72 @@ if($t) {
                    @()@@\@@@()@@
                     @()@||@@@@@'
                      '@@||@@@'
-                 mino   ||   a language, framework, platform (c) jon james 2012
+                 Mino   ||   ...a language, framework, and platform (c) jon james 2012
                  ^^^^^^^^^^^^^^^^^
 
 */
 
-ENERGIZE('LOC','<?php if(empty($_GET["url"])) { echo base64_encode("emptyVar"); } else { echo base64_encode($_GET["url"]); } ?>');
-ENERGIZE('RTP','<?php echo base64_encode($pathToRoot); ?>');
-ENERGIZE('AXC','<?php echo base64_encode($ajaxCache); ?>');
-ENERGIZE('RIT','<?php echo base64_encode($recentlyInactiveTime); ?>');
-ENERGIZE('EST','<?php echo base64_encode($energySaverTime); ?>');
-ENERGIZE('ESM','<?php echo base64_encode($energySaverMode); ?>');
-ENERGIZE('NNC','<?php echo base64_encode($nonce); ?>');
-ENERGIZE('PTM','<?php echo base64_encode($pathToModelRouter); ?>');
-ENERGIZE('PTV','<?php echo base64_encode($pathToViewRouter); ?>');
+ENGINE('LOC','<?php if(empty($_GET["url"])) { echo base64_encode("emptyVar"); } else { echo base64_encode($_GET["url"]); } ?>');
+ENGINE('RTP','<?php echo base64_encode($pathToRoot); ?>');
+ENGINE('AXC','<?php echo base64_encode($ajaxCache); ?>');
+ENGINE('RIT','<?php echo base64_encode($recentlyInactiveTime); ?>');
+ENGINE('EST','<?php echo base64_encode($energySaverTime); ?>');
+ENGINE('ESM','<?php echo base64_encode($energySaverMode); ?>');
+ENGINE('NNC','<?php echo base64_encode($nonce); ?>');
+ENGINE('PTM','<?php echo base64_encode($pathToModelRouter); ?>');
+ENGINE('PTV','<?php echo base64_encode($pathToViewRouter); ?>');
+ENGINE('AXT','<?php echo base64_encode($ajaxTimeout); ?>');
 
 </script>
+
 </head>
+
 
 <body>
 
 <div class="container">
 
-<?php	if(isset($_SESSION['id'])) { // Header when logged in ?>
-
-<div class="header">
-
-  <a href="" class="loadView logo" data-view="dashboard">Home</a>
-
-  <nav>
-    <a href="" class="loadView" data-view="profile">Profile</a>
-    <a href="" class="loadView" data-view="settings">Settings</a>
-    <a href="" class="onClick" data-model="login" data-method="logout">Log Out</a>
-  </nav>
-
-</div>
-
-<?php } elseif(!isset($_SESSION['id'])) { // Header when logged out ?>
-
-<?php } ?>
-
 <div id="view-load">
 
   <!-- You can add a loading message or animation here. Keep the noscript, though. -->
 
-  <noscript><em>This site requires javascript. Please enable it and/or upgrade your browser!</em></noscript>
+  <noscript><h1>This site requires JavaScript!</h1><h6>Please enable it and/or upgrade your browser.</h6></noscript>
 
 </div>
 
-<?php	if(isset($_SESSION['id'])) { // Footer when logged in ?>
-
-<div class="footer">
-
-  <nav>
-    <a href="" class="loadView" data-view="about">About</a>
-    <a href="" class="loadView" data-view="help">Help</a>
-    <a href="" class="loadView" data-view="terms">Terms</a>
-  </nav>
-
 </div>
 
-<?php } elseif(!isset($_SESSION['id'])) { // Footer when logged out ?>
-
-<?php } ?>
-
+<div id="energySaver" style="display:none;position:fixed;top:0px;left:0px;width:100%;height:100%;background-color:rgba(0,0,0,0.93);z-index:99999;text-align:center;">
+  <h1 style="color:#009900">Saving power.</h1><br>
+  <h6>Click or press any key to continue your session.</h6>
 </div>
 
 <script type="text/javascript">
 
-$(document).ready(function() {
-
-<?php
-      // Controller
-      require "controller.js";
-      // require "controller.min.js";
-?>
-
-});
+ENGINE('B1',base64_decode(MINOC('LOC')));
+ENGINE('B2',base64_decode(MINOC('RTP')));
+ENGINE('B3',base64_decode(MINOC('AXC')));
+ENGINE('B4',base64_decode(MINOC('RIT')));
+ENGINE('B5',base64_decode(MINOC('EST')));
+ENGINE('B6',base64_decode(MINOC('ESM')));
+ENGINE('B7',base64_decode(MINOC('NNC')));
+ENGINE('B8',base64_decode(MINOC('PTM')));
+ENGINE('B9',base64_decode(MINOC('PTV')));
 
 </script>
 
-<!-- Energy saver overlay -->
-<div id="energySaver" style="display:none;position:fixed;top:0px;left:0px;width:100%;height:100%;background-color:rgba(0,0,0,0.93);z-index:12000;text-align:center;">
-  <h1 style="color:#009900">Green mode.</h1><br>
-  <h6>Click or press any key to continue your session.</h6>
+<script src="<?php echo $pathToRoot; ?>/compilers/js-compiler.php"></script>
+
 </body>
 </html>
 
+
 <?php
 
-// If Mino is not installed, prompt for Db information and install
+
+
+  /* IF MINO IS NOT INSTALLED, DO IT!
+   * ========================== */
 
 } else { ?>
 

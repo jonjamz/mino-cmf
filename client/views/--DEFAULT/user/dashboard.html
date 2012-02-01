@@ -1,4 +1,29 @@
+<div class="header">
 
+  <h1>Dashboard</h1>
 
+  <a href="" class="loadView logo" data-view="dashboard">Home</a>
 
-<div class="onLoad" data-model="dashboard" data-method="gridViews"></div>
+  <nav>
+    <a href="" class="loadView" data-view="profile" data-to="#inner-view">Profile</a>
+    <a href="" class="loadView" data-view="settings" data-to="#inner-view">Settings</a>
+    <a href="" class="onClick" data-model="login" data-method="logout">Log Out</a>
+  </nav>
+
+</div>
+
+<div id="inner-view">
+
+  <div class="onLoad" data-model="dashboard" data-method="gridViews"></div>
+
+</div>
+
+<div class="footer">
+
+  <nav>
+    <a href="" class="loadView" data-view="company/about" data-to="#inner-view">About</a>
+    <a href="" class="loadView" data-view="company/help" data-to="#inner-view">Help</a>
+    <a href="" class="loadView" data-view="company/terms" data-to="#inner-view">Terms</a>
+  </nav>
+
+</div>

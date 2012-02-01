@@ -22,16 +22,7 @@
 */
 
 
-// Decode constants, place as new constants
-ENERGIZE('B1',base64_decode(MINOC('LOC')));
-ENERGIZE('B2',base64_decode(MINOC('RTP')));
-ENERGIZE('B3',base64_decode(MINOC('AXC')));
-ENERGIZE('B4',base64_decode(MINOC('RIT')));
-ENERGIZE('B5',base64_decode(MINOC('EST')));
-ENERGIZE('B6',base64_decode(MINOC('ESM')));
-ENERGIZE('B7',base64_decode(MINOC('NNC')));
-ENERGIZE('B8',base64_decode(MINOC('PTM')));
-ENERGIZE('B9',base64_decode(MINOC('PTV')));
+$(document).ready(function() {
 
 
 // Optionally disable AJAX caching
@@ -66,7 +57,7 @@ var energySaverTimer = setTimeout(setEnergySaver, MINOC('B5'));
 $('body').bind('mousedown keydown', function(event) {
   clearTimeout(inactiveTimer);
   clearTimeout(energySaverTimer);
-  $('#energySaver').hide();
+  $('#energySaver').fadeOut(1000);
   currentUserState = 'active';
   inactiveTimer = setTimeout(setUserInactive, MINOC('B4'));
   energySaverTimer = setTimeout(setEnergySaver, MINOC('B5'));
@@ -74,6 +65,7 @@ $('body').bind('mousedown keydown', function(event) {
 
 
 //------------------> CONTROLLER FUNCTIONS
+
 
 // Models function for interfacing with models
 function models(model,method,args,affect) {
@@ -108,7 +100,7 @@ function models(model,method,args,affect) {
         dest = dest.replace(/!push\s*/,'');
         History.pushState({state: dest}, dest, dest);
       }
-      // A real-time version of !resredir that loads in a replaces the primary view (capable of passing vars)
+      // A real-time version of !resredir that loads in a notification and replaces the primary view (capable of passing vars)
       else if(data.indexOf("!respush") > -1) {
         var resp = data;
         var url = resp.replace(/.*\[/,'');
@@ -121,15 +113,27 @@ function models(model,method,args,affect) {
         });
       }
       // Injects a response div with content, appends one first if it has to
-      else if(data.indexOf("!append") > -1) {
+      else if(data.indexOf("!resappend") > -1) {
         var resp = data;
-        resp = resp.replace(/!append\s*/,'');
+        resp = resp.replace(/!resappend\s*/,'');
         if($(affect + ' .response').is('*')) {
           $(affect + ' .response').html(resp);
         }
         else {
           $(affect).append('<div class="response">' + resp + '</div>');
         }
+      }
+      // Appends response to the appropriate container
+      else if(data.indexOf("!append") > -1) {
+        var resp = data;
+        resp = resp.replace(/!append\s*/,'');
+        $(affect).append(resp);
+      }
+      // Prepends response to the appropriate container
+      else if(data.indexOf("!prepend") > -1) {
+        var resp = data;
+        resp = resp.replace(/!prepend\s*/,'');
+        $(affect).prepend(resp);
       }
       else {
         $(affect).html(data);
@@ -161,7 +165,7 @@ function onLoads() {
   });
 }
 
-// .include wrapped in a function
+// .include wrapped in a function -- includes are not capable of using parent/child
 function loadIncludes() {
   $('.include').each(function() {
     var rndm = 'random-' + Math.floor(Math.random()*100000);
@@ -173,10 +177,10 @@ function loadIncludes() {
     var affect  = '.' + rndm;
     var view   = $(this).attr('data-view');
     $.get(MINOC('B2') + MINOC('B9'), { url: view }, function(data){
-    var viewDir   = data.view;
+    var viewDir   = data.view.view;
     var vars      = data.vars;
     var varslist  = implode(',', vars);
-    if(viewDir.indexOf("!logout") > -1) {
+    if(viewDir.indexOf("!log") > -1) {
       window.location.href = MINOC('B2') + '/';
     } else {
       viewLoad(viewDir, vars, varslist, affect);
@@ -213,8 +217,14 @@ function onLoadPolls() {
         models(model,method,args,affect);
         setTimeout(poll,time);
       } else if(currentUserState === 'recently-inactive') {
-        // Call database less often
-        var newtime = time * 2;
+        // Call database less often depending on time
+        if(time < 5000) {
+          var newtime = time * 5;
+        } else if(time < 10000) {
+          var newtime = time * 3;
+        } else {
+          var newtime = time * 2;
+        }
         models(model,method,args,affect);
         setTimeout(poll,newtime);
       } else if(currentUserState === 'energy-saver') {
@@ -293,8 +303,9 @@ function viewLoad(viewDir, vars, varslist, affect) {
 
   // Prepend the root path to avoid breaking view filepaths with / URLs
   var viewDir = MINOC('B2') + "/" + viewDir;
-
-  $(affect).fadeOut(100,function(){
+  rand = 'random-' + Math.floor(Math.random()*100000);
+//  $(affect).after('<img style="position:fixed;" src="' + MINOC('B2') + '/client/library/images/loading.gif" id="' + rand + '">');
+  $(affect).fadeOut(0,function(){
     $(this).load(viewDir, function() {
       $.each(vars, function(k, v) {
         $('[value~="^' + k + '"]').attr('value', v);
@@ -307,33 +318,48 @@ function viewLoad(viewDir, vars, varslist, affect) {
       onLoadPolls();
       loadIncludes();
       loadInputs();
-    }).fadeIn(100);
+//      $('#' + rand).hide();
+    }).fadeIn(250);
   });
 }
 
 
 // .loadView
 $('body').on("click", ".loadView", function() {
-	var view 			= $(this).attr('data-view');
+	var view 			  = $(this).attr('data-view');
+	if($(this).attr('data-to')) {
+	  var affect    = $(this).attr('data-to');
+	} else {
+	  var affect    = '#view-load';
+	}
   $.get(MINOC('B2') + MINOC('B9'), { url: view }, function(data){
-    var viewDir   = data.view;
-    var title     = data.title;
-    var address   = data.address;
+    var viewDir   = data.view.view;
+    var title     = data.view.title;
+    var address   = MINOC('B2') + "/" + data.view.address;
     var vars      = data.vars;
     var varslist  = implode(',', vars);
-    if($(this).attr('data-to')) {
-      var affect  = $(this).attr('data-to');
-    } else {
-      var affect    = '#view-load';
-    }
-    if(viewDir.indexOf("!logout") > -1) {
+    if(viewDir.indexOf("!log") > -1) {
       window.location.href = MINOC('B2') + '/';
     } else {
-      viewLoad(viewDir, vars, varslist, affect);
+       if(data.parent) {
+          $("#view-load").fadeOut(0,function(){
+            $(this).load(MINOC('B2') + "/" + data.parent.view, function() {
+              var subLoad = $('[data-view="' + view + '"]').attr("data-to");
+              // Load into subview area (whew!)
+              viewLoad(viewDir, vars, varslist, subLoad);
+
+            });
+          }).fadeIn(0);
+        } else {
+
+        viewLoad(viewDir, vars, varslist, affect);
+
+        }
     }
     dbl = 1;
     History.pushState({state: view}, title, address);
     dbl = 0;
+
   }, "json");
 	$('.selected').removeClass('selected');
 	$(this).addClass('selected');
@@ -349,40 +375,38 @@ function routeUrl() {
   // Send to view router, which returns json with view location, page title, and vars
   $.get(MINOC('B2') + MINOC('B9'), { url: initFlag + MINOC('B1') }, function(data){
 
-    var viewDir   = data.view;
-    var title     = data.title;
-    var address   = data.address;
+    var viewDir   = data.view.view;
+    var title     = data.view.title;
+    var address   = MINOC('B2') + "/" + data.view.address;
     var vars      = data.vars;
-    var flag      = data.flag;
+    var flag      = data.view.flag;
     var varslist  = implode(',', vars);
     var affect    = '#view-load';
-
-    if(flag === 2) { window.location.href = MINOC('B2') + '/'; }
-    else if(flag === 1) {
-
-      // Load view into #view-load
-      viewLoad(viewDir, vars, varslist, affect);
-
-      // Force title change
-      document.title = title;
-
+    if(viewDir.indexOf("!log") > -1) {
+      window.location.href = MINOC('B2') + '/';
+    } else if(flag === 2) { window.location.href = MINOC('B2') + viewDir;
+    } else if(flag === 1) {
+        if(data.parent) {
+          $(affect).fadeOut(0,function(){
+            $(this).load(MINOC('B2') + "/" + data.parent.view, function() {
+              var subLoad = $('[data-view="' + MINOC('B1') + '"]').attr("data-to");
+              // Load into subview area (whew!)
+              viewLoad(viewDir, vars, varslist, subLoad);
+              // Force title change
+              document.title = title;
+            });
+          }).fadeIn(0);
+        } else {
+        // Load view into #view-load
+        viewLoad(viewDir, vars, varslist, affect);
+        // Force title change
+        document.title = title;
+      }
+      //alert(address);
       dbl = 1;
       History.pushState({state: MINOC('B1')}, title);
       dbl = 0;
-
     }
-    else {
-
-      // Load view into #view-load
-      viewLoad(viewDir, vars, varslist, affect);
-
-      dbl = 1;
-      History.pushState({state: MINOC('B1')}, title, address);
-      dbl = 0;
-
-
-    }
-
   }, "json");
 
 }
@@ -392,15 +416,26 @@ routeUrl();
 // State router
 function routeState(state) {
   $.get(MINOC('B2') + MINOC('B9'), { url: state }, function(data){
-    var viewDir   = data.view;
-    var title     = data.title;
+    var viewDir   = data.view.view;
+    var title     = data.view.title;
     var vars      = data.vars;
     var varslist  = implode(',', vars);
     var affect    = '#view-load';
-    if(viewDir.indexOf("!logout") > -1) {
+    if(viewDir.indexOf("!log") > -1) {
       window.location.href = MINOC('B2') + '/';
     } else {
-      viewLoad(viewDir, vars, varslist, affect);
+      if(data.parent) {
+        $(affect).fadeOut(0,function(){
+          $(this).load(MINOC('B2') + "/" + data.parent.view, function() {
+            var subLoad = $('[data-view="' + state + '"]').attr("data-to");
+            // Load into subview area (whew!)
+            viewLoad(viewDir, vars, varslist, subLoad);
+          });
+        }).fadeIn(0);
+      } else {
+        // Load view into #view-load
+        viewLoad(viewDir, vars, varslist, affect);
+      }
     }
   }, "json");
 }
@@ -415,3 +450,6 @@ var goState = function() {
 
 // State bind
 History.Adapter.bind(window,'statechange',goState);
+
+
+});
