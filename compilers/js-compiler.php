@@ -18,8 +18,8 @@ $toMainDir = __DIR__.'/../';
 
 $globDirs = array(
 
-   'CoffeeScript' => $toMainDir.'client/library/other/coffee/*.coffee',
-   'js'           => $toMainDir.'client/library/js/*.js',
+   'CoffeeScript' => $toMainDir.'client/lib/other/coffee/*.coffee',
+   'js'           => $toMainDir.'client/lib/js/*.js',
 
 );
 
@@ -51,7 +51,7 @@ $count = count($localGlob);
 // If multiple, throw error
 if($count > 1) {
 
-  echo "Error. Please remove all files from 'compilers/cache' folder. If you put files there, manually, move them to 'client/library' instead.";
+  echo "Error. Please remove all files from 'compilers/cache' folder. If you put files there, manually, move them to 'client/lib' instead.";
 
 // If a file exists, compare name with hash
 } elseif($count === 1 && "$fileHash.js" == basename($localGlob[0])) {

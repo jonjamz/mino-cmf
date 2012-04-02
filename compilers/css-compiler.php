@@ -21,11 +21,11 @@ $toMainDir = __DIR__.'/../';
 
 $globDirs = array(
 
-   //'Sass'   => $toMainDir.'client/library/other/sass/*.sass',
-   //'Scss'   => $toMainDir.'client/library/other/sass/*.scss',
-   'Stylus' => $toMainDir.'client/library/other/stylus/*.styl',
-   'Less'   => $toMainDir.'client/library/other/less/*.less',
-   'css'    => $toMainDir.'client/library/css/*.css'
+   //'Sass'   => $toMainDir.'client/lib/other/sass/*.sass',
+   //'Scss'   => $toMainDir.'client/lib/other/sass/*.scss',
+   'Stylus' => $toMainDir.'client/lib/other/stylus/*.styl',
+   'Less'   => $toMainDir.'client/lib/other/less/*.less',
+   'css'    => $toMainDir.'client/lib/css/*.css'
 
 );
 
@@ -57,7 +57,7 @@ $count = count($localGlob);
 // If multiple, throw error
 if($count > 1) {
 
-  echo "Error. Please remove all files from 'compilers/cache' folder. If you put files there, manually, move them to 'client/library' instead.";
+  echo "Error. Please remove all files from 'compilers/cache' folder. If you put files there, manually, move them to 'client/lib' instead.";
 
 // If a file exists, compare name with hash
 } elseif($count === 1 && "$fileHash.css" == basename($localGlob[0])) {
