@@ -1,0 +1,45 @@
+# YOUR SITE NAME
+server {
+        # Remove www
+        server_name  www.yoursite.com;
+        rewrite ^(.*) http://yoursite.com$1 permanent;
+}
+server {
+
+        listen 80;
+        server_name yoursite.com;
+
+        # Remove trailing slash so it doesn't mess up Mino URL parsing
+        rewrite ^/(.*)/$ /$1 permanent;
+
+        # Limit of POST uploads, default is 1 megabyte
+        client_max_body_size 1m;
+
+        root /var/www/yoursite.com;
+
+        location ~ /\. {
+                error_page 403 http://yoursite.com/404;
+                deny all;
+        }
+        location /settings {
+                error_page 403 http://yoursite.com/404;
+                deny all;
+        }
+
+        location / {
+                try_files $uri @rewrite;
+        }
+
+        location @rewrite {
+                rewrite ^/(.*)$ /index.php?url=$1;
+        }
+
+        location ~ \.php$ {
+                try_files $uri =404;
+                fastcgi_pass unix:/var/run/php5-fpm.sock;
+                fastcgi_index index.php;
+                fastcgi_param SCRIPT_FILENAME $request_filename;
+                include fastcgi_params;
+        }
+
+ }

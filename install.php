@@ -64,6 +64,14 @@ class install {
     
     }
     
+    
+    //-------------------> Check for permissions of the settings folder and create empty settings.json file
+    
+    
+    $in			= __DIR__.'/settings/settings.json';
+	  $make		= fopen($in, 'x') or die("<b>Error! Are settings folder permissions 777?</b><br>");
+	  fclose($make);
+    
       
     //-------------------> Create a database for this install
     
@@ -103,7 +111,7 @@ class install {
 
 
   /*
-      Create settings.json file
+      Write to settings.json file
   */
 
   function settingsFile() {
@@ -120,7 +128,7 @@ class install {
     
     // Write the settings.json file
     $in			= __DIR__.'/settings/settings.json';
-	  $make		= fopen($in, 'x') or die("<b>Error creating settings file! Are permissions correct?</b><br>");
+	  $make		= fopen($in, 'w') or die("<b>Error creating settings file! Are settings folder permissions 777?</b><br>");
 	  $inject	= "
 	          
       {

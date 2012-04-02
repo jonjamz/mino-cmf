@@ -24,7 +24,7 @@ if($t) {
       session_start();
 
       // Paths
-      $pathToRoot         = "/mino";
+      $pathToRoot         = "/.";
       $pathToModelRouter  = "/routers/model.router.php";
       $pathToViewRouter   = "/routers/view.router.php";
 
@@ -38,8 +38,8 @@ if($t) {
       $energySaverMode      = 'on';
 
       // Set random string for nonce
-      $nonce = mt_rand();
-      $_SESSION['nonce'] = $nonce;
+      $secret = md5("secret_1" . session_id() . "secret_2");
+	  $_SESSION['nonce'] = $secret;
 
 
 ?>
@@ -90,7 +90,7 @@ if($t) {
                    @()@@\@@@()@@
                     @()@||@@@@@'
                      '@@||@@@'
-                 Mino   ||   ...a language, framework, and platform (c) jon james 2012
+                 Mino   ||   ...a language, framework, and platform (c) Jonathan James 2012
                  ^^^^^^^^^^^^^^^^^
 
 */
@@ -101,7 +101,7 @@ ENGINE('AXC','<?php echo base64_encode($ajaxCache); ?>');
 ENGINE('RIT','<?php echo base64_encode($recentlyInactiveTime); ?>');
 ENGINE('EST','<?php echo base64_encode($energySaverTime); ?>');
 ENGINE('ESM','<?php echo base64_encode($energySaverMode); ?>');
-ENGINE('NNC','<?php echo base64_encode($nonce); ?>');
+ENGINE('NNC','<?php echo base64_encode($secret); ?>');
 ENGINE('PTM','<?php echo base64_encode($pathToModelRouter); ?>');
 ENGINE('PTV','<?php echo base64_encode($pathToViewRouter); ?>');
 ENGINE('AXT','<?php echo base64_encode($ajaxTimeout); ?>');
