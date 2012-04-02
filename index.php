@@ -39,7 +39,7 @@ if($t) {
 
       // Set random string for nonce
       $secret = md5("secret_1" . session_id() . "secret_2");
-	  $_SESSION['nonce'] = $secret;
+      $_SESSION['nonce'] = $secret;
 
 
 ?>
@@ -58,43 +58,12 @@ if($t) {
 <meta name="description" content="Mino Framework LAMP Edition, Model-View-Strong-Router">
 <meta name="author" content="Jonathan James">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<link rel="shortcut icon" type="image/vnd.microsoft.icon" href="<?php echo $pathToRoot; ?>/client/library/images/favicon.png">
-<link rel="apple-touch-icon" href="<?php echo $pathToRoot; ?>/client/library/images/apple-touch-icon.png">
-<link rel="apple-touch-icon" sizes="72x72" href="<?php echo $pathToRoot; ?>/client/library/images/apple-touch-icon-72x72-precomposed.png">
-<link rel="apple-touch-icon" sizes="114x114" href="<?php echo $pathToRoot; ?>/client/library/images/apple-touch-icon-114x114-precomposed.png">
 <link rel="stylesheet" href="<?php echo $pathToRoot; ?>/compilers/css-compiler.php">
 <script src="<?php echo $pathToRoot; ?>/mino.package.js"></script>
 <!--[if lt IE 9]>
 <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
 <![endif]-->
 <script type="text/javascript">
-
-/*
-
-         _  _"              POWERED BY MINO ->
-        ( `   )_            this website was built in and deployed from
-       (    )    `)         the Mino cloud.
-     (_   (_ .  _) _)
-
-                                     _
-                                   (  )
-    _ .                         ( `  ) . )
-  (  _ )_                      (_, _(  ,_)_)
-(_  _(_ ,)
-                      _
-                     ('>
-                     /))@@@@@.
-                    /@"@@@@@()@
-                   .@@()@@()@@@@
-                   @@@O@@@@()@@@
-                   @()@@\@@@()@@
-                    @()@||@@@@@'
-                     '@@||@@@'
-                 Mino   ||   ...a language, framework, and platform (c) Jonathan James 2012
-                 ^^^^^^^^^^^^^^^^^
-
-*/
-
 ENGINE('LOC','<?php if(empty($_GET["url"])) { echo base64_encode("emptyVar"); } else { echo base64_encode($_GET["url"]); } ?>');
 ENGINE('RTP','<?php echo base64_encode($pathToRoot); ?>');
 ENGINE('AXC','<?php echo base64_encode($ajaxCache); ?>');
@@ -105,7 +74,6 @@ ENGINE('NNC','<?php echo base64_encode($secret); ?>');
 ENGINE('PTM','<?php echo base64_encode($pathToModelRouter); ?>');
 ENGINE('PTV','<?php echo base64_encode($pathToViewRouter); ?>');
 ENGINE('AXT','<?php echo base64_encode($ajaxTimeout); ?>');
-
 </script>
 
 </head>
@@ -132,15 +100,7 @@ ENGINE('AXT','<?php echo base64_encode($ajaxTimeout); ?>');
 
 <script type="text/javascript">
 
-ENGINE('B1',base64_decode(MINOC('LOC')));
-ENGINE('B2',base64_decode(MINOC('RTP')));
-ENGINE('B3',base64_decode(MINOC('AXC')));
-ENGINE('B4',base64_decode(MINOC('RIT')));
-ENGINE('B5',base64_decode(MINOC('EST')));
-ENGINE('B6',base64_decode(MINOC('ESM')));
-ENGINE('B7',base64_decode(MINOC('NNC')));
-ENGINE('B8',base64_decode(MINOC('PTM')));
-ENGINE('B9',base64_decode(MINOC('PTV')));
+
 
 </script>
 
@@ -170,7 +130,7 @@ ENGINE('B9',base64_decode(MINOC('PTV')));
 <em><b>&copy; 2011 Jon James (github.com/jonjamz)</b></em><br><br>
 This edition of Mino Framework is dependent upon the following free software:<br><br>
 
-  <span style="color:#ff8844">Linux with Apache 2, PHP 5.3+ w/PEAR Mail, MySQL 5, and YUI compressor installed.</span>
+  <span style="color:#ff8844">Linux with Apache 2 or Nginx, PHP 5.3+ w/PEAR Mail, MySQL 5, and YUI compressor installed.</span>
 <br><br>
 We recommend viewing the <a href="read-first.html">Read-First</a> file for specific instructions on getting a Linux server going from scratch.
 <br><br>
