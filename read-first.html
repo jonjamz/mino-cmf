@@ -8,7 +8,8 @@
 <h2>Preparing Your Server (Optional)</h2>
 <p>
 We use Ubuntu Linux 32-bit for our server.<br><br>
-Here are simple terminal commands to get a new Ubuntu 32-bit server ready for Mino.<br><br>
+Here are simple terminal commands to get a new Ubuntu 32-bit server ready for Mino with Apache.<br><br>
+For Nginx, try this script: <a href="https://github.com/vladgh/VladGh.com-LEMP">Latest Nginx, MySQL, PHP (with APC and Suhosin)</a> and then start at the php-pear line below but ignore all the Apache-related things after. Instead of following those, add the nginx-conf file into /etc/nginx/sites-available after editing it with your site's details. You probably also should name the file something more useful. Then symlink it to /etc/nginx/sites-enabled and restart Nginx.<br><br>
 <b>Newbs:</b> Copy in <i>one line at a time</i> (<strong>shift+insert</strong>) and press <strong>enter</strong> after each line.
 </p>
 <div style="font-family: Courier, monospace">
@@ -22,7 +23,6 @@ sudo pear install mail<br>
 sudo pear install Net_SMTP<br>
 sudo pear install Auth_SASL<br>
 sudo pear install mail_mime<br>
-sudo apt-get install yui-compressor<br>
 </p>
 </div>
 <p>Now, we're going to make life easier for ourselves:</p>
