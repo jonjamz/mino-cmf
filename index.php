@@ -136,11 +136,11 @@ _gaq.push(['_trackPageview']);
 <em><b>&copy; 2011 Jon James (github.com/jonjamz)</b></em><br><br>
 This edition of Mino Framework is dependent upon the following free software:<br><br>
 
-  <span style="color:#ff8844">Linux with Apache 2 or Nginx, PHP 5.3+ w/PEAR Mail, MySQL 5, and YUI compressor installed.</span>
+  <span style="color:#ff8844">Linux with Apache 2 or Nginx, PHP 5.3+ w/PEAR Mail, MySQL 5.</span>
 <br><br>
 We recommend viewing the <a href="read-first.html">Read-First</a> file for specific instructions on getting a Linux server going from scratch.
 <br><br>
-<b>Before moving forward, please make sure to assign 777 permissions to the settings folder and compilers/cache folder.</b>
+<b><span style="color:#ff0000">Before moving forward, please make sure to assign 777 permissions to the settings folder</span></b>
 </p>
 <h3>All the below fields are required.</h3>
 <form method="post" action="install.php">
