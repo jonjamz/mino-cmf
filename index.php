@@ -13,7 +13,7 @@
   /* CHECK IF MINO IS INSTALLED AND RUN...
    * ========================== */
 
-require __DIR__.'/server/db/db.class.php';
+require __DIR__.'/server/db.php';
 $m = new db('users',true);
 $t = $m->r("*", "type = 'super'");
 
@@ -30,7 +30,6 @@ if($t) {
 
       // Turn site wide Ajax Caching on/off, and set timing for any caching
       $ajaxCache = "off";
-      $ajaxTimeout = "600"; // Seconds (600 = 10 mins)
 
       // User activity state settings
       $recentlyInactiveTime = '180000'; // Milliseconds
@@ -51,14 +50,14 @@ if($t) {
 <html>
 <head>
 
-<title>Mino Framework LAMP Edition</title>
+<title>Mino Framework</title>
 
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-<meta name="description" content="Mino Framework LAMP Edition, Model-View-Strong-Router">
+<meta name="description" content="A site built on the Mino Framework">
 <meta name="author" content="Jonathan James">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<link rel="stylesheet" href="<?php echo $pathToRoot; ?>/compilers/css-compiler.php">
+<link rel="stylesheet" href="client/lib/relayer.php?type=css">
 <script src="<?php echo $pathToRoot; ?>/mino.package.js"></script>
 <!--[if lt IE 9]>
 <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -73,9 +72,20 @@ ENGINE('ESM','<?php echo base64_encode($energySaverMode); ?>');
 ENGINE('NNC','<?php echo base64_encode($secret); ?>');
 ENGINE('PTM','<?php echo base64_encode($pathToModelRouter); ?>');
 ENGINE('PTV','<?php echo base64_encode($pathToViewRouter); ?>');
-ENGINE('AXT','<?php echo base64_encode($ajaxTimeout); ?>');
 </script>
 
+<!-- Google Analytics -->
+<script type="text/javascript">
+var _gaq = _gaq || [];
+_gaq.push(['_setAccount', '']);
+_gaq.push(['_trackPageview']);
+
+(function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+})();
+</script>
 </head>
 
 
@@ -98,13 +108,9 @@ ENGINE('AXT','<?php echo base64_encode($ajaxTimeout); ?>');
   <h6>Click or press any key to continue your session.</h6>
 </div>
 
-<script type="text/javascript">
-
-
-
-</script>
-
-<script src="<?php echo $pathToRoot; ?>/compilers/js-compiler.php"></script>
+<script src="<?php echo $pathToRoot; ?>/mino.constants.js"></script>
+<script src="<?php echo $pathToRoot; ?>/mino.controller.js"></script>
+<script src="client/lib/relayer.php?type=js"></script>
 
 </body>
 </html>

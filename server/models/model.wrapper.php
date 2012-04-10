@@ -1,17 +1,22 @@
 <?php
 
 // Make sure nonce is sent, otherwise abort
+// If it's the public API, don't require a nonce
 
 session_start();
 
-if(!isset($_POST['nnc']) || (isset($_POST['nnc']) && $_POST['nnc'] != $_SESSION['nonce'])) {
-  die("Fail.");
+if(!isset($api)) {
+  
+  if(!isset($_POST['nnc']) || (isset($_POST['nnc']) && $_POST['nnc'] != $_SESSION['nonce'])) {
+    die("Fail.");
+  }
+  
 }
 
-require_once __DIR__.'/../db/db.class.php';
-require_once __DIR__."/--DEFAULT/utility/responses.php";
-require_once __DIR__."/--DEFAULT/utility/notifications.php";
-require_once __DIR__."/--DEFAULT/security/security.php";
+require_once __DIR__.'/../db.php';
+require_once __DIR__."/utility/responses.php";
+require_once __DIR__."/utility/notifications.php";
+require_once __DIR__."/utility/security.php";
 
 		$$type = new $type($type);
 

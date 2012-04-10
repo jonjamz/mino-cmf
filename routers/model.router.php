@@ -4,14 +4,13 @@
 
   $models = array(
 
-    "activate"    => "--DEFAULT/authorization/activate.php",
-    "login"       => "--DEFAULT/authorization/login.php",
-    "register"    => "--DEFAULT/authorization/register.php",
-    "forgot"      => "--DEFAULT/authorization/forgot.php",
-    "settings"    => "--DEFAULT/settings.php",
-    "dashboard"   => "--DEFAULT/dashboard.php",
-
-    "searches"    => "--DEFAULT/searches.php"
+    "activate"    => "auth/activate.php",
+    "login"       => "auth/login.php",
+    "register"    => "auth/register.php",
+    "forgot"      => "auth/forgot.php",
+    "settings"    => "settings.php",
+    "dashboard"   => "dashboard.php",
+    "searches"    => "searches.php"
 
   );
 
