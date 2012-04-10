@@ -113,7 +113,7 @@ class db {
 		$totable = $type.'Tbl';
 		if($this->$totable != '') { $this->table = $this->$totable; } else { $this->table = $type; }
     // Location of settings file
-    $setLoc = __DIR__.'/../../settings/settings.json';
+    $setLoc = __DIR__.'/../settings/settings.json';
     // Check existence of settings file, and if it's not install mode, echo error and instantiate emptyc
     if(file_exists($setLoc)) {
       // Get db info from settings.json
