@@ -131,7 +131,7 @@ _gaq.push(['_trackPageview']);
 <link rel="stylesheet" href="install.css">
 </head>
 <body>
-<h1>Install Mino Framework LAMP Edition</h1>
+<h1>Install Mino Framework</h1>
 <p>
 <em><b>&copy; 2011 Jon James (github.com/jonjamz)</b></em><br><br>
 This edition of Mino Framework is dependent upon the following free software:<br><br>
