@@ -1,7 +1,9 @@
 It's Mino
 =========
 
-__Fair warning: I didn't fully understand programming design patterns when I made this__
+__Note:__
+- Mino is dead simple, and there is an example project already in here, so it should be easy to get going with it despite the lack of real docs
+- I didn't fully understand programming design patterns when I made this a few years ago
 
 It's...
 - a project I created a few years ago, so it's got some older versions of things, but it's still cool!
@@ -33,7 +35,7 @@ Oh yeah, it has an ORM that lets you write shorthand MySQL queries. So that's pr
 
 Routes
 ------
-Specify your routes in /routes/[route type].router.php
+Specify your routes in /routes/[route type].router.php, just look at the comments and the existing example code, you'll figure it out.
 
 API
 ---
