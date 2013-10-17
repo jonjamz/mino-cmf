@@ -1,7 +1,7 @@
 It's Mino
 =========
 
-###Mino is magic. Write PHP models and methods on the server, HTML5 on the client, and use HTML5 data attributes to connect it all without any real "controller"
+_Mino is magic. Write PHP models and methods on the server, HTML5 on the client, and use HTML5 data attributes to connect it all without any real "controller"_
 
 __What's up with that?__
 - Mino is dead simple, and there is an example project already in here, so it should be easy to get going with it despite the lack of real docs
