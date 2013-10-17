@@ -35,7 +35,7 @@ Abridged Docs
 -------------
 1. Clone this project into the root web server directory of your local install of the LAMP or LNMP stack.
 2. Read the setup instructions HTML file.
-3. Run the setup.
+3. Run the installer.
 4. Write your templates in PHP on the server, inside your models.
 5. In your HTML5 file where you want to load the template for that model, specify data-model="modelName"
 6. Look through the client side JS to see what other cool data-attribute options are available. I believe there's a data-poll option which will automatically poll your model for changes based on the milliseconds you specify.
