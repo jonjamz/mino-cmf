@@ -9,3 +9,16 @@ It's...
 - mostly a learning project...I wasn't particularly good at JS when I wrote it, just jQuery
 
 The good news is that _despite not having any tests, it works?_
+
+Server Config
+-------------
+It's got config files for Apache and Nginx. Use either one!
+
+Abridged Docs
+-------------
+1. Clone this project into your local install of the LAMP or LNMP stack.
+2. Read the setup instructions HTML file.
+3. Run the setup.
+4. Write your templates in PHP on the server, inside your models.
+5. In your HTML5 file where you want to load the template for that model, specify data-model="modelName"
+6. Look through the client side JS to see what other cool data-attribute options are available. I believe there's a data-poll option which will automatically poll your model for changes based on the milliseconds you specify.
