@@ -6,7 +6,7 @@ It's...
 - a modular PHP/MySQL framework that bridges the gap between client and server while still offering some pretty locked down security features (just look at the PHP router!), influenced by early Node.js frameworks, but with a kickass HTML5 templating model
 - pretty decent for rapid prototyping of startup ideas (although I'd recommend Meteor over this nowadays)
 - almost got its own DSL, in an abandoned private repo
-- mostly a learning project...I wasn't particularly good at JS when I wrote it, just jQuery
+- mostly a learning project...I was still kind of a rogue programmer when I wrote it!
 
 The good news is that _despite not having any tests, it works?_
 
