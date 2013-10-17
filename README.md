@@ -16,10 +16,14 @@ __The hype__
 __The facts__
 - It's a project I created a few years ago, so it's got some older versions of front-end libs, but it's still cool!
 - It's a modular PHP/MySQL framework that bridges the gap between client and server while still offering some pretty locked down security features (just look at the PHP routers!)
-- It was vaguely influenced by early Node.js frameworks, but with a kickass HTML5 templating model and routing
+- It was vaguely influenced by Express on Node.js, but with a kickass HTML5 templating model and routing
 - It's pretty decent for rapid prototyping of startup ideas (although I'd recommend Meteor over this nowadays)
 - It almost had its own DSL, in an abandoned private repo
 - It was mostly a learning project...I was still kind of a rogue programmer when I wrote it!
+
+__The dumb__
+- Never got around to writing tests
+- Having all your templates specified on the server side with PHP means you can't easily duplicate and extend them like you can with, say, Handlebars.js
 
 __The good news is that despite not having any tests, it works?__
 
