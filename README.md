@@ -6,6 +6,6 @@ It's...
 - a modular PHP/MySQL framework, influenced by early Node frameworks, but with a kickass HTML5 templating model
 - pretty decent for rapid prototyping of startup ideas (although I'd recommend Meteor over this nowadays)
 - almost got its own DSL, in an abandoned private repo
-- got a few flaws, I mean, it was mostly a learning project...I wasn't particularly good at JS when I wrote it, just jQuery
+- mostly a learning project...I wasn't particularly good at JS when I wrote it, just jQuery
 
 The good news is that _despite not having any tests, it works?_
