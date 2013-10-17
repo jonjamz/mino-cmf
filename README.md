@@ -33,7 +33,7 @@ Oh yeah, it has an ORM that lets you write shorthand MySQL queries. So that's pr
 
 Routes
 ------
-Specify your routes in /routes/views.router.php
+Specify your routes in /routes/[route type].router.php
 
 API
 ---
