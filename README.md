@@ -5,6 +5,12 @@ __What's up with that?__
 - Mino is dead simple, and there is an example project already in here, so it should be easy to get going with it despite the lack of real docs
 - I didn't fully understand programming design patterns when I made this a few years ago
 
+__The hype__
+- Everyone says PHP is "just supposed to be a templating language" so Mino uses PHP to serve up server-compiled templates direct from models
+- Mino is a based on the cool-as-hell idea that you can specify what models and methods to get from the server (and even pass URL variables to them) all from within HTML5 data attributes 
+- Mino is built with simplicity and security in mind
+- It even has a "power save" mode where it slows down AJAX polling if you haven't had any recent screen activity, eventually halting it altogether and throwing up an overlay with notice. You can very simply turn this off.
+
 __The facts__
 - It's a project I created a few years ago, so it's got some older versions of front-end libs, but it's still cool!
 - It's a modular PHP/MySQL framework that bridges the gap between client and server while still offering some pretty locked down security features (just look at the PHP routers!), influenced by early Node.js frameworks, but with a kickass HTML5 templating model and routing
