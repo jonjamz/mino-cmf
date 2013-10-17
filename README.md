@@ -33,7 +33,7 @@ It's got config files for Apache and Nginx. Use either one!
 
 Abridged Docs
 -------------
-1. Clone this project into your local install of the LAMP or LNMP stack.
+1. Clone this project into the root web server directory of your local install of the LAMP or LNMP stack.
 2. Read the setup instructions HTML file.
 3. Run the setup.
 4. Write your templates in PHP on the server, inside your models.
