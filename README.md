@@ -3,7 +3,7 @@ It's Mino
 
 __What's up with that?__
 - Mino is dead simple, and there is an example project already in here, so it should be easy to get going with it despite the lack of real docs
-- I didn't fully understand programming design patterns when I made this a few years ago
+- I didn't fully understand programming design patterns when I made this a few years ago, so don't expect super nice-looking code (I did my best though back then, and I'm a perfectionist, so it's not that bad)
 
 __The hype__
 - Everyone says PHP is "just supposed to be a templating language" so Mino uses PHP to serve up server-compiled templates direct from models
