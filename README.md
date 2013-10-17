@@ -8,7 +8,7 @@ It's...
 - almost got its own DSL, in an abandoned private repo
 - mostly a learning project...I was still kind of a rogue programmer when I wrote it!
 
-The good news is that _despite not having any tests, it works?_
+__The good news is that despite not having any tests, it works?__
 
 Server Config
 -------------
