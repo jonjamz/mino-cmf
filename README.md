@@ -7,7 +7,7 @@ __What's up with that?__
 
 __The facts__
 - It's a project I created a few years ago, so it's got some older versions of front-end libs, but it's still cool!
-- It's a modular PHP/MySQL framework that bridges the gap between client and server while still offering some pretty locked down security features (just look at the PHP router!), influenced by early Node.js frameworks, but with a kickass HTML5 templating model and routing
+- It's a modular PHP/MySQL framework that bridges the gap between client and server while still offering some pretty locked down security features (just look at the PHP routers!), influenced by early Node.js frameworks, but with a kickass HTML5 templating model and routing
 - It's pretty decent for rapid prototyping of startup ideas (although I'd recommend Meteor over this nowadays)
 - It almost had its own DSL, in an abandoned private repo
 - It was mostly a learning project...I was still kind of a rogue programmer when I wrote it!
