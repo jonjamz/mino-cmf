@@ -1,16 +1,16 @@
 It's Mino
 =========
 
-__Note:__
+__What's up with that?__
 - Mino is dead simple, and there is an example project already in here, so it should be easy to get going with it despite the lack of real docs
 - I didn't fully understand programming design patterns when I made this a few years ago
 
-It's...
-- a project I created a few years ago, so it's got some older versions of things, but it's still cool!
-- a modular PHP/MySQL framework that bridges the gap between client and server while still offering some pretty locked down security features (just look at the PHP router!), influenced by early Node.js frameworks, but with a kickass HTML5 templating model and routing
-- pretty decent for rapid prototyping of startup ideas (although I'd recommend Meteor over this nowadays)
-- almost got its own DSL, in an abandoned private repo
-- mostly a learning project...I was still kind of a rogue programmer when I wrote it!
+__The facts__
+- It's a project I created a few years ago, so it's got some older versions of things, but it's still cool!
+- It's a modular PHP/MySQL framework that bridges the gap between client and server while still offering some pretty locked down security features (just look at the PHP router!), influenced by early Node.js frameworks, but with a kickass HTML5 templating model and routing
+- It's pretty decent for rapid prototyping of startup ideas (although I'd recommend Meteor over this nowadays)
+- It almost had its own DSL, in an abandoned private repo
+- It was mostly a learning project...I was still kind of a rogue programmer when I wrote it!
 
 __The good news is that despite not having any tests, it works?__
 
