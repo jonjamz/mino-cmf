@@ -58,4 +58,4 @@ Known Issues
 ------------
 I created [Relayer.co](http://relayer.co) around the same time as this, which is currently unstable. I don't really know what the problem is, I haven't touched it in years, and I don’t have time to start right now.
 
-Just remove the Relayer file from /client/lib.
+Just remove the Relayer file from /client/lib and use something like CodeKit for your transcompiled languages if you need.
