@@ -9,7 +9,7 @@ __What's up with that?__
 
 __The hype__
 - Everyone says PHP is "just supposed to be a templating language" so Mino uses PHP to serve up server-compiled templates direct from models
-- Mino is a based on the cool-as-hell idea that you can specify what models and methods to get from the server (and even pass URL variables to them) all from within HTML5 data attributes 
+- Mino is based on the cool-as-hell idea that you can specify what models and methods to get from the server (and even pass URL variables to them) all from within HTML5 data attributes 
 - Mino is built with simplicity and security in mind
 - It even has a "power save" mode where it slows down AJAX polling if you haven't had any recent screen activity, eventually halting it altogether and throwing up an overlay with notice (you can very simply turn this off)
 
