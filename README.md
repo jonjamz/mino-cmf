@@ -23,7 +23,7 @@ __The facts__
 
 __The dumb__
 - Back when I wrote this, I didn't have any experience with unit testing, so I didn't write any tests (I was careful step-by-step to make sure I didn't break anything though)
-- Having all your templates specified on the server side with PHP means you can't easily duplicate and extend them like you can with, say, Handlebars.js
+- Having all your templates specified on the server side with PHP is definitely something that can be improved
 
 __The good news is that despite not having any tests, it works? ;-)__
 
