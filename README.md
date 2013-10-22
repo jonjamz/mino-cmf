@@ -42,9 +42,9 @@ Abridged Docs
 
 __Real docs coming as soon as I get some more time...not like anyone is even using this...__
 
-ORM
----
-Oh yeah, it has an ORM that lets you write shorthand MySQL queries. So that's pretty cool.
+Database Abstraction
+--------------------
+Oh yeah, it has a database abstraction class that lets you write shorthand MySQL queries. So that's pretty cool.
 
 Routes
 ------
