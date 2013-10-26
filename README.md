@@ -15,7 +15,7 @@ __The hype__
 
 __The facts__
 - It's a project I created a few years ago, so it's got some older versions of front-end libs, but it's still cool!
-- It's a modular PHP/MySQL framework that bridges the gap between client and server while still offering some pretty locked down security features (just look at the PHP routers!)
+- It's a modular PHP/MySQL framework that bridges the gap between client and server while still offering some pretty locked down security features
 - It was vaguely influenced by Express on Node.js, but with a kickass HTML5 templating model and routing
 - It's pretty decent for rapid prototyping of startup ideas (although I'd recommend Meteor over this nowadays)
 - It almost had its own DSL, in an abandoned private repo
